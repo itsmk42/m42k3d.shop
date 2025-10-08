@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, User, Menu, X, LogOut, UserCircle, Package } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, LogOut, UserCircle, Package, Settings } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cart';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
@@ -53,6 +53,18 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
+            {/* Admin Manage Products Button - Desktop */}
+            {isAdmin && (
+              <Link
+                href="/admin/products"
+                className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all shadow-sm hover:shadow-md"
+                aria-label="Manage Products"
+              >
+                <Settings className="w-4 h-4" />
+                <span>Manage Products</span>
+              </Link>
+            )}
+
             {/* User Menu */}
             {user ? (
               <div className="relative" ref={userMenuRef}>
@@ -207,14 +219,24 @@ export default function Header() {
                       My Account
                     </Link>
                     {isAdmin && (
-                      <Link
-                        href="/admin"
-                        className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors mb-4"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <User className="w-5 h-5" />
-                        Admin Panel
-                      </Link>
+                      <>
+                        <Link
+                          href="/admin"
+                          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors mb-4"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <User className="w-5 h-5" />
+                          Admin Panel
+                        </Link>
+                        <Link
+                          href="/admin/products"
+                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all shadow-sm mb-4"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <Settings className="w-4 h-4" />
+                          Manage Products
+                        </Link>
+                      </>
                     )}
                     <button
                       onClick={() => {
