@@ -13,9 +13,17 @@ import { Plus, Edit, Trash2, ArrowLeft, Upload, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+}
+
 export default function AdminProductsPage() {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -33,6 +41,7 @@ export default function AdminProductsPage() {
   useEffect(() => {
     checkAuth();
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const checkAuth = async () => {
@@ -55,6 +64,20 @@ export default function AdminProductsPage() {
       setProducts(data || []);
     }
     setLoading(false);
+  };
+
+  const fetchCategories = async () => {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*')
+      .order('name', { ascending: true });
+
+    if (error) {
+      console.error('Failed to fetch categories:', error);
+      toast.error('Failed to load categories');
+    } else {
+      setCategories(data || []);
+    }
   };
 
   const handleOpenModal = (product?: Product) => {
@@ -389,12 +412,29 @@ export default function AdminProductsPage() {
             />
           </div>
 
-          <Input
-            label="Category"
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Category
+            </label>
+            <select
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              required
+            >
+              <option value="">Select a category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            {categories.length === 0 && (
+              <p className="text-sm text-gray-500 mt-1">
+                No categories available. Please add categories first.
+              </p>
+            )}
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">

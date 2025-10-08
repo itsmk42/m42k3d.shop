@@ -1,9 +1,9 @@
-import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/server';
 import ProductCard from '@/components/products/ProductCard';
 import { Product } from '@/types';
 
 async function getProducts(): Promise<Product[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('products')
     .select('*')
     .order('created_at', { ascending: false });
@@ -15,6 +15,9 @@ async function getProducts(): Promise<Product[]> {
 
   return data || [];
 }
+
+// Disable caching to always fetch fresh data
+export const revalidate = 0;
 
 export const metadata = {
   title: 'Products - M42K3D Shop',
