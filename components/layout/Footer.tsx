@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from '@/components/ui/Logo';
 
 export default function Footer() {
   return (
@@ -7,7 +8,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h3 className="text-xl font-bold mb-4">M42K3D Shop</h3>
+            <div className="mb-4">
+              <Logo size="sm" showText={true} className="text-white" />
+            </div>
             <p className="text-gray-400">
               Quality 3D printed items crafted with precision and care.
             </p>
@@ -61,14 +64,14 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-2 text-gray-400">
-              <li>Email: info@m42k3d.shop</li>
+              <li>Email: info@sparklesphere.store</li>
               <li>Phone: (555) 123-4567</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} M42K3D Shop. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} SparkleSphere.store. All rights reserved.</p>
         </div>
       </div>
     </footer>

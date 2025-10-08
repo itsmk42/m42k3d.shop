@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ShoppingCart, User, Menu, X } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cart';
 import { useState } from 'react';
+import Logo from '@/components/ui/Logo';
 
 export default function Header() {
   const itemCount = useCartStore((state) => state.getItemCount());
@@ -14,8 +15,8 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-blue-600">
-            M42K3D Shop
+          <Link href="/" className="text-blue-600 hover:text-blue-700 transition-colors">
+            <Logo size="md" showText={true} />
           </Link>
 
           {/* Desktop Navigation */}

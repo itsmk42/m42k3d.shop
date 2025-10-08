@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "M42K3D Shop - Quality 3D Printed Items",
-  description: "Discover unique 3D printed items crafted with precision. From miniatures to home decor and custom accessories.",
-  keywords: ["3D printing", "3D printed items", "miniatures", "home decor", "custom accessories"],
+  title: "SparkleSphere.store - Quality 3D Printed Items",
+  description: "Discover unique 3D printed items crafted with precision at SparkleSphere.store. From miniatures to home decor and custom accessories.",
+  keywords: ["3D printing", "3D printed items", "miniatures", "home decor", "custom accessories", "SparkleSphere"],
 };
 
 export default function RootLayout({

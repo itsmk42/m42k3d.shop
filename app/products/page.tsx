@@ -20,8 +20,8 @@ async function getProducts(): Promise<Product[]> {
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'Products - M42K3D Shop',
-  description: 'Browse our collection of quality 3D printed items',
+  title: 'Products - SparkleSphere.store',
+  description: 'Browse our collection of quality 3D printed items at SparkleSphere.store',
 };
 
 export default async function ProductsPage() {
