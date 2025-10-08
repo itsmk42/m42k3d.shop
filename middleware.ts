@@ -36,8 +36,8 @@ export async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
 
-  // Protected admin routes
-  if (path.startsWith('/admin')) {
+  // Protected admin routes (excluding the public admin login page)
+  if (path.startsWith('/admin') && path !== '/admin/login') {
     if (!user) {
       // Redirect to admin login if not authenticated
       const url = request.nextUrl.clone();
