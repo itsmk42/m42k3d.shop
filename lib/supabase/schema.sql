@@ -1,6 +1,21 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- User profiles table (extends Supabase auth.users)
+CREATE TABLE user_profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT NOT NULL,
+  full_name TEXT,
+  role TEXT NOT NULL DEFAULT 'customer' CHECK (role IN ('customer', 'admin')),
+  phone TEXT,
+  address TEXT,
+  city TEXT,
+  postal_code TEXT,
+  country TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Categories table
 CREATE TABLE categories (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -27,6 +42,7 @@ CREATE TABLE products (
 -- Orders table
 CREATE TABLE orders (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES user_profiles(id) ON DELETE SET NULL,
   user_email TEXT NOT NULL,
   user_name TEXT NOT NULL,
   user_address TEXT NOT NULL,
@@ -48,9 +64,28 @@ CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_email ON orders(user_email);
 
 -- Enable Row Level Security (RLS)
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies for user_profiles
+CREATE POLICY "Users can view their own profile"
+  ON user_profiles FOR SELECT
+  USING (auth.uid() = id);
+
+CREATE POLICY "Users can update their own profile"
+  ON user_profiles FOR UPDATE
+  USING (auth.uid() = id);
+
+CREATE POLICY "Admins can view all profiles"
+  ON user_profiles FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles
+      WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
 
 -- RLS Policies for categories (public read, admin write)
 CREATE POLICY "Categories are viewable by everyone" 
@@ -87,17 +122,29 @@ CREATE POLICY "Products are deletable by authenticated users"
   USING (auth.role() = 'authenticated');
 
 -- RLS Policies for orders (users can view their own, admin can view all)
-CREATE POLICY "Orders are viewable by owner" 
-  ON orders FOR SELECT 
-  USING (user_email = auth.email() OR auth.role() = 'authenticated');
+CREATE POLICY "Orders are viewable by owner"
+  ON orders FOR SELECT
+  USING (
+    user_id = auth.uid() OR
+    user_email = auth.email() OR
+    EXISTS (
+      SELECT 1 FROM user_profiles
+      WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
 
-CREATE POLICY "Orders are insertable by everyone" 
-  ON orders FOR INSERT 
+CREATE POLICY "Orders are insertable by everyone"
+  ON orders FOR INSERT
   WITH CHECK (true);
 
-CREATE POLICY "Orders are updatable by authenticated users" 
-  ON orders FOR UPDATE 
-  USING (auth.role() = 'authenticated');
+CREATE POLICY "Orders are updatable by authenticated users"
+  ON orders FOR UPDATE
+  USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles
+      WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
 
 -- Create storage bucket for product images
 INSERT INTO storage.buckets (id, name, public) 
@@ -119,6 +166,21 @@ CREATE POLICY "Authenticated users can update product images"
 CREATE POLICY "Authenticated users can delete product images"
   ON storage.objects FOR DELETE
   USING (bucket_id = 'product-images' AND auth.role() = 'authenticated');
+
+-- Function to create user profile on signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.user_profiles (id, email, role)
+  VALUES (NEW.id, NEW.email, 'customer');
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to automatically create profile on user signup
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
 -- Insert some default categories
 INSERT INTO categories (name, slug, description) VALUES

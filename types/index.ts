@@ -31,6 +31,7 @@ export interface Cart {
 
 export interface Order {
   id: string;
+  user_id?: string;
   user_email: string;
   user_name: string;
   user_address: string;
@@ -56,7 +57,14 @@ export interface OrderItem {
 export interface User {
   id: string;
   email: string;
+  full_name?: string;
   role: 'admin' | 'customer';
+  phone?: string;
+  address?: string;
+  city?: string;
+  postal_code?: string;
+  country?: string;
   created_at: string;
+  updated_at: string;
 }
 
