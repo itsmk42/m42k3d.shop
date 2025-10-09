@@ -281,14 +281,14 @@ export default function AdminProductsPage() {
       </div>
 
       {products.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-lg shadow-md">
+        <div className="text-center py-20 card">
           <p className="text-gray-600 text-xl mb-4">No products yet</p>
           <Button onClick={() => handleOpenModal()}>Add Your First Product</Button>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="card overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+            <thead className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Product
@@ -345,18 +345,24 @@ export default function AdminProductsPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-2">
-                      <button
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => handleOpenModal(product)}
-                        className="text-blue-600 hover:text-blue-800"
+                        className="gap-1"
                       >
-                        <Edit className="w-5 h-5" />
-                      </button>
-                      <button
+                        <Edit className="w-4 h-4" />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
                         onClick={() => handleDelete(product.id)}
-                        className="text-red-600 hover:text-red-800"
+                        className="gap-1"
                       >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
+                        <Trash2 className="w-4 h-4" />
+                        Delete
+                      </Button>
                     </div>
                   </td>
                 </tr>
