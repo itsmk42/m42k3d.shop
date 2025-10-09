@@ -64,7 +64,7 @@ export default function AdminPage() {
   if (!isAuthenticated) {
     return (
       <div className="container mx-auto px-4 py-20">
-        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+        <div className="max-w-md mx-auto card p-8">
           <h1 className="text-3xl font-bold mb-6 text-center">Admin Login</h1>
           
           <form onSubmit={handleLogin} className="space-y-4">
@@ -91,7 +91,7 @@ export default function AdminPage() {
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mt-6 p-4 border rounded-lg bg-gradient-to-br from-blue-50 to-violet-50 border-blue-200/60">
             <p className="text-sm text-blue-800">
               <strong>Setup Required:</strong> You need to configure Supabase authentication 
               and create an admin user account in your Supabase dashboard.
@@ -114,9 +114,9 @@ export default function AdminPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Link href="/admin/products">
-          <div className="bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition-shadow cursor-pointer">
+          <div className="card p-8 hover:shadow-lg transition-shadow cursor-pointer">
             <div className="flex items-center gap-4">
-              <div className="bg-blue-100 p-4 rounded-full">
+              <div className="rounded-full p-4 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white">
                 <Package className="w-8 h-8 text-blue-600" />
               </div>
               <div>
@@ -127,7 +127,7 @@ export default function AdminPage() {
           </div>
         </Link>
 
-        <div className="bg-white rounded-lg shadow-md p-8 opacity-50 cursor-not-allowed">
+        <div className="card p-8 opacity-50 cursor-not-allowed">
           <div className="flex items-center gap-4">
             <div className="bg-green-100 p-4 rounded-full">
               <ShoppingBag className="w-8 h-8 text-green-600" />
