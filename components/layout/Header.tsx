@@ -14,6 +14,14 @@ export default function Header() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
+  // Debug logging - TEMPORARY
+  console.log('Header Debug:', {
+    user: !!user,
+    userProfile,
+    isAdmin,
+    userEmail: user?.email
+  });
+
   // Close user menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
