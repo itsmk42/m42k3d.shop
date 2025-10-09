@@ -70,15 +70,15 @@ export default function ProductDetailPage() {
         Back to Products
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         {/* Image Gallery */}
         <div>
-          <div className="relative h-96 lg:h-[500px] bg-gray-200 rounded-lg overflow-hidden mb-4">
+          <div className="relative aspect-[4/3] lg:aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden mb-4 card">
             <Image
               src={images[selectedImage]}
               alt={product.name}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-300"
               priority
             />
           </div>
@@ -88,8 +88,8 @@ export default function ProductDetailPage() {
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`relative h-20 bg-gray-200 rounded-lg overflow-hidden ${
-                    selectedImage === index ? 'ring-2 ring-blue-600' : ''
+                  className={`relative h-20 bg-gray-100 rounded-lg overflow-hidden border ${
+                    selectedImage === index ? 'ring-2 ring-violet-500 border-transparent' : 'border-gray-200'
                   }`}
                 >
                   <Image
@@ -105,8 +105,8 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Info */}
-        <div>
-          <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+        <aside className="card p-6 md:sticky md:top-24">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
           <p className="text-3xl font-bold text-blue-600 mb-6">
             {formatPrice(product.price)}
           </p>
@@ -160,12 +160,12 @@ export default function ProductDetailPage() {
             onClick={handleAddToCart}
             disabled={product.stock === 0}
             size="lg"
-            className="w-full flex items-center justify-center gap-2"
+            className="w-full justify-center gap-2"
           >
             <ShoppingCart className="w-5 h-5" />
             {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
           </Button>
-        </div>
+        </aside>
       </div>
     </div>
   );

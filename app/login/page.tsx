@@ -48,7 +48,7 @@ function LoginForm() {
       {/* Header */}
       <div className="text-center mb-8">
         <div className="flex justify-center mb-4">
-          <div className="bg-blue-600 rounded-full p-4">
+          <div className="rounded-full p-4 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)]">
             <LogIn className="w-8 h-8 text-white" />
           </div>
         </div>
@@ -57,7 +57,7 @@ function LoginForm() {
       </div>
 
       {/* Login Form */}
-      <div className="bg-white rounded-2xl shadow-xl p-8">
+      <div className="card p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
           <div>
@@ -76,7 +76,7 @@ function LoginForm() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="input pl-10 pr-3 py-3"
                 placeholder="you@example.com"
               />
             </div>
@@ -99,7 +99,7 @@ function LoginForm() {
                 required
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="input pl-10 pr-10 py-3"
                 placeholder="••••••••"
               />
               <button
@@ -146,7 +146,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="btn-primary w-full justify-center gap-2"
           >
             {loading ? (
               <>
@@ -178,7 +178,7 @@ function LoginForm() {
         <div className="mt-6">
           <Link
             href="/register"
-            className="w-full flex justify-center py-3 px-4 border-2 border-blue-600 rounded-lg shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            className="btn-secondary w-full justify-center"
           >
             Create New Account
           </Link>
@@ -205,14 +205,14 @@ function LoginPageFallback() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="bg-blue-600 rounded-full p-4">
+            <div className="rounded-full p-4 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)]">
               <LogIn className="w-8 h-8 text-white" />
             </div>
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back</h1>
           <p className="text-gray-600">Loading...</p>
         </div>
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="card p-8">
           <div className="animate-pulse space-y-6">
             <div className="h-12 bg-gray-200 rounded-lg"></div>
             <div className="h-12 bg-gray-200 rounded-lg"></div>
