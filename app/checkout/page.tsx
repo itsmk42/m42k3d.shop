@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/lib/store/cart';
 import { formatPrice } from '@/utils/format';
@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { useCheckoutStore } from '@/lib/store/checkout';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function CheckoutPage() {
     postalCode: '',
     country: '',
   });
+  const checkoutStore = useCheckoutStore();
 
   if (items.length === 0) {
     router.push('/cart');
@@ -47,11 +49,27 @@ export default function CheckoutPage() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    checkoutStore.setField(name as any, value);
   };
+
+  // Prefill from store once
+  useEffect(() => {
+    if (!checkoutStore) return;
+    if (checkoutStore.name || checkoutStore.address || checkoutStore.email) {
+      setFormData((prev) => ({
+        ...prev,
+        name: checkoutStore.name || prev.name,
+        email: checkoutStore.email || prev.email,
+        address: checkoutStore.address || prev.address,
+        city: checkoutStore.city || prev.city,
+        postalCode: checkoutStore.postalCode || prev.postalCode,
+        country: checkoutStore.country || prev.country,
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -150,14 +168,24 @@ export default function CheckoutPage() {
               </p>
             </div>
 
-            <Button
-              type="submit"
-              size="lg"
-              className="w-full mt-6"
-              disabled={loading}
-            >
-              {loading ? 'Processing...' : 'Place Order'}
-            </Button>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Button
+                type="button"
+                size="lg"
+                className="w-full"
+                onClick={() => router.push('/checkout/review')}
+              >
+                Continue to Review
+              </Button>
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full"
+                disabled={loading}
+              >
+                {loading ? 'Processing...' : 'Place Order'}
+              </Button>
+            </div>
           </form>
         </div>
 
