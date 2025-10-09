@@ -29,6 +29,27 @@ export default function CartPage() {
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
 
+      {/* Checkout Progress */}
+      <div className="mb-8">
+        <div className="flex items-center justify-center gap-3 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white flex items-center justify-center font-semibold">1</span>
+            <span className="font-medium">Cart</span>
+          </div>
+          <span className="h-px w-10 bg-gray-300" />
+          <div className="flex items-center gap-2 text-gray-500">
+            <span className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center">2</span>
+            <span>Shipping</span>
+          </div>
+          <span className="h-px w-10 bg-gray-300" />
+          <div className="flex items-center gap-2 text-gray-500">
+            <span className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center">3</span>
+            <span>Review</span>
+          </div>
+        </div>
+      </div>
+
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2">
@@ -36,7 +57,7 @@ export default function CartPage() {
             {items.map((item) => (
               <div
                 key={item.product.id}
-                className="bg-white rounded-lg shadow-md p-4 flex gap-4"
+                className="card p-4 flex gap-4"
               >
                 <div className="relative w-24 h-24 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                   <Image
@@ -106,7 +127,7 @@ export default function CartPage() {
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-md p-6 sticky top-20">
+          <div className="card p-6 sticky top-20">
             <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
 
             <div className="space-y-3 mb-6">

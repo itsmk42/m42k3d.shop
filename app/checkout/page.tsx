@@ -34,7 +34,7 @@ export default function CheckoutPage() {
     try {
       // TODO: Implement Stripe payment integration
       // For now, we'll just simulate a successful order
-      
+
       toast.success('Order placed successfully!');
       clearCart();
       router.push('/');
@@ -57,10 +57,31 @@ export default function CheckoutPage() {
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold mb-8">Checkout</h1>
 
+      {/* Checkout Progress */}
+      <div className="mb-8">
+        <div className="flex items-center justify-center gap-3 text-sm">
+          <div className="flex items-center gap-2 text-gray-500">
+            <span className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center">1</span>
+            <span>Cart</span>
+          </div>
+          <span className="h-px w-10 bg-gray-300" />
+          <div className="flex items-center gap-2">
+            <span className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white flex items-center justify-center font-semibold">2</span>
+            <span className="font-medium">Shipping</span>
+          </div>
+          <span className="h-px w-10 bg-gray-300" />
+          <div className="flex items-center gap-2 text-gray-500">
+            <span className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center">3</span>
+            <span>Review</span>
+          </div>
+        </div>
+      </div>
+
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Checkout Form */}
         <div className="lg:col-span-2">
-          <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
+          <form onSubmit={handleSubmit} className="card p-6">
             <h2 className="text-2xl font-bold mb-6">Shipping Information</h2>
 
             <div className="space-y-4">
@@ -124,7 +145,7 @@ export default function CheckoutPage() {
 
             <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
               <p className="text-sm text-yellow-800">
-                <strong>Note:</strong> Payment integration is not yet configured. 
+                <strong>Note:</strong> Payment integration is not yet configured.
                 This is a demo checkout process.
               </p>
             </div>
@@ -142,7 +163,7 @@ export default function CheckoutPage() {
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-md p-6 sticky top-20">
+          <div className="card p-6 sticky top-20">
             <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
 
             <div className="space-y-4 mb-6">
