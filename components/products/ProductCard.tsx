@@ -25,18 +25,18 @@ export default function ProductCard({ product }: ProductCardProps) {
   const imageUrl = product.images[0] || '/placeholder-product.jpg';
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div className="card overflow-hidden group">
       <Link href={`/products/${product.id}`}>
-        <div className="relative h-64 bg-gray-200">
+        <div className="relative aspect-[4/3] bg-gray-100">
           <Image
             src={imageUrl}
             alt={product.name}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {product.featured && (
-            <span className="absolute top-2 right-2 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <span className="absolute top-2 right-2 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white px-3 py-1 rounded-full text-sm font-semibold">
               Featured
             </span>
           )}

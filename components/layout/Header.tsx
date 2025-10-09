@@ -27,7 +27,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-40">
+    <header className="sticky top-0 z-50 backdrop-blur bg-white/75 border-b border-gray-200">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -57,7 +57,7 @@ export default function Header() {
             {isAdmin && (
               <Link
                 href="/admin/products"
-                className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all shadow-sm hover:shadow-md"
+                className="btn-primary hidden md:inline-flex"
                 aria-label="Manage Products"
               >
                 <Settings className="w-4 h-4" />
@@ -141,7 +141,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                  className="btn-primary"
                 >
                   Sign Up
                 </Link>
@@ -230,7 +230,7 @@ export default function Header() {
                         </Link>
                         <Link
                           href="/admin/products"
-                          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all shadow-sm mb-4"
+                          className="btn-primary flex items-center gap-2 mb-4"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           <Settings className="w-4 h-4" />
@@ -260,7 +260,7 @@ export default function Header() {
                     </Link>
                     <Link
                       href="/register"
-                      className="block w-full text-center px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                      className="btn-primary block w-full text-center"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign Up

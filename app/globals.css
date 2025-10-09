@@ -2,14 +2,42 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a; /* slate-900 for better contrast */
+
+  /* Gradient palette */
+  --grad-primary-from: #2563EB; /* blue-600 */
+  --grad-primary-to: #7C3AED;   /* violet-600 */
+  --grad-secondary-from: #06B6D4; /* cyan-500 */
+  --grad-secondary-to: #4F46E5;   /* indigo-600 */
+
+  /* Surface + accents */
+  --surface: #ffffff;
+  --ink: #0F172A;
+  --accent: #F59E0B; /* amber-500 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+
+  /* Tie Next font to Tailwind's font-sans */
+  --font-sans: var(--font-inter);
+
+  /* Typography tokens */
+  --text-hero: clamp(2.25rem, 1rem + 3vw, 3.5rem);
+  --text-h1: 2rem;
+  --text-h2: 1.5rem;
+  --text-h3: 1.25rem;
+
+  /* Radii */
+  --radius-button: 0.5rem; /* rounded-lg */
+  --radius-card: 1rem;     /* rounded-2xl approx */
+
+  /* Spacing tokens */
+  --spacing-section: 4rem;
+  --spacing-card: 1.5rem;
 }
 
 /* Dark mode disabled - site always uses light mode */
@@ -23,5 +51,30 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg shadow-sm transition-all
+      bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)]
+      hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 rounded-lg border border-blue-200
+      hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+  }
+
+  .card {
+    @apply rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-lg;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-gray-300 px-3 py-2 transition
+      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  .heading-hero {
+    @apply font-extrabold text-hero tracking-tight;
+  }
 }

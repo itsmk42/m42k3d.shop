@@ -27,21 +27,24 @@ export default async function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-br from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Quality 3D Printed Items
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+            <h1 className="heading-hero mb-6">Spark, Print, Shine.</h1>
+            <p className="text-xl md:text-2xl mb-10 text-white/90">
               Discover unique, custom-made 3D printed products crafted with precision and care.
             </p>
-            <Link href="/products">
-              <Button size="lg" className="bg-white !text-blue-600 hover:bg-gray-100 hover:!text-blue-700 flex items-center gap-2 font-semibold">
-                Shop Now
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/products">
+                <Button size="lg" className="gap-2">
+                  Shop Now
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+              <Link href="/about" className="px-4 py-2 rounded-lg border border-white/40 text-white/90 hover:bg-white/10 inline-flex items-center justify-center">
+                Learn More
+              </Link>
+            </div>
           </div>
         </div>
       </section>
