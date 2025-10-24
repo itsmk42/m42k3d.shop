@@ -27,23 +27,49 @@ export default async function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl">
-            <h1 className="heading-hero mb-6">Spark, Print, Shine.</h1>
-            <p className="text-xl md:text-2xl mb-10 text-white/90">
-              Discover unique, custom-made 3D printed products crafted with precision and care.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/products">
-                <Button size="lg" className="gap-2">
-                  Shop Now
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/about" className="px-4 py-2 rounded-lg border border-white/40 text-white/90 hover:bg-white/10 inline-flex items-center justify-center">
-                Learn More
-              </Link>
+      <section className="relative overflow-hidden bg-slate-950 text-white">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-32 -left-24 h-80 w-80 rounded-full bg-gradient-to-tr from-[var(--grad-primary-from)]/40 to-[var(--grad-primary-to)]/40 blur-3xl" />
+          <div className="absolute -bottom-32 -right-24 h-96 w-96 rounded-full bg-gradient-to-tr from-cyan-400/30 to-indigo-500/30 blur-3xl" />
+        </div>
+        <div className="container mx-auto px-4 py-24 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur text-sm mb-5">
+                <Sparkles className="w-4 h-4 text-yellow-300" /> Premium 3D Prints
+              </span>
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+                Where Ideas <span className="bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] bg-clip-text text-transparent">Glow in 3D</span>
+              </h1>
+              <p className="text-lg md:text-xl text-white/80 mb-8">
+                Custom-made prints, quality materials, and fast delivery—crafted with precision and care.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/products">
+                  <Button size="lg" className="gap-2">
+                    Shop Now
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/contact" className="px-4 py-2 rounded-lg border border-white/30 text-white/90 hover:bg-white/10 inline-flex items-center justify-center">
+                  Custom Order
+                </Link>
+              </div>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/15 text-white/90">
+                  <Truck className="w-4 h-4 text-white/80" /> Fast Shipping
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/15 text-white/90">
+                  <Shield className="w-4 h-4 text-white/80" /> Secure Payments
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/15 text-white/90">
+                  <Package className="w-4 h-4 text-white/80" /> Quality Guaranteed
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-gradient-to-tr from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] opacity-90 shadow-2xl shadow-violet-500/20 ring-8 ring-white/5" />
+              <div className="absolute inset-0 -z-10 m-auto h-[28rem] w-[28rem] sm:h-[32rem] sm:w-[32rem] rounded-full bg-gradient-to-tr from-cyan-400/20 to-indigo-500/20 blur-3xl" />
             </div>
           </div>
         </div>
