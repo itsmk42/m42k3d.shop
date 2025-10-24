@@ -75,366 +75,154 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Main Services Section */}
-      <section className="py-20 bg-gray-50">
+      {/* Highlights Strip */}
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Choose Your Service</h2>
-            <p className="text-xl text-gray-600">
-              Explore our range of 3D printing services tailored to your needs
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Option 1: Browse Our Designs - ACTIVE */}
-            <Link href="/products" className="group">
-              <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full border-2 border-transparent hover:border-blue-500">
-                <div className="p-8">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <ShoppingBag className="w-10 h-10 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900">Browse Our Designs</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    Explore our collection of pre-made 3D printed items. From miniatures to home decor, find the perfect piece for you.
-                  </p>
-                  <div className="flex items-center text-blue-600 font-semibold group-hover:gap-3 gap-2 transition-all">
-                    Shop Now
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-                <div className="h-2 bg-gradient-to-r from-blue-600 to-blue-800"></div>
-              </div>
-            </Link>
-
-            {/* Option 2: Make Lithophane - COMING SOON */}
-            <div className="relative group cursor-not-allowed">
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full border-2 border-gray-200 opacity-75">
-                <div className="p-8">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-400 rounded-2xl mb-6">
-                    <ImageIcon className="w-10 h-10 text-white" />
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <h3 className="text-2xl font-bold text-gray-900">Make Lithophane</h3>
-                  </div>
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    Transform your favorite photos into stunning 3D lithophanes. Perfect for gifts and home decoration.
-                  </p>
-                  <div className="flex items-center text-gray-400 font-semibold gap-2">
-                    Coming Soon
-                  </div>
-                </div>
-                <div className="h-2 bg-gray-300"></div>
-              </div>
-              {/* Coming Soon Badge */}
-              <div className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                Coming Soon
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="card p-4 flex items-center gap-3">
+              <Truck className="w-5 h-5 text-blue-600" />
+              <div>
+                <p className="text-sm font-semibold">Fast Shipping</p>
+                <p className="text-xs text-gray-500">2–5 business days</p>
               </div>
             </div>
-
-            {/* Option 3: Make Keychains & Fidgets - COMING SOON */}
-            <div className="relative group cursor-not-allowed">
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full border-2 border-gray-200 opacity-75">
-                <div className="p-8">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-400 rounded-2xl mb-6">
-                    <KeyRound className="w-10 h-10 text-white" />
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <h3 className="text-2xl font-bold text-gray-900">Keychains & Fidgets</h3>
-                  </div>
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    Create custom keychains and fidget toys. Personalize with names, logos, or unique designs.
-                  </p>
-                  <div className="flex items-center text-gray-400 font-semibold gap-2">
-                    Coming Soon
-                  </div>
-                </div>
-                <div className="h-2 bg-gray-300"></div>
+            <div className="card p-4 flex items-center gap-3">
+              <Shield className="w-5 h-5 text-blue-600" />
+              <div>
+                <p className="text-sm font-semibold">Secure Payments</p>
+                <p className="text-xs text-gray-500">Trusted checkout</p>
               </div>
-              {/* Coming Soon Badge */}
-              <div className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                Coming Soon
+            </div>
+            <div className="card p-4 flex items-center gap-3">
+              <Package className="w-5 h-5 text-blue-600" />
+              <div>
+                <p className="text-sm font-semibold">Quality Materials</p>
+                <p className="text-xs text-gray-500">Premium filaments</p>
+              </div>
+            </div>
+            <div className="card p-4 flex items-center gap-3">
+              <Sparkles className="w-5 h-5 text-blue-600" />
+              <div>
+                <p className="text-sm font-semibold">Custom Orders</p>
+                <p className="text-xs text-gray-500">Made just for you</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How 3D Printing Works Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">How 3D Printing Works</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              3D printing, also known as additive manufacturing, creates physical objects layer by layer from digital designs.
-              This revolutionary technology enables rapid prototyping, customization, and production of complex geometries that
-              traditional manufacturing can't achieve.
-            </p>
-          </div>
-
-          {/* Process Steps */}
-          <div className="max-w-6xl mx-auto mb-16">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {/* Step 1: Design */}
-              <div className="relative">
-                <div className="text-center">
-                  <div className="relative inline-block mb-6">
-                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg">
-                      <Palette className="w-12 h-12 text-white" />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                      1
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">Design</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Create or select a 3D model using CAD software or choose from our pre-designed collection
-                  </p>
-                </div>
-                {/* Arrow for desktop */}
-                <div className="hidden md:block absolute top-12 -right-4 text-blue-300">
-                  <ArrowRight className="w-8 h-8" />
-                </div>
-              </div>
-
-              {/* Step 2: Prepare */}
-              <div className="relative">
-                <div className="text-center">
-                  <div className="relative inline-block mb-6">
-                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg">
-                      <Layers className="w-12 h-12 text-white" />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                      2
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">Slice & Prepare</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Software slices the model into thin layers and generates printing instructions for optimal quality
-                  </p>
-                </div>
-                <div className="hidden md:block absolute top-12 -right-4 text-blue-300">
-                  <ArrowRight className="w-8 h-8" />
-                </div>
-              </div>
-
-              {/* Step 3: Print */}
-              <div className="relative">
-                <div className="text-center">
-                  <div className="relative inline-block mb-6">
-                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg">
-                      <Package className="w-12 h-12 text-white" />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                      3
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">3D Print</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Our printers build your object layer by layer with precision, using high-quality materials
-                  </p>
-                </div>
-                <div className="hidden md:block absolute top-12 -right-4 text-blue-300">
-                  <ArrowRight className="w-8 h-8" />
-                </div>
-              </div>
-
-              {/* Step 4: Finish */}
-              <div className="relative">
-                <div className="text-center">
-                  <div className="relative inline-block mb-6">
-                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg">
-                      <Sparkles className="w-12 h-12 text-white" />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                      4
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">Finish & Ship</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Post-processing, quality check, and careful packaging before shipping to your door
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Materials & Applications Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* Materials Card */}
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Layers className="w-6 h-6 text-white" />
-                </div>
-                Materials We Use
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">PLA (Polylactic Acid)</p>
-                    <p className="text-sm text-gray-600">Eco-friendly, perfect for decorative items and prototypes</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">ABS (Acrylonitrile Butadiene Styrene)</p>
-                    <p className="text-sm text-gray-600">Durable and heat-resistant for functional parts</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">PETG (Polyethylene Terephthalate Glycol)</p>
-                    <p className="text-sm text-gray-600">Strong, flexible, and food-safe certified</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">TPU (Thermoplastic Polyurethane)</p>
-                    <p className="text-sm text-gray-600">Flexible and rubber-like for special applications</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Applications Card */}
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                What We Can Create
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">Miniatures & Figurines</p>
-                    <p className="text-sm text-gray-600">Detailed models for gaming, collecting, or display</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">Home Decor & Art</p>
-                    <p className="text-sm text-gray-600">Unique decorative pieces and custom artwork</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">Functional Parts & Tools</p>
-                    <p className="text-sm text-gray-600">Replacement parts, organizers, and custom tools</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-gray-900">Prototypes & Concepts</p>
-                    <p className="text-sm text-gray-600">Rapid prototyping for product development</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="text-center mt-12">
-            <Link href="/products">
-              <Button size="lg" className="gap-2">
-                Explore Our Products
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
+      {/* Shop by Category */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Why Choose M42K3D Shop</h2>
-            <p className="text-lg text-gray-600">Quality, speed, and reliability in every print</p>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold">Shop by Category</h2>
+            <p className="text-gray-600">Browse favourites and best-sellers</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <Package className="w-8 h-8 text-blue-600" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Link href="/products" className="group block">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-primary-from)] to-[var(--grad-primary-to)]">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                <Sparkles className="absolute right-4 top-4 w-10 h-10 text-white/80" />
+                <div className="absolute bottom-4 left-4">
+                  <h3 className="text-white font-bold text-2xl">Miniatures</h3>
+                  <p className="text-white/85 text-sm">Figures & collectibles</p>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Custom Made</h3>
-              <p className="text-gray-600">
-                Each item is carefully crafted to meet your specific needs
-              </p>
+            </Link>
+            <Link href="/products" className="group block">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-secondary-from)] to-[var(--grad-secondary-to)]">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                <Palette className="absolute right-4 top-4 w-10 h-10 text-white/80" />
+                <div className="absolute bottom-4 left-4">
+                  <h3 className="text-white font-bold text-2xl">Decor & Art</h3>
+                  <p className="text-white/85 text-sm">Home & office style</p>
+                </div>
+              </div>
+            </Link>
+            <Link href="/products" className="group block">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-600 to-violet-600">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                <Layers className="absolute right-4 top-4 w-10 h-10 text-white/80" />
+                <div className="absolute bottom-4 left-4">
+                  <h3 className="text-white font-bold text-2xl">Functional</h3>
+                  <p className="text-white/85 text-sm">Tools & parts</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Story / Showcase Section */}
+      <section className="relative overflow-hidden bg-slate-900 text-white">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-tr from-[var(--grad-primary-from)]/30 to-[var(--grad-primary-to)]/30 blur-3xl" />
+          <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-gradient-to-tr from-cyan-400/20 to-indigo-500/20 blur-3xl" />
+        </div>
+        <div className="container mx-auto px-4 py-20 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Made to Impress. Built to Last.</h2>
+              <p className="text-white/80 mb-6">We obsess over layer lines, tolerances, and finish so your prints look and feel premiumwhether its a gift, display piece, or a functional part.</p>
+              <ul className="space-y-3 text-white/90">
+                <li className="flex items-start gap-3"><CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5" /><span>Quality checked by hand</span></li>
+                <li className="flex items-start gap-3"><CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5" /><span>Premium PLA / PETG / TPU options</span></li>
+                <li className="flex items-start gap-3"><CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5" /><span>Safe, secure packaging</span></li>
+              </ul>
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <Link href="/products">
+                  <Button size="lg" className="gap-2">Shop Best Sellers <ArrowRight className="w-5 h-5" /></Button>
+                </Link>
+                <Link href="/about" className="btn-secondary inline-flex items-center justify-center">Learn More</Link>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <Truck className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Fast Shipping</h3>
-              <p className="text-gray-600">
-                Quick and reliable delivery to your doorstep
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <Shield className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Quality Guaranteed</h3>
-              <p className="text-gray-600">
-                Premium materials and attention to detail in every product
-              </p>
+            <div className="relative">
+              <div className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl bg-gradient-to-tr from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] opacity-90 shadow-2xl shadow-violet-500/20 ring-8 ring-white/5" />
+              <div className="absolute -top-6 -right-6 h-40 w-40 rounded-full bg-gradient-to-tr from-cyan-400/30 to-indigo-500/30 blur-2xl" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Products Section */}
-      <section className="py-16">
+      {/* Popular Picks */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold">Featured Products</h2>
+            <h2 className="text-3xl font-bold">Popular Picks</h2>
             <Link href="/products">
               <Button variant="outline">View All</Button>
             </Link>
           </div>
-
           {featuredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg mb-4">
-                No featured products available yet.
-              </p>
-              <p className="text-gray-500">
-                Check back soon for amazing 3D printed items!
-              </p>
+              <p className="text-gray-600 text-lg mb-4">No products yet.</p>
+              <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-blue-600 text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Browse our collection and find the perfect 3D printed item for you
-          </p>
-          <Link href="/products">
-            <Button size="lg" className="bg-white !text-blue-600 hover:bg-gray-100 hover:!text-blue-700 font-semibold">
-              Explore Products
-            </Button>
-          </Link>
+      {/* Final CTA */}
+      <section className="relative overflow-hidden bg-slate-950 text-white">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-16 -left-16 h-64 w-64 rounded-full bg-gradient-to-tr from-[var(--grad-primary-from)]/30 to-[var(--grad-primary-to)]/30 blur-3xl" />
+          <div className="absolute -bottom-16 -right-16 h-64 w-64 rounded-full bg-gradient-to-tr from-cyan-400/20 to-indigo-500/20 blur-3xl" />
+        </div>
+        <div className="container mx-auto px-4 py-16 text-center relative">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Print Your Vision?</h2>
+          <p className="text-white/80 mb-8">Get a custom quote or browse all products.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/contact">
+              <Button size="lg" className="gap-2">Get a Custom Quote <ArrowRight className="w-5 h-5" /></Button>
+            </Link>
+            <Link href="/products" className="btn-secondary inline-flex items-center justify-center">Shop All</Link>
+          </div>
         </div>
       </section>
     </div>
