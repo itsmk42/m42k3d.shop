@@ -16,6 +16,15 @@
   --accent: #F59E0B; /* amber-500 */
 }
 
+/* Homepage red theme override */
+.theme-red {
+  --grad-primary-from: #ef4444; /* red-500 */
+  --grad-primary-to: #dc2626;   /* red-600 */
+  --grad-secondary-from: #f43f5e; /* rose-500 */
+  --grad-secondary-to: #ef4444;   /* red-500 */
+}
+
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
