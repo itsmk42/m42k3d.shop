@@ -24,11 +24,11 @@ export default function Logo({ size = 'md', showText = true, className = '', var
         alt="SparkleSphere.store Logo"
         width={width}
         height={height}
-        className="flex-shrink-0"
+        className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10"
         priority
       />
       {showText && (
-        <span className={`font-bold ${text} uppercase tracking-wider bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent`}>
+        <span className={`font-bold text-sm md:${text} uppercase tracking-wider bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent`}>
           SparkleSphere.store
         </span>
       )}

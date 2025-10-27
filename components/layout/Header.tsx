@@ -73,7 +73,7 @@ export default function Header() {
                   className="flex items-center gap-2 text-gray-300 hover:text-red-400 transition-colors"
                   aria-label="User menu"
                 >
-                  <User className="w-6 h-6" />
+                  <User className="w-5 h-5 md:w-6 md:h-6" />
                   <span className="hidden md:inline text-sm font-medium">
                     {userProfile?.full_name || 'Account'}
                   </span>
@@ -154,7 +154,7 @@ export default function Header() {
               className="relative text-gray-300 hover:text-red-400 transition-colors"
               aria-label="Shopping Cart"
             >
-              <ShoppingCart className="w-6 h-6" />
+              <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
               {itemCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {itemCount}
@@ -168,7 +168,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Menu className="w-5 h-5 md:w-6 md:h-6" />}
             </button>
           </div>
         </div>

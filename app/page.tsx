@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { supabase } from '@/lib/supabase/client';
 import ProductCard from '@/components/products/ProductCard';
 import Button from '@/components/ui/Button';
+import HeroQuote from '@/components/home/HeroQuote';
 import { Product } from '@/types';
 import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, Layers, Palette, Sparkles, CheckCircle } from 'lucide-react';
 import { formatPrice } from '@/utils/format';
@@ -79,7 +80,12 @@ export default async function Home() {
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="container mx-auto px-4 py-40 relative">
+        <div className="container mx-auto px-4 py-20 md:py-40 relative">
+          {/* Rotating Quote Section - Mobile Only */}
+          <div className="md:hidden mb-8">
+            <HeroQuote />
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="md:pt-0 pt-0">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur text-sm mb-5">
