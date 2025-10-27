@@ -262,7 +262,7 @@ export default async function Home() {
           <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-gradient-to-tr from-rose-400/20 to-red-500/20 blur-3xl" />
         </div>
         <div className="container mx-auto px-4 py-20 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Made to Impress. Built to Last.</h2>
               <p className="text-white/80 mb-6">We obsess over layer lines, tolerances, and finish so your prints look and feel premiumwhether its a gift, display piece, or a functional part.</p>
@@ -277,10 +277,6 @@ export default async function Home() {
                 </Link>
                 <Link href="/about" className="px-4 py-2 rounded-lg border border-white/30 text-white/90 hover:bg-white/10 inline-flex items-center justify-center">Learn More</Link>
               </div>
-            </div>
-            <div className="relative">
-              <div className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl bg-gradient-to-tr from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] opacity-90 shadow-2xl shadow-violet-500/20 ring-8 ring-white/5" />
-              <div className="absolute -top-6 -right-6 h-40 w-40 rounded-full bg-gradient-to-tr from-rose-400/30 to-red-500/30 blur-2xl" />
             </div>
           </div>
         </div>
