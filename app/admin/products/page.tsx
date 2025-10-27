@@ -37,6 +37,13 @@ export default function AdminProductsPage() {
     stock: '',
     featured: false,
     images: [''],
+    specifications: [{ key: '', value: '' }],
+  });
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [newReview, setNewReview] = useState({
+    customer_name: '',
+    rating: 5,
+    comment: '',
   });
 
   useEffect(() => {
@@ -81,7 +88,7 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleOpenModal = (product?: Product) => {
+  const handleOpenModal = async (product?: Product) => {
     if (product) {
       setEditingProduct(product);
       setFormData({
@@ -93,7 +100,18 @@ export default function AdminProductsPage() {
         stock: product.stock.toString(),
         featured: product.featured,
         images: product.images.length > 0 ? product.images : [''],
+        specifications: product.specifications && product.specifications.length > 0
+          ? product.specifications
+          : [{ key: '', value: '' }],
       });
+
+      // Fetch reviews for this product
+      const { data: reviewsData } = await supabase
+        .from('reviews')
+        .select('*')
+        .eq('product_id', product.id)
+        .order('created_at', { ascending: false });
+      setReviews(reviewsData || []);
     } else {
       setEditingProduct(null);
       setFormData({
@@ -105,8 +123,11 @@ export default function AdminProductsPage() {
         stock: '',
         featured: false,
         images: [''],
+        specifications: [{ key: '', value: '' }],
       });
+      setReviews([]);
     }
+    setNewReview({ customer_name: '', rating: 5, comment: '' });
     setIsModalOpen(true);
   };
 
@@ -135,6 +156,8 @@ export default function AdminProductsPage() {
     }
 
     try {
+      let productId = editingProduct?.id;
+
       if (editingProduct) {
         const { error } = await supabase
           .from('products')
@@ -144,12 +167,42 @@ export default function AdminProductsPage() {
         if (error) throw error;
         toast.success('Product updated successfully!');
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('products')
-          .insert([productData]);
+          .insert([productData])
+          .select();
 
         if (error) throw error;
+        productId = data?.[0]?.id;
         toast.success('Product created successfully!');
+      }
+
+      // Save specifications
+      if (productId) {
+        // Delete existing specifications
+        await supabase
+          .from('specifications')
+          .delete()
+          .eq('product_id', productId);
+
+        // Insert new specifications
+        const validSpecs = formData.specifications.filter(
+          spec => spec.key.trim() !== '' && spec.value.trim() !== ''
+        );
+
+        if (validSpecs.length > 0) {
+          const specsToInsert = validSpecs.map(spec => ({
+            product_id: productId,
+            key: spec.key,
+            value: spec.value,
+          }));
+
+          const { error: specsError } = await supabase
+            .from('specifications')
+            .insert(specsToInsert);
+
+          if (specsError) throw specsError;
+        }
       }
 
       handleCloseModal();
@@ -260,6 +313,76 @@ export default function AdminProductsPage() {
   const removeImageField = (index: number) => {
     const newImages = formData.images.filter((_, i) => i !== index);
     setFormData({ ...formData, images: newImages.length > 0 ? newImages : [''] });
+  };
+
+  const handleSpecificationChange = (index: number, field: 'key' | 'value', value: string) => {
+    const newSpecs = [...formData.specifications];
+    newSpecs[index] = { ...newSpecs[index], [field]: value };
+    setFormData({ ...formData, specifications: newSpecs });
+  };
+
+  const addSpecificationField = () => {
+    setFormData({
+      ...formData,
+      specifications: [...formData.specifications, { key: '', value: '' }],
+    });
+  };
+
+  const removeSpecificationField = (index: number) => {
+    const newSpecs = formData.specifications.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      specifications: newSpecs.length > 0 ? newSpecs : [{ key: '', value: '' }],
+    });
+  };
+
+  const handleAddReview = async () => {
+    if (!editingProduct || !newReview.customer_name.trim() || !newReview.comment.trim()) {
+      toast.error('Please fill in all review fields');
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('reviews')
+        .insert([
+          {
+            product_id: editingProduct.id,
+            customer_name: newReview.customer_name,
+            rating: newReview.rating,
+            comment: newReview.comment,
+          },
+        ])
+        .select();
+
+      if (error) throw error;
+
+      setReviews([...(data || []), ...reviews]);
+      setNewReview({ customer_name: '', rating: 5, comment: '' });
+      toast.success('Review added successfully!');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to add review');
+      console.error(error);
+    }
+  };
+
+  const handleDeleteReview = async (reviewId: string) => {
+    if (!confirm('Are you sure you want to delete this review?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('reviews')
+        .delete()
+        .eq('id', reviewId);
+
+      if (error) throw error;
+
+      setReviews(reviews.filter(r => r.id !== reviewId));
+      toast.success('Review deleted successfully!');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to delete review');
+      console.error(error);
+    }
   };
 
   if (loading) {
@@ -552,6 +675,124 @@ export default function AdminProductsPage() {
               </div>
             </details>
           </div>
+
+          {/* Specifications Section */}
+          <div className="border-t pt-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Product Specifications</h3>
+            <div className="space-y-3">
+              {formData.specifications.map((spec, index) => (
+                <div key={index} className="flex gap-2">
+                  <Input
+                    placeholder="Key (e.g., Material)"
+                    value={spec.key}
+                    onChange={(e) => handleSpecificationChange(index, 'key', e.target.value)}
+                  />
+                  <Input
+                    placeholder="Value (e.g., PLA Plastic)"
+                    value={spec.value}
+                    onChange={(e) => handleSpecificationChange(index, 'value', e.target.value)}
+                  />
+                  {formData.specifications.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="danger"
+                      size="sm"
+                      onClick={() => removeSpecificationField(index)}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                </div>
+              ))}
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addSpecificationField}
+              >
+                <Plus className="w-4 h-4 mr-1" />
+                Add Specification
+              </Button>
+            </div>
+          </div>
+
+          {/* Reviews Section (only show when editing) */}
+          {editingProduct && (
+            <div className="border-t pt-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Customer Reviews</h3>
+
+              {/* Add Review Form */}
+              <div className="bg-gray-50 p-4 rounded-lg mb-4 space-y-3">
+                <Input
+                  placeholder="Customer Name"
+                  value={newReview.customer_name}
+                  onChange={(e) => setNewReview({ ...newReview, customer_name: e.target.value })}
+                />
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Rating (1-5 stars)
+                  </label>
+                  <select
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    value={newReview.rating}
+                    onChange={(e) => setNewReview({ ...newReview, rating: parseInt(e.target.value) })}
+                  >
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <option key={rating} value={rating}>
+                        {rating} Star{rating !== 1 ? 's' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <textarea
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  rows={3}
+                  placeholder="Review comment"
+                  value={newReview.comment}
+                  onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+                />
+                <Button
+                  type="button"
+                  onClick={handleAddReview}
+                  className="w-full"
+                >
+                  Add Review
+                </Button>
+              </div>
+
+              {/* Reviews List */}
+              {reviews.length > 0 ? (
+                <div className="space-y-3">
+                  {reviews.map((review) => (
+                    <div key={review.id} className="border border-gray-200 rounded-lg p-3">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <p className="font-medium text-gray-900">{review.customer_name}</p>
+                          <p className="text-sm text-gray-500">
+                            {'⭐'.repeat(review.rating)} ({review.rating}/5)
+                          </p>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDeleteReview(review.id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                      <p className="text-sm text-gray-700">{review.comment}</p>
+                      <p className="text-xs text-gray-400 mt-2">
+                        {new Date(review.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500 text-center py-4">No reviews yet</p>
+              )}
+            </div>
+          )}
 
           <div className="flex items-center gap-2">
             <input

@@ -16,6 +16,8 @@ export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
   const [product, setProduct] = useState<Product | null>(null);
+  const [specifications, setSpecifications] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -49,6 +51,24 @@ export default function ProductDetailPage() {
       }
 
       setProduct(data);
+
+      // Fetch specifications
+      const { data: specsData } = await supabase
+        .from('specifications')
+        .select('*')
+        .eq('product_id', params.id)
+        .order('created_at', { ascending: true });
+
+      setSpecifications(specsData || []);
+
+      // Fetch reviews
+      const { data: reviewsData } = await supabase
+        .from('reviews')
+        .select('*')
+        .eq('product_id', params.id)
+        .order('created_at', { ascending: false });
+
+      setReviews(reviewsData || []);
       setLoading(false);
     }
 
@@ -251,14 +271,37 @@ export default function ProductDetailPage() {
                 {expandedSections.specifications && (
                   <div className="px-4 pb-4 border-t border-white/10">
                     <div className="space-y-3 text-gray-300">
-                      <div className="flex justify-between">
-                        <span className="font-semibold">Category:</span>
-                        <span>{product.category}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="font-semibold">Stock:</span>
-                        <span>{product.stock > 0 ? `${product.stock} units` : 'Out of stock'}</span>
-                      </div>
+                      {specifications.length > 0 ? (
+                        <>
+                          {specifications.map((spec, index) => (
+                            <div key={index} className="flex justify-between">
+                              <span className="font-semibold">{spec.key}:</span>
+                              <span>{spec.value}</span>
+                            </div>
+                          ))}
+                          <div className="border-t border-white/10 pt-3 mt-3">
+                            <div className="flex justify-between">
+                              <span className="font-semibold">Category:</span>
+                              <span>{product.category}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="font-semibold">Stock:</span>
+                              <span>{product.stock > 0 ? `${product.stock} units` : 'Out of stock'}</span>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex justify-between">
+                            <span className="font-semibold">Category:</span>
+                            <span>{product.category}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="font-semibold">Stock:</span>
+                            <span>{product.stock > 0 ? `${product.stock} units` : 'Out of stock'}</span>
+                          </div>
+                        </>
+                      )}
                       <div className="flex justify-between">
                         <span className="font-semibold">Product ID:</span>
                         <span className="text-xs text-gray-400">{product.id}</span>
@@ -274,7 +317,9 @@ export default function ProductDetailPage() {
                   onClick={() => toggleSection('reviews')}
                   className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
                 >
-                  <h3 className="text-lg font-semibold text-white">Customer Reviews</h3>
+                  <h3 className="text-lg font-semibold text-white">
+                    Customer Reviews {reviews.length > 0 && `(${reviews.length})`}
+                  </h3>
                   {expandedSections.reviews ? (
                     <ChevronUp className="w-5 h-5 text-gray-400" />
                   ) : (
@@ -283,9 +328,30 @@ export default function ProductDetailPage() {
                 </button>
                 {expandedSections.reviews && (
                   <div className="px-4 pb-4 border-t border-white/10">
-                    <p className="text-gray-400 text-center py-4">
-                      No reviews yet. Be the first to review this product!
-                    </p>
+                    {reviews.length > 0 ? (
+                      <div className="space-y-4">
+                        {reviews.map((review) => (
+                          <div key={review.id} className="border border-white/10 rounded-lg p-3 bg-white/5">
+                            <div className="flex justify-between items-start mb-2">
+                              <div>
+                                <p className="font-semibold text-white">{review.customer_name}</p>
+                                <p className="text-sm text-yellow-400">
+                                  {'⭐'.repeat(review.rating)}
+                                </p>
+                              </div>
+                              <p className="text-xs text-gray-400">
+                                {new Date(review.created_at).toLocaleDateString()}
+                              </p>
+                            </div>
+                            <p className="text-gray-300 text-sm">{review.comment}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-400 text-center py-4">
+                        No reviews yet. Be the first to review this product!
+                      </p>
+                    )}
                   </div>
                 )}
               </div>

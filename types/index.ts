@@ -1,3 +1,17 @@
+export interface Specification {
+  key: string;
+  value: string;
+}
+
+export interface Review {
+  id: string;
+  product_id: string;
+  customer_name: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -8,6 +22,8 @@ export interface Product {
   category: string;
   stock: number;
   featured: boolean;
+  specifications?: Specification[];
+  reviews?: Review[];
   created_at: string;
   updated_at: string;
 }
