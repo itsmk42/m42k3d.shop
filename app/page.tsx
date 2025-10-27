@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import ProductCard from '@/components/products/ProductCard';
 import Button from '@/components/ui/Button';
 import HeroQuote from '@/components/home/HeroQuote';
+import FeaturedProductVideo from '@/components/home/FeaturedProductVideo';
 import { Product } from '@/types';
 import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, Layers, Palette, Sparkles, CheckCircle } from 'lucide-react';
 import { formatPrice } from '@/utils/format';
@@ -47,7 +48,14 @@ export default async function Home() {
     getFeaturedProducts(),
   ]);
 
-  const spotlightVideo = process.env.NEXT_PUBLIC_SPOTLIGHT_VIDEO_URL;
+  // Array of featured product video URLs for sequential playback
+  // Videos will play one after another in a continuous loop
+  const featuredProductVideos = [
+    '/products/featured-product-1.mp4',
+    '/products/featured-product-2.mp4',
+    '/products/featured-product-3.mp4',
+  ];
+
   const spotlightImage = (spotlightProduct?.images && spotlightProduct.images[0]) || '/products/featured-product.png';
 
 
@@ -124,18 +132,15 @@ export default async function Home() {
               </div>
             </div>
             <div className="relative">
-              {spotlightVideo ? (
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  poster={spotlightImage}
-                  className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl ring-8 ring-white/5 shadow-2xl object-cover"
-                >
-                  <source src={spotlightVideo} type="video/mp4" />
-                </video>
-              ) : (
+              {/* Featured Product Video - Sequential Playback */}
+              <FeaturedProductVideo
+                videoUrls={featuredProductVideos}
+                posterImage={spotlightImage}
+                className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl ring-8 ring-white/5 shadow-2xl object-cover"
+              />
+
+              {/* Fallback to static image if no videos available */}
+              {featuredProductVideos.length === 0 && (
                 <div className="relative mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl overflow-hidden ring-8 ring-white/5 shadow-2xl">
                   <Image
                     src={spotlightImage}
@@ -146,6 +151,8 @@ export default async function Home() {
                   />
                 </div>
               )}
+
+              {/* Decorative gradient background effect */}
               <div className="absolute inset-0 -z-10 m-auto h-[28rem] w-[28rem] sm:h-[32rem] sm:w-[32rem] rounded-full bg-gradient-to-tr from-rose-400/20 to-red-500/20 blur-3xl" />
             </div>
           </div>
