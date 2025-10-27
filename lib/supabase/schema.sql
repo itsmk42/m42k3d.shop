@@ -40,6 +40,21 @@ CREATE TABLE products (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- SEO Settings table
+CREATE TABLE seo_settings (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  page_type TEXT NOT NULL CHECK (page_type IN ('homepage', 'product', 'category')),
+  page_id TEXT,
+  meta_title TEXT,
+  meta_description TEXT,
+  meta_keywords TEXT,
+  og_image TEXT,
+  twitter_card TEXT DEFAULT 'summary_large_image',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(page_type, page_id)
+);
+
 -- Orders table
 CREATE TABLE orders (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -63,12 +78,14 @@ CREATE INDEX idx_products_category ON products(category);
 CREATE INDEX idx_products_featured ON products(featured);
 CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_email ON orders(user_email);
+CREATE INDEX idx_seo_settings_page ON seo_settings(page_type, page_id);
 
 -- Enable Row Level Security (RLS)
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE seo_settings ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies for user_profiles
 CREATE POLICY "Users can view their own profile"
@@ -146,6 +163,23 @@ CREATE POLICY "Orders are updatable by authenticated users"
       WHERE id = auth.uid() AND role = 'admin'
     )
   );
+
+-- RLS Policies for SEO settings (public read, admin write)
+CREATE POLICY "SEO settings are viewable by everyone"
+  ON seo_settings FOR SELECT
+  USING (true);
+
+CREATE POLICY "SEO settings are insertable by authenticated users"
+  ON seo_settings FOR INSERT
+  WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "SEO settings are updatable by authenticated users"
+  ON seo_settings FOR UPDATE
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "SEO settings are deletable by authenticated users"
+  ON seo_settings FOR DELETE
+  USING (auth.role() = 'authenticated');
 
 -- Create storage bucket for product images
 INSERT INTO storage.buckets (id, name, public) 

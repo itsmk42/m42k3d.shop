@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { Package, ShoppingBag, LogOut } from 'lucide-react';
+import { Package, ShoppingBag, LogOut, Search } from 'lucide-react';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -112,7 +112,7 @@ export default function AdminPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Link href="/admin/products">
           <div className="card p-8 hover:shadow-lg transition-shadow cursor-pointer">
             <div className="flex items-center gap-4">
@@ -127,18 +127,33 @@ export default function AdminPage() {
           </div>
         </Link>
 
-        <div className="card p-8 opacity-50 cursor-not-allowed">
-          <div className="flex items-center gap-4">
-            <div className="bg-green-100 p-4 rounded-full">
-              <ShoppingBag className="w-8 h-8 text-green-600" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold">Manage Orders</h2>
-              <p className="text-gray-600">View and manage customer orders</p>
-              <p className="text-sm text-gray-500 mt-1">(Coming soon)</p>
+        <Link href="/admin/orders">
+          <div className="card p-8 hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="flex items-center gap-4">
+              <div className="bg-green-100 p-4 rounded-full">
+                <ShoppingBag className="w-8 h-8 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold">Manage Orders</h2>
+                <p className="text-gray-600">View and manage customer orders</p>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
+
+        <Link href="/admin/seo">
+          <div className="card p-8 hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="flex items-center gap-4">
+              <div className="bg-purple-100 p-4 rounded-full">
+                <Search className="w-8 h-8 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold">SEO Management</h2>
+                <p className="text-gray-600">Manage SEO metadata and settings</p>
+              </div>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   );

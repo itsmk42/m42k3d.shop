@@ -69,3 +69,16 @@ export interface User {
   updated_at: string;
 }
 
+export interface SEOSettings {
+  id: string;
+  page_type: 'homepage' | 'product' | 'category';
+  page_id?: string;
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string;
+  og_image?: string;
+  twitter_card?: string;
+  created_at: string;
+  updated_at: string;
+}
+

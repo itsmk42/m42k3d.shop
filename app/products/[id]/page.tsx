@@ -9,7 +9,7 @@ import { formatPrice } from '@/utils/format';
 import { useCartStore } from '@/lib/store/cart';
 import Button from '@/components/ui/Button';
 import Loading from '@/components/ui/Loading';
-import { ShoppingCart, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function ProductDetailPage() {
@@ -19,7 +19,19 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [expandedSections, setExpandedSections] = useState({
+    description: true,
+    specifications: false,
+    reviews: false,
+  });
   const addItem = useCartStore((state) => state.addItem);
+
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
 
   useEffect(() => {
     async function fetchProduct() {
@@ -107,12 +119,20 @@ export default function ProductDetailPage() {
 
           {/* Product Info */}
           <aside className="bg-slate-700/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:sticky md:top-24">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">{product.name}</h1>
+            {/* Header */}
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white">{product.name}</h1>
+
+            {/* Category Badge */}
+            <div className="mb-4">
+              <span className="inline-block bg-red-500/20 text-red-200 px-3 py-1 rounded-full text-sm border border-red-500/30">
+                {product.category}
+              </span>
+            </div>
 
             {/* Price Display */}
-            <div className="mb-6">
+            <div className="mb-6 pb-6 border-b border-white/10">
               {product.original_price && product.original_price > product.price ? (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   <p className="text-lg text-gray-400 line-through">
                     {formatPrice(product.original_price)}
                   </p>
@@ -130,17 +150,7 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            <div className="mb-6">
-              <span className="inline-block bg-red-500/20 text-red-200 px-3 py-1 rounded-full text-sm border border-red-500/30">
-                {product.category}
-              </span>
-            </div>
-
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-2 text-white">Description</h2>
-              <p className="text-gray-300 leading-relaxed">{product.description}</p>
-            </div>
-
+            {/* Stock Status */}
             <div className="mb-6">
               <p className="text-gray-300">
                 <span className="font-semibold">Stock:</span>{' '}
@@ -152,6 +162,7 @@ export default function ProductDetailPage() {
               </p>
             </div>
 
+            {/* Quantity Selector */}
             {product.stock > 0 && (
               <div className="mb-6">
                 <label className="block text-sm font-medium text-white mb-2">
@@ -175,8 +186,8 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Action Buttons */}
-            <div className="space-y-3">
+            {/* Action Buttons - TOP PRIORITY */}
+            <div className="space-y-3 mb-8 pb-8 border-b border-white/10">
               <Button
                 onClick={() => {
                   if (product) {
@@ -200,6 +211,84 @@ export default function ProductDetailPage() {
                 <ShoppingCart className="w-5 h-5" />
                 {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
               </Button>
+            </div>
+
+            {/* Collapsible Sections */}
+            <div className="space-y-3">
+              {/* Description Section */}
+              <div className="border border-white/10 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => toggleSection('description')}
+                  className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+                >
+                  <h3 className="text-lg font-semibold text-white">Description</h3>
+                  {expandedSections.description ? (
+                    <ChevronUp className="w-5 h-5 text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-400" />
+                  )}
+                </button>
+                {expandedSections.description && (
+                  <div className="px-4 pb-4 border-t border-white/10">
+                    <p className="text-gray-300 leading-relaxed">{product.description}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Specifications Section */}
+              <div className="border border-white/10 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => toggleSection('specifications')}
+                  className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+                >
+                  <h3 className="text-lg font-semibold text-white">Specifications</h3>
+                  {expandedSections.specifications ? (
+                    <ChevronUp className="w-5 h-5 text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-400" />
+                  )}
+                </button>
+                {expandedSections.specifications && (
+                  <div className="px-4 pb-4 border-t border-white/10">
+                    <div className="space-y-3 text-gray-300">
+                      <div className="flex justify-between">
+                        <span className="font-semibold">Category:</span>
+                        <span>{product.category}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="font-semibold">Stock:</span>
+                        <span>{product.stock > 0 ? `${product.stock} units` : 'Out of stock'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="font-semibold">Product ID:</span>
+                        <span className="text-xs text-gray-400">{product.id}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Reviews Section */}
+              <div className="border border-white/10 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => toggleSection('reviews')}
+                  className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+                >
+                  <h3 className="text-lg font-semibold text-white">Customer Reviews</h3>
+                  {expandedSections.reviews ? (
+                    <ChevronUp className="w-5 h-5 text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-400" />
+                  )}
+                </button>
+                {expandedSections.reviews && (
+                  <div className="px-4 pb-4 border-t border-white/10">
+                    <p className="text-gray-400 text-center py-4">
+                      No reviews yet. Be the first to review this product!
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </aside>
         </div>
