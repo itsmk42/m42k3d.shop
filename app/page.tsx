@@ -126,12 +126,12 @@ export default async function Home() {
               <FeaturedProductVideo
                 videoUrls={featuredProductVideos}
                 posterImage={spotlightImage}
-                className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl ring-8 ring-white/5 shadow-2xl object-cover"
+                className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl ring-8 ring-red-500/40 shadow-2xl shadow-red-500/20 object-cover"
               />
 
               {/* Fallback to static image if no videos available */}
               {featuredProductVideos.length === 0 && (
-                <div className="relative mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl overflow-hidden ring-8 ring-white/5 shadow-2xl">
+                <div className="relative mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl overflow-hidden ring-8 ring-red-500/40 shadow-2xl shadow-red-500/20">
                   <Image
                     src={spotlightImage}
                     alt={spotlightProduct?.name || 'Featured product'}
@@ -195,14 +195,14 @@ export default async function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Miniature Decor Card - Blue Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-40 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-2 transform group-hover:scale-110 transition-transform duration-300">
-                    <MiniatureDecorIcon className="w-16 h-16 sm:w-20 sm:h-20 text-white/95" />
+                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
+                    <MiniatureDecorIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-white font-bold text-lg">Miniatures</h3>
+                    <h3 className="text-white font-bold text-base sm:text-lg">Miniatures</h3>
                     <p className="text-white/90 text-xs">Figures & collectibles</p>
                   </div>
                 </div>
@@ -211,14 +211,14 @@ export default async function Home() {
 
             {/* Art Card - Violet Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-40 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-violet-500 to-violet-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-violet-500 to-violet-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-2 transform group-hover:scale-110 transition-transform duration-300">
-                    <ArtIcon className="w-16 h-16 sm:w-20 sm:h-20 text-white/95" />
+                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
+                    <ArtIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-white font-bold text-lg">Decor & Art</h3>
+                    <h3 className="text-white font-bold text-base sm:text-lg">Decor & Art</h3>
                     <p className="text-white/90 text-xs">Home & office style</p>
                   </div>
                 </div>
@@ -227,14 +227,14 @@ export default async function Home() {
 
             {/* Personalised Keychain Card - Emerald Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-40 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-2 transform group-hover:scale-110 transition-transform duration-300">
-                    <PersonalisedKeychainIcon className="w-16 h-16 sm:w-20 sm:h-20 text-white/95" />
+                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
+                    <PersonalisedKeychainIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-white font-bold text-lg">Keychains</h3>
+                    <h3 className="text-white font-bold text-base sm:text-lg">Keychains</h3>
                     <p className="text-white/90 text-xs">Personalised gifts</p>
                   </div>
                 </div>
@@ -243,14 +243,14 @@ export default async function Home() {
 
             {/* Photo Box Card - Amber Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-40 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-2 transform group-hover:scale-110 transition-transform duration-300">
-                    <PhotoBoxIcon className="w-16 h-16 sm:w-20 sm:h-20 text-white/95" />
+                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
+                    <PhotoBoxIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-white font-bold text-lg">Photo Box</h3>
+                    <h3 className="text-white font-bold text-base sm:text-lg">Photo Box</h3>
                     <p className="text-white/90 text-xs">Memory storage</p>
                   </div>
                 </div>
@@ -259,14 +259,14 @@ export default async function Home() {
 
             {/* Functional Card - Cyan Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-40 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-cyan-500 to-cyan-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-cyan-500 to-cyan-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-2 transform group-hover:scale-110 transition-transform duration-300">
-                    <FunctionalIcon className="w-16 h-16 sm:w-20 sm:h-20 text-white/95" />
+                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
+                    <FunctionalIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-white font-bold text-lg">Functional</h3>
+                    <h3 className="text-white font-bold text-base sm:text-lg">Functional</h3>
                     <p className="text-white/90 text-xs">Tools & parts</p>
                   </div>
                 </div>
