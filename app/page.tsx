@@ -120,17 +120,6 @@ export default async function Home() {
                   Shop All
                 </Link>
               </div>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/15 text-white/90">
-                  <Truck className="w-4 h-4 text-white/80" /> Fast Shipping
-                </div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/15 text-white/90">
-                  <Shield className="w-4 h-4 text-white/80" /> Secure Payments
-                </div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/15 text-white/90">
-                  <Package className="w-4 h-4 text-white/80" /> Quality Guaranteed
-                </div>
-              </div>
             </div>
             <div className="relative">
               {/* Featured Product Video - Sequential Playback */}
