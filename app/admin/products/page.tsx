@@ -32,6 +32,7 @@ export default function AdminProductsPage() {
     name: '',
     description: '',
     price: '',
+    original_price: '',
     category: '',
     stock: '',
     featured: false,
@@ -87,6 +88,7 @@ export default function AdminProductsPage() {
         name: product.name,
         description: product.description,
         price: product.price.toString(),
+        original_price: product.original_price ? product.original_price.toString() : '',
         category: product.category,
         stock: product.stock.toString(),
         featured: product.featured,
@@ -98,6 +100,7 @@ export default function AdminProductsPage() {
         name: '',
         description: '',
         price: '',
+        original_price: '',
         category: '',
         stock: '',
         featured: false,
@@ -115,7 +118,7 @@ export default function AdminProductsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const productData = {
+    const productData: any = {
       name: formData.name,
       description: formData.description,
       price: parseFloat(formData.price),
@@ -125,6 +128,11 @@ export default function AdminProductsPage() {
       images: formData.images.filter(img => img.trim() !== ''),
       updated_at: new Date().toISOString(),
     };
+
+    // Add original_price if provided
+    if (formData.original_price) {
+      productData.original_price = parseFloat(formData.original_price);
+    }
 
     try {
       if (editingProduct) {
@@ -401,7 +409,7 @@ export default function AdminProductsPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <Input
-              label="Price"
+              label="Sale Price (Discounted)"
               type="number"
               step="0.01"
               value={formData.price}
@@ -409,6 +417,17 @@ export default function AdminProductsPage() {
               required
             />
 
+            <Input
+              label="Original Price (Optional)"
+              type="number"
+              step="0.01"
+              value={formData.original_price}
+              onChange={(e) => setFormData({ ...formData, original_price: e.target.value })}
+              placeholder="Leave empty for no discount"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
             <Input
               label="Stock"
               type="number"

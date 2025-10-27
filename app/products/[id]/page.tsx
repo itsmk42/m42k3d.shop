@@ -108,9 +108,27 @@ export default function ProductDetailPage() {
           {/* Product Info */}
           <aside className="bg-slate-700/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:sticky md:top-24">
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">{product.name}</h1>
-            <p className="text-3xl font-bold text-red-500 mb-6">
-              {formatPrice(product.price)}
-            </p>
+
+            {/* Price Display */}
+            <div className="mb-6">
+              {product.original_price && product.original_price > product.price ? (
+                <div className="flex items-center gap-3">
+                  <p className="text-lg text-gray-400 line-through">
+                    {formatPrice(product.original_price)}
+                  </p>
+                  <p className="text-3xl font-bold text-green-500">
+                    {formatPrice(product.price)}
+                  </p>
+                  <span className="bg-red-500/20 text-red-300 px-2 py-1 rounded text-sm font-semibold">
+                    {Math.round(((product.original_price - product.price) / product.original_price) * 100)}% OFF
+                  </span>
+                </div>
+              ) : (
+                <p className="text-3xl font-bold text-green-500">
+                  {formatPrice(product.price)}
+                </p>
+              )}
+            </div>
 
             <div className="mb-6">
               <span className="inline-block bg-red-500/20 text-red-200 px-3 py-1 rounded-full text-sm border border-red-500/30">

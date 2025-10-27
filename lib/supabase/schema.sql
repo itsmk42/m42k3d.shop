@@ -31,6 +31,7 @@ CREATE TABLE products (
   name TEXT NOT NULL,
   description TEXT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
+  original_price DECIMAL(10, 2),
   images TEXT[] DEFAULT '{}',
   category TEXT NOT NULL,
   stock INTEGER DEFAULT 0,
