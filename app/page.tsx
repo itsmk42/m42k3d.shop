@@ -66,7 +66,7 @@ export default async function Home() {
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="container mx-auto px-4 py-24 relative">
+        <div className="container mx-auto px-4 py-40 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur text-sm mb-5">
@@ -126,32 +126,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Banner Image Section */}
-      <section className="w-full">
-        <div className="relative h-[300px] md:h-[400px]">
-          <Image
-            src="/banners/lamp-banner.png"
-            alt="Ambient 3D-printed lamps in a modern room"
-            fill
-            priority
-            className="object-cover"
-          />
-          {/* subtle dark overlay for readability */}
-          <div className="absolute inset-0 bg-black/35" />
-          {/* centered CTA with its own semi-transparent backdrop */}
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-            <div className="bg-black/40 backdrop-blur-sm rounded-xl p-2">
-              <Link href="/products">
-                <Button size="lg" className="gap-2">
-                  Shop Now
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
 
       {/* Highlights Strip */}
       <section className="py-12 bg-white">
