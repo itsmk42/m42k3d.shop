@@ -30,13 +30,13 @@ export default function HeroQuote() {
   }, []);
 
   return (
-    <div className="h-16 md:h-20 flex items-center justify-center">
+    <div className="h-10 md:h-16 flex items-center justify-center px-4">
       <div
         className={`text-center transition-opacity duration-300 ${
           isVisible ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <p className="text-lg md:text-2xl font-light text-white/80 italic">
+        <p className="text-xs md:text-lg font-light text-white/80 italic leading-tight break-words">
           "{quotes[currentQuote]}"
         </p>
       </div>
