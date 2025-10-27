@@ -100,12 +100,9 @@ export default async function Home() {
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur text-sm mb-5">
                 <Sparkles className="w-4 h-4 text-yellow-300" /> Spotlight
               </span>
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 md:mt-0 -mt-2">
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 md:mt-0 -mt-2">
                 {spotlightProduct?.name ?? 'Featured Product'}
               </h1>
-              {spotlightProduct && (
-                <p className="text-lg md:text-xl text-white/80 mb-4">{spotlightProduct.description}</p>
-              )}
               {spotlightProduct && (
                 <p className="text-white/90 font-semibold mb-6">Starting at {formatPrice(spotlightProduct.price)}</p>
               )}
