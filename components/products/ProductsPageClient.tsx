@@ -46,23 +46,13 @@ export default function ProductsPageClient({
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-semibold mb-8">Our Products</h1>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-4xl font-semibold mb-8 text-white">Our Products</h1>
 
-      <div className="flex gap-8">
-        {/* Sidebar */}
-        <div className="hidden lg:block w-1/4">
-          <ProductFilters
-            categories={categories}
-            onFilterChange={handleFilterChange}
-            totalProducts={initialProducts.length}
-            filteredCount={filteredCount}
-          />
-        </div>
-
-        {/* Mobile Filters + Products */}
-        <div className="w-full lg:w-3/4">
-          <div className="lg:hidden mb-6">
+        <div className="flex gap-8">
+          {/* Sidebar */}
+          <div className="hidden lg:block w-1/4">
             <ProductFilters
               categories={categories}
               onFilterChange={handleFilterChange}
@@ -71,23 +61,35 @@ export default function ProductsPageClient({
             />
           </div>
 
-          {/* Products Grid */}
-          {products.length > 0 ? (
-            <div className={`grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-8 ${loading ? 'opacity-50' : ''}`}>
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+          {/* Mobile Filters + Products */}
+          <div className="w-full lg:w-3/4">
+            <div className="lg:hidden mb-6">
+              <ProductFilters
+                categories={categories}
+                onFilterChange={handleFilterChange}
+                totalProducts={initialProducts.length}
+                filteredCount={filteredCount}
+              />
             </div>
-          ) : (
-            <div className="text-center py-20">
-              <p className="text-gray-600 text-xl mb-4">
-                No products found matching your filters.
-              </p>
-              <p className="text-gray-500">
-                Try adjusting your filters or browse all products.
-              </p>
-            </div>
-          )}
+
+            {/* Products Grid */}
+            {products.length > 0 ? (
+              <div className={`grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-8 ${loading ? 'opacity-50' : ''}`}>
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20">
+                <p className="text-gray-300 text-xl mb-4">
+                  No products found matching your filters.
+                </p>
+                <p className="text-gray-400">
+                  Try adjusting your filters or browse all products.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

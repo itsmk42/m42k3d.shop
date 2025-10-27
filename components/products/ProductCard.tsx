@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Product } from '@/types';
 import { formatPrice } from '@/utils/format';
 import { useCartStore } from '@/lib/store/cart';
 import Button from '@/components/ui/Button';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface ProductCardProps {
@@ -14,6 +15,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter();
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -22,12 +24,21 @@ export default function ProductCard({ product }: ProductCardProps) {
     toast.success('Added to cart!');
   };
 
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    addItem(product, 1);
+    toast.success('Added to cart! Redirecting to checkout...');
+    setTimeout(() => {
+      router.push('/checkout');
+    }, 500);
+  };
+
   const imageUrl = product.images[0] || '/placeholder-product.jpg';
 
   return (
-    <div className="card overflow-hidden group">
+    <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur overflow-hidden group hover:border-red-500/50 transition-colors">
       <Link href={`/products/${product.id}`}>
-        <div className="relative aspect-[4/3] bg-gray-100">
+        <div className="relative aspect-[4/3] bg-slate-700">
           <Image
             src={imageUrl}
             alt={product.name}
@@ -36,39 +47,54 @@ export default function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {product.featured && (
-            <span className="absolute top-2 right-2 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white px-3 py-1 rounded-full text-sm font-medium">
+            <span className="absolute top-2 right-2 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white px-3 py-1 rounded-full text-xs font-medium">
               Featured
             </span>
           )}
           {product.stock === 0 && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <span className="text-white text-xl font-bold">Out of Stock</span>
+              <span className="text-white text-sm font-bold">Out of Stock</span>
             </div>
           )}
         </div>
       </Link>
 
-      <div className="p-4">
+      <div className="p-3">
         <Link href={`/products/${product.id}`}>
-          <h3 className="text-lg font-medium text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+          <h3 className="text-sm md:text-base font-medium text-white mb-1 hover:text-red-400 transition-colors line-clamp-2">
             {product.name}
           </h3>
         </Link>
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+        <p className="text-gray-400 text-xs mb-2 line-clamp-2">
           {product.description}
         </p>
-        <div className="flex items-center justify-between">
-          <span className="text-2xl font-semibold text-blue-600">
+        <div className="mb-3">
+          <span className="text-lg md:text-xl font-semibold bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] bg-clip-text text-transparent">
             {formatPrice(product.price)}
           </span>
+        </div>
+        <div className="flex gap-2">
           <Button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
             size="sm"
-            className="flex items-center gap-2"
+            variant="primary"
+            className="flex-1 flex items-center justify-center gap-1 text-xs md:text-sm"
           >
-            <ShoppingCart className="w-4 h-4" />
-            Add to Cart
+            <ShoppingCart className="w-3 h-3 md:w-4 md:h-4" />
+            <span className="hidden sm:inline">Add to Cart</span>
+            <span className="sm:hidden">Add</span>
+          </Button>
+          <Button
+            onClick={handleBuyNow}
+            disabled={product.stock === 0}
+            size="sm"
+            variant="secondary"
+            className="flex-1 flex items-center justify-center gap-1 text-xs md:text-sm"
+          >
+            <Zap className="w-3 h-3 md:w-4 md:h-4" />
+            <span className="hidden sm:inline">Buy Now</span>
+            <span className="sm:hidden">Buy</span>
           </Button>
         </div>
       </div>
