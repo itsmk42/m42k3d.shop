@@ -161,3 +161,100 @@ export function FunctionalIcon({ className = 'w-24 h-24' }: IconProps) {
   );
 }
 
+/**
+ * Personalised Keychain Icon
+ * Represents custom keychains and personalized items
+ */
+export function PersonalisedKeychainIcon({ className = 'w-24 h-24' }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className={className}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Keychain ring */}
+      <circle cx="50" cy="30" r="12" fill="none" stroke="url(#keychainGradient)" strokeWidth="3" />
+
+      {/* Key shaft */}
+      <rect x="48" y="42" width="4" height="35" rx="2" fill="url(#keychainGradient)" />
+
+      {/* Key head - circular */}
+      <circle cx="50" cy="80" r="8" fill="url(#keychainGradient)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+
+      {/* Key teeth */}
+      <rect x="46" y="75" width="2" height="3" fill="url(#keychainGradient)" />
+      <rect x="52" y="75" width="2" height="3" fill="url(#keychainGradient)" />
+      <rect x="46" y="82" width="2" height="3" fill="url(#keychainGradient)" />
+      <rect x="52" y="82" width="2" height="3" fill="url(#keychainGradient)" />
+
+      {/* Decorative charm hanging from ring */}
+      <circle cx="65" cy="28" r="6" fill="url(#keychainGradient)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+      <line x1="60" y1="30" x2="65" y2="28" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+
+      {/* Shine effect on ring */}
+      <path d="M 45 25 Q 50 20 55 25" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none" />
+
+      {/* Accent sparkles */}
+      <circle cx="70" cy="20" r="1.5" fill="rgba(255,255,255,0.7)" />
+      <circle cx="35" cy="35" r="1" fill="rgba(255,255,255,0.6)" />
+
+      <defs>
+        <linearGradient id="keychainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#10b981" />
+          <stop offset="100%" stopColor="#047857" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+/**
+ * Photo Box Icon
+ * Represents photo storage boxes and memory boxes
+ */
+export function PhotoBoxIcon({ className = 'w-24 h-24' }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className={className}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Box body */}
+      <rect x="20" y="35" width="60" height="45" rx="3" fill="url(#photoBoxGradient)" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+
+      {/* Box lid/top edge */}
+      <path d="M 20 35 Q 20 25 50 22 Q 80 25 80 35" fill="url(#photoBoxGradient)" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
+
+      {/* Photo frame inside box */}
+      <rect x="30" y="45" width="40" height="28" rx="2" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
+
+      {/* Photo image representation */}
+      <rect x="32" y="47" width="36" height="24" rx="1" fill="rgba(255,255,255,0.15)" />
+
+      {/* Mountain/landscape in photo */}
+      <path d="M 32 65 L 42 52 L 52 60 L 62 48 L 68 65" fill="rgba(255,255,255,0.25)" />
+
+      {/* Sun in photo */}
+      <circle cx="58" cy="50" r="3" fill="rgba(255,255,255,0.3)" />
+
+      {/* Box handle */}
+      <path d="M 35 30 Q 50 15 65 30" fill="none" stroke="url(#photoBoxGradient)" strokeWidth="2.5" strokeLinecap="round" />
+
+      {/* Decorative corner accents */}
+      <circle cx="22" cy="37" r="1.5" fill="rgba(255,255,255,0.5)" />
+      <circle cx="78" cy="37" r="1.5" fill="rgba(255,255,255,0.5)" />
+
+      {/* Shine effect */}
+      <ellipse cx="50" cy="40" rx="8" ry="3" fill="rgba(255,255,255,0.3)" opacity="0.6" />
+
+      <defs>
+        <linearGradient id="photoBoxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#d97706" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}

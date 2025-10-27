@@ -5,7 +5,7 @@ import ProductCard from '@/components/products/ProductCard';
 import Button from '@/components/ui/Button';
 import HeroQuote from '@/components/home/HeroQuote';
 import FeaturedProductVideo from '@/components/home/FeaturedProductVideo';
-import { MiniatureDecorIcon, ArtIcon, FunctionalIcon } from '@/components/home/CategoryIcons';
+import { MiniatureDecorIcon, ArtIcon, FunctionalIcon, PersonalisedKeychainIcon, PhotoBoxIcon } from '@/components/home/CategoryIcons';
 import { Product } from '@/types';
 import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, Layers, Palette, Sparkles, CheckCircle } from 'lucide-react';
 import { formatPrice } from '@/utils/format';
@@ -203,7 +203,7 @@ export default async function Home() {
             <h2 className="text-3xl font-bold text-white">Shop by Category</h2>
             <p className="text-gray-400">Browse favourites and best-sellers</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {/* Miniature Decor Card - Blue Gradient */}
             <Link href="/products" className="group block">
               <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition-shadow duration-300">
@@ -231,6 +231,38 @@ export default async function Home() {
                   <div className="text-center">
                     <h3 className="text-white font-bold text-2xl">Decor & Art</h3>
                     <p className="text-white/90 text-sm">Home & office style</p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Personalised Keychain Card - Emerald Gradient */}
+            <Link href="/products" className="group block">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-700 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
+                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    <PersonalisedKeychainIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/95" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-white font-bold text-2xl">Keychains</h3>
+                    <p className="text-white/90 text-sm">Personalised gifts</p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Photo Box Card - Amber Gradient */}
+            <Link href="/products" className="group block">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
+                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    <PhotoBoxIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/95" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-white font-bold text-2xl">Photo Box</h3>
+                    <p className="text-white/90 text-sm">Memory storage</p>
                   </div>
                 </div>
               </div>
