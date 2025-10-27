@@ -53,10 +53,18 @@ export default async function Home() {
   return (
     <div className="theme-red">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-slate-950 text-white">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 -left-24 h-80 w-80 rounded-full bg-gradient-to-tr from-[var(--grad-primary-from)]/40 to-[var(--grad-primary-to)]/40 blur-3xl" />
-          <div className="absolute -bottom-32 -right-24 h-96 w-96 rounded-full bg-gradient-to-tr from-rose-400/25 to-red-500/25 blur-3xl" />
+      <section className="relative overflow-hidden text-white">
+        {/* Banner background image */}
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src="/banners/lamp-banner.png"
+            alt="Ambient 3D-printed lamps in a modern room"
+            fill
+            priority
+            className="object-cover"
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-black/55" />
         </div>
         <div className="container mx-auto px-4 py-24 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
