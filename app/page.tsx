@@ -81,11 +81,11 @@ export default async function Home() {
         </div>
         <div className="container mx-auto px-4 py-40 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="md:pt-0 pt-0">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur text-sm mb-5">
                 <Sparkles className="w-4 h-4 text-yellow-300" /> Spotlight
               </span>
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 md:mt-0 -mt-2">
                 {spotlightProduct?.name ?? 'Featured Product'}
               </h1>
               {spotlightProduct && (

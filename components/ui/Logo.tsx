@@ -28,7 +28,7 @@ export default function Logo({ size = 'md', showText = true, className = '', var
         priority
       />
       {showText && (
-        <span className={`font-bold ${text} ${textColor} bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent`}>
+        <span className={`font-bold ${text} uppercase tracking-wider bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent`}>
           SparkleSphere.store
         </span>
       )}
