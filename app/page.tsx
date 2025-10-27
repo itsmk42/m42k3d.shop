@@ -54,15 +54,28 @@ export default async function Home() {
     <div className="theme-red">
       {/* Hero Section */}
       <section className="relative overflow-hidden text-white">
-        {/* Banner background image */}
+        {/* Banner background video or image */}
         <div className="absolute inset-0 -z-10">
-          <Image
-            src="/banners/lamp-banner.png"
-            alt="Ambient 3D-printed lamps in a modern room"
-            fill
-            priority
-            className="object-cover"
-          />
+          {process.env.NEXT_PUBLIC_BANNER_VIDEO_URL ? (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/banners/lamp-banner.png"
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src={process.env.NEXT_PUBLIC_BANNER_VIDEO_URL} type="video/mp4" />
+            </video>
+          ) : (
+            <Image
+              src="/banners/lamp-banner.png"
+              alt="Ambient 3D-printed lamps in a modern room"
+              fill
+              priority
+              className="object-cover"
+            />
+          )}
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-black/55" />
         </div>
