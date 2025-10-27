@@ -36,7 +36,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {product.featured && (
-            <span className="absolute top-2 right-2 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <span className="absolute top-2 right-2 bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] text-white px-3 py-1 rounded-full text-sm font-medium">
               Featured
             </span>
           )}
@@ -50,7 +50,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <div className="p-4">
         <Link href={`/products/${product.id}`}>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+          <h3 className="text-lg font-medium text-gray-900 mb-2 hover:text-blue-600 transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -58,7 +58,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.description}
         </p>
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold text-blue-600">
+          <span className="text-2xl font-semibold text-blue-600">
             {formatPrice(product.price)}
           </span>
           <Button
