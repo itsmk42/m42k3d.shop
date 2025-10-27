@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase/client';
-import ProductCard from '@/components/products/ProductCard';
 import Button from '@/components/ui/Button';
 import HeroQuote from '@/components/home/HeroQuote';
 import FeaturedProductVideo from '@/components/home/FeaturedProductVideo';
+import CompactFeaturedItems from '@/components/home/CompactFeaturedItems';
 import { MiniatureDecorIcon, ArtIcon, FunctionalIcon, PersonalisedKeychainIcon, PhotoBoxIcon } from '@/components/home/CategoryIcons';
 import { Product } from '@/types';
 import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, Layers, Palette, Sparkles, CheckCircle } from 'lucide-react';
@@ -303,29 +303,17 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Popular Picks */}
-      <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-white">Popular Picks</h2>
-            <Link href="/products">
-              <Button variant="outline">View All</Button>
-            </Link>
+      {/* Featured Items - Compact Visual Layout */}
+      {featuredProducts.length > 0 ? (
+        <CompactFeaturedItems products={featuredProducts} />
+      ) : (
+        <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
+          <div className="container mx-auto px-4 text-center">
+            <p className="text-gray-400 text-lg mb-4">No products yet.</p>
+            <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
           </div>
-          {featuredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-400 text-lg mb-4">No products yet.</p>
-              <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
-            </div>
-          )}
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Final CTA */}
       <section className="relative overflow-hidden bg-slate-950 text-white">
