@@ -24,6 +24,22 @@
   --grad-secondary-to: #ef4444;   /* red-500 */
 }
 
+/* Hero Cards Color Scheme - Optimized for dark background */
+.hero-card-miniatures {
+  --card-from: #3b82f6; /* blue-500 */
+  --card-to: #1d4ed8;   /* blue-700 */
+}
+
+.hero-card-art {
+  --card-from: #8b5cf6; /* violet-500 */
+  --card-to: #6d28d9;   /* violet-700 */
+}
+
+.hero-card-functional {
+  --card-from: #06b6d4; /* cyan-500 */
+  --card-to: #0891b2;   /* cyan-700 */
+}
+
 
 @theme inline {
   --color-background: var(--background);

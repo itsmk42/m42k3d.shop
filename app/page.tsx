@@ -204,49 +204,49 @@ export default async function Home() {
             <p className="text-gray-400">Browse favourites and best-sellers</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Miniature Decor Card */}
+            {/* Miniature Decor Card - Blue Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] flex flex-col items-center justify-center">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                   <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                    <MiniatureDecorIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/90" />
+                    <MiniatureDecorIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/95" />
                   </div>
                   <div className="text-center">
                     <h3 className="text-white font-bold text-2xl">Miniatures</h3>
-                    <p className="text-white/85 text-sm">Figures & collectibles</p>
+                    <p className="text-white/90 text-sm">Figures & collectibles</p>
                   </div>
                 </div>
               </div>
             </Link>
 
-            {/* Art Card */}
+            {/* Art Card - Violet Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-secondary-from)] to-[var(--grad-secondary-to)] flex flex-col items-center justify-center">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-violet-500 to-violet-700 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                   <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                    <ArtIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/90" />
+                    <ArtIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/95" />
                   </div>
                   <div className="text-center">
                     <h3 className="text-white font-bold text-2xl">Decor & Art</h3>
-                    <p className="text-white/85 text-sm">Home & office style</p>
+                    <p className="text-white/90 text-sm">Home & office style</p>
                   </div>
                 </div>
               </div>
             </Link>
 
-            {/* Functional Card */}
+            {/* Functional Card - Cyan Gradient */}
             <Link href="/products" className="group block">
-              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-red-600 to-rose-600 flex flex-col items-center justify-center">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-cyan-500 to-cyan-700 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                   <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                    <FunctionalIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/90" />
+                    <FunctionalIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/95" />
                   </div>
                   <div className="text-center">
                     <h3 className="text-white font-bold text-2xl">Functional</h3>
-                    <p className="text-white/85 text-sm">Tools & parts</p>
+                    <p className="text-white/90 text-sm">Tools & parts</p>
                   </div>
                 </div>
               </div>
