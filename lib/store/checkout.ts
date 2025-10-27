@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, StorageValue } from 'zustand/middleware';
 
 interface CheckoutState {
   name: string;
@@ -21,6 +21,35 @@ const initialState = {
   country: '',
 };
 
+// Custom storage that only works on client side
+const clientOnlyStorage = {
+  getItem: (name: string): StorageValue<CheckoutState> | null => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const item = window.localStorage.getItem(name);
+      return item ? JSON.parse(item) : null;
+    } catch {
+      return null;
+    }
+  },
+  setItem: (name: string, value: StorageValue<CheckoutState>) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(name, JSON.stringify(value));
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  },
+  removeItem: (name: string) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.removeItem(name);
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  },
+};
+
 export const useCheckoutStore = create<CheckoutState>()(
   persist(
     (set) => ({
@@ -28,7 +57,10 @@ export const useCheckoutStore = create<CheckoutState>()(
       setField: (key, value) => set(() => ({ [key]: value }) as any),
       reset: () => set({ ...initialState }),
     }),
-    { name: 'checkout-storage' }
+    {
+      name: 'checkout-storage',
+      storage: clientOnlyStorage,
+    }
   )
 );
 

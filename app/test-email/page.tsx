@@ -14,11 +14,15 @@ export default function TestEmailPage() {
     setLoading(true);
 
     try {
+      const redirectUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/auth/callback`
+        : `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+          emailRedirectTo: redirectUrl
         }
       });
 
@@ -44,8 +48,12 @@ export default function TestEmailPage() {
 
     setLoading(true);
     try {
+      const redirectUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/auth/callback`
+        : `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
+
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+        redirectTo: redirectUrl
       });
 
       if (error) {
@@ -131,7 +139,7 @@ export default function TestEmailPage() {
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Current site URL: <code className="bg-gray-100 px-2 py-1 rounded">{typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_SITE_URL}</code>
+            Current site URL: <code className="bg-gray-100 px-2 py-1 rounded">{process.env.NEXT_PUBLIC_SITE_URL}</code>
           </p>
         </div>
       </div>

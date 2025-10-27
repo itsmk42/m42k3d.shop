@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, StorageValue } from 'zustand/middleware';
 import { Product, CartItem } from '@/types';
 
 interface CartStore {
@@ -12,11 +12,40 @@ interface CartStore {
   getItemCount: () => number;
 }
 
+// Custom storage that only works on client side
+const clientOnlyStorage = {
+  getItem: (name: string): StorageValue<CartStore> | null => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const item = window.localStorage.getItem(name);
+      return item ? JSON.parse(item) : null;
+    } catch {
+      return null;
+    }
+  },
+  setItem: (name: string, value: StorageValue<CartStore>) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(name, JSON.stringify(value));
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  },
+  removeItem: (name: string) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.removeItem(name);
+    } catch {
+      // Silently fail if localStorage is not available
+    }
+  },
+};
+
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
-      
+
       addItem: (product: Product, quantity = 1) => {
         set((state) => {
           const existingItem = state.items.find(
@@ -75,6 +104,7 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'cart-storage',
+      storage: clientOnlyStorage,
     }
   )
 );
