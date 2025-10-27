@@ -1,0 +1,72 @@
+
+> sparklesphere.store@0.1.0 build
+> next build --turbopack
+
+   ▲ Next.js 15.5.4 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Finished writing to disk in 73ms
+ ✓ Compiled successfully in 2.4s
+   Linting and checking validity of types ...
+   Collecting page data ...
+(node:14176) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:5600) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:31256) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:31024) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Generating static pages (0/23) ...
+(node:32856) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Generating static pages (5/23) 
+ReferenceError: location is not defined
+    at l (C:\Users\ADMIN\Documents\augment-projects\m42k3d.shop\.next\server\chunks\ssr\_f35599ce._.js:1:2130)
+   Generating static pages (11/23) 
+ReferenceError: location is not defined
+    at k (C:\Users\ADMIN\Documents\augment-projects\m42k3d.shop\.next\server\chunks\ssr\_20401bad._.js:1:1601)
+   Generating static pages (17/23) 
+ ✓ Generating static pages (23/23)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                         Size  First Load JS
+┌ ○ /                            2.44 kB         179 kB
+├ ○ /_not-found                      0 B         177 kB
+├ ○ /about                           0 B         177 kB
+├ ○ /account                     2.48 kB         179 kB
+├ ○ /admin                       2.03 kB         179 kB
+├ ○ /admin/login                 2.26 kB         179 kB
+├ ○ /admin/products               4.5 kB         181 kB
+├ ƒ /api/products                    0 B            0 B
+├ ƒ /auth/callback                   0 B            0 B
+├ ○ /cart                        2.11 kB         179 kB
+├ ○ /checkout                     2.5 kB         179 kB
+├ ○ /checkout/review             2.13 kB         179 kB
+├ ○ /contact                     2.85 kB         180 kB
+├ ○ /debug-auth                  1.44 kB         178 kB
+├ ○ /faq                         5.02 kB         182 kB
+├ ○ /login                       2.32 kB         179 kB
+├ ƒ /products                    3.52 kB         180 kB
+├ ƒ /products/[id]               2.03 kB         179 kB
+├ ○ /register                    2.45 kB         179 kB
+├ ○ /returns                         0 B         177 kB
+├ ○ /shipping                        0 B         177 kB
+└ ○ /test-email                  1.36 kB         178 kB
++ First Load JS shared by all     190 kB
+  ├ chunks/150316a471952cee.js   59.2 kB
+  ├ chunks/1d6739c2f49ade5a.js     13 kB
+  ├ chunks/2ac2988fb5d18dd5.js   17.7 kB
+  ├ chunks/863cf3aa821fa9b5.js   17.2 kB
+  └ chunks/e15ed61f969bc3bc.js   44.3 kB
+  ├ chunks/c522a5d17197c8fb.css    13 kB
+  └ other shared chunks (total)  25.6 kB
+
+
+ƒ Middleware                     73.7 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
