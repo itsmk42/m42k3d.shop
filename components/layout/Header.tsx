@@ -27,26 +27,26 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur bg-white/75 border-b border-gray-200">
+    <header className="sticky top-0 z-50 backdrop-blur bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-blue-600 hover:text-blue-700 transition-colors">
+          <Link href="/" className="text-white hover:text-red-400 transition-colors">
             <Logo size="md" showText={true} />
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/" className="text-gray-300 hover:text-red-400 transition-colors">
               Home
             </Link>
-            <Link href="/products" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/products" className="text-gray-300 hover:text-red-400 transition-colors">
               Products
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/about" className="text-gray-300 hover:text-red-400 transition-colors">
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <Link href="/contact" className="text-gray-300 hover:text-red-400 transition-colors">
               Contact
             </Link>
           </nav>
@@ -70,7 +70,7 @@ export default function Header() {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  className="flex items-center gap-2 text-gray-300 hover:text-red-400 transition-colors"
                   aria-label="User menu"
                 >
                   <User className="w-6 h-6" />
@@ -151,12 +151,12 @@ export default function Header() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="relative text-gray-700 hover:text-blue-600 transition-colors"
+              className="relative text-gray-300 hover:text-red-400 transition-colors"
               aria-label="Shopping Cart"
             >
               <ShoppingCart className="w-6 h-6" />
               {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
@@ -164,7 +164,7 @@ export default function Header() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-gray-700"
+              className="md:hidden text-gray-300"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -175,44 +175,44 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t">
+          <nav className="md:hidden py-4 border-t border-slate-800">
             <div className="flex flex-col space-y-4">
               <Link
                 href="/"
-                className="text-gray-700 hover:text-blue-600 transition-colors"
+                className="text-gray-300 hover:text-red-400 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/products"
-                className="text-gray-700 hover:text-blue-600 transition-colors"
+                className="text-gray-300 hover:text-red-400 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Products
               </Link>
               <Link
                 href="/about"
-                className="text-gray-700 hover:text-blue-600 transition-colors"
+                className="text-gray-300 hover:text-red-400 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 href="/contact"
-                className="text-gray-700 hover:text-blue-600 transition-colors"
+                className="text-gray-300 hover:text-red-400 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Contact
               </Link>
 
               {/* Mobile Auth Links */}
-              <div className="pt-4 border-t border-gray-200">
+              <div className="pt-4 border-t border-slate-800">
                 {user ? (
                   <>
                     <Link
                       href="/account"
-                      className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors mb-4"
+                      className="flex items-center gap-2 text-gray-300 hover:text-red-400 transition-colors mb-4"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <UserCircle className="w-5 h-5" />
@@ -222,7 +222,7 @@ export default function Header() {
                       <>
                         <Link
                           href="/admin"
-                          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors mb-4"
+                          className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors mb-4"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           <User className="w-5 h-5" />
@@ -253,7 +253,7 @@ export default function Header() {
                   <>
                     <Link
                       href="/login"
-                      className="block w-full text-center px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors mb-2"
+                      className="block w-full text-center px-4 py-2 text-gray-300 hover:text-red-400 transition-colors mb-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Login

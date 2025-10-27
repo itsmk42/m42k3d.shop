@@ -147,35 +147,35 @@ export default async function Home() {
       </section>
 
       {/* Highlights Strip */}
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="card p-4 flex items-center gap-3">
-              <Truck className="w-5 h-5 text-red-600" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Truck className="w-5 h-5 text-red-500" />
               <div>
-                <p className="text-sm font-semibold">Fast Shipping</p>
-                <p className="text-xs text-gray-500">2–5 business days</p>
+                <p className="text-sm font-semibold text-white">Fast Shipping</p>
+                <p className="text-xs text-gray-400">2–5 business days</p>
               </div>
             </div>
-            <div className="card p-4 flex items-center gap-3">
-              <Shield className="w-5 h-5 text-red-600" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Shield className="w-5 h-5 text-red-500" />
               <div>
-                <p className="text-sm font-semibold">Secure Payments</p>
-                <p className="text-xs text-gray-500">Trusted checkout</p>
+                <p className="text-sm font-semibold text-white">Secure Payments</p>
+                <p className="text-xs text-gray-400">Trusted checkout</p>
               </div>
             </div>
-            <div className="card p-4 flex items-center gap-3">
-              <Package className="w-5 h-5 text-red-600" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Package className="w-5 h-5 text-red-500" />
               <div>
-                <p className="text-sm font-semibold">Quality Materials</p>
-                <p className="text-xs text-gray-500">Premium filaments</p>
+                <p className="text-sm font-semibold text-white">Quality Materials</p>
+                <p className="text-xs text-gray-400">Premium filaments</p>
               </div>
             </div>
-            <div className="card p-4 flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-red-600" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Sparkles className="w-5 h-5 text-red-500" />
               <div>
-                <p className="text-sm font-semibold">Custom Orders</p>
-                <p className="text-xs text-gray-500">Made just for you</p>
+                <p className="text-sm font-semibold text-white">Custom Orders</p>
+                <p className="text-xs text-gray-400">Made just for you</p>
               </div>
             </div>
           </div>
@@ -183,11 +183,11 @@ export default async function Home() {
       </section>
 
       {/* Shop by Category */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gradient-to-b from-slate-800 to-slate-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold">Shop by Category</h2>
-            <p className="text-gray-600">Browse favourites and best-sellers</p>
+            <h2 className="text-3xl font-bold text-white">Shop by Category</h2>
+            <p className="text-gray-400">Browse favourites and best-sellers</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link href="/products" className="group block">
@@ -256,10 +256,10 @@ export default async function Home() {
       </section>
 
       {/* Popular Picks */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold">Popular Picks</h2>
+            <h2 className="text-3xl font-bold text-white">Popular Picks</h2>
             <Link href="/products">
               <Button variant="outline">View All</Button>
             </Link>
@@ -272,7 +272,7 @@ export default async function Home() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg mb-4">No products yet.</p>
+              <p className="text-gray-400 text-lg mb-4">No products yet.</p>
               <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
             </div>
           )}
