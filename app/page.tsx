@@ -5,6 +5,7 @@ import ProductCard from '@/components/products/ProductCard';
 import Button from '@/components/ui/Button';
 import HeroQuote from '@/components/home/HeroQuote';
 import FeaturedProductVideo from '@/components/home/FeaturedProductVideo';
+import { MiniatureDecorIcon, ArtIcon, FunctionalIcon } from '@/components/home/CategoryIcons';
 import { Product } from '@/types';
 import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, Layers, Palette, Sparkles, CheckCircle } from 'lucide-react';
 import { formatPrice } from '@/utils/format';
@@ -203,33 +204,50 @@ export default async function Home() {
             <p className="text-gray-400">Browse favourites and best-sellers</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Miniature Decor Card */}
             <Link href="/products" className="group block">
-              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-primary-from)] to-[var(--grad-primary-to)]">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] flex flex-col items-center justify-center">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <Sparkles className="absolute right-4 top-4 w-10 h-10 text-white/80" />
-                <div className="absolute bottom-4 left-4">
-                  <h3 className="text-white font-bold text-2xl">Miniatures</h3>
-                  <p className="text-white/85 text-sm">Figures & collectibles</p>
+                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
+                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    <MiniatureDecorIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/90" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-white font-bold text-2xl">Miniatures</h3>
+                    <p className="text-white/85 text-sm">Figures & collectibles</p>
+                  </div>
                 </div>
               </div>
             </Link>
+
+            {/* Art Card */}
             <Link href="/products" className="group block">
-              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-secondary-from)] to-[var(--grad-secondary-to)]">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--grad-secondary-from)] to-[var(--grad-secondary-to)] flex flex-col items-center justify-center">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <Palette className="absolute right-4 top-4 w-10 h-10 text-white/80" />
-                <div className="absolute bottom-4 left-4">
-                  <h3 className="text-white font-bold text-2xl">Decor & Art</h3>
-                  <p className="text-white/85 text-sm">Home & office style</p>
+                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
+                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    <ArtIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/90" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-white font-bold text-2xl">Decor & Art</h3>
+                    <p className="text-white/85 text-sm">Home & office style</p>
+                  </div>
                 </div>
               </div>
             </Link>
+
+            {/* Functional Card */}
             <Link href="/products" className="group block">
-              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-red-600 to-rose-600">
+              <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden bg-gradient-to-br from-red-600 to-rose-600 flex flex-col items-center justify-center">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <Layers className="absolute right-4 top-4 w-10 h-10 text-white/80" />
-                <div className="absolute bottom-4 left-4">
-                  <h3 className="text-white font-bold text-2xl">Functional</h3>
-                  <p className="text-white/85 text-sm">Tools & parts</p>
+                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
+                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    <FunctionalIcon className="w-20 h-20 sm:w-24 sm:h-24 text-white/90" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-white font-bold text-2xl">Functional</h3>
+                    <p className="text-white/85 text-sm">Tools & parts</p>
+                  </div>
                 </div>
               </div>
             </Link>
