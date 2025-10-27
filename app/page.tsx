@@ -118,7 +118,13 @@ export default async function Home() {
                 </video>
               ) : (
                 <div className="relative mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl overflow-hidden ring-8 ring-white/5 shadow-2xl">
-                  <Image src={spotlightImage} alt={spotlightProduct?.name || 'Featured product'} fill className="object-cover" />
+                  <Image
+                    src={spotlightImage || '/products/featured-product.png'}
+                    alt={spotlightProduct?.name || 'Featured product'}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
                 </div>
               )}
               <div className="absolute inset-0 -z-10 m-auto h-[28rem] w-[28rem] sm:h-[32rem] sm:w-[32rem] rounded-full bg-gradient-to-tr from-rose-400/20 to-red-500/20 blur-3xl" />
