@@ -36,7 +36,12 @@ export default function FeaturedProductVideo({
    * Loops back to the first video after the last one finishes
    */
   const handleVideoEnd = () => {
-    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoUrls.length);
+    console.log(`[FeaturedProductVideo] Video ended, switching to next...`);
+    setCurrentVideoIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % videoUrls.length;
+      console.log(`[FeaturedProductVideo] Switching from video ${prevIndex + 1} to video ${nextIndex + 1}`);
+      return nextIndex;
+    });
   };
 
   /**
@@ -51,8 +56,9 @@ export default function FeaturedProductVideo({
       videoRef.current.play().catch((error) => {
         console.warn('Video autoplay failed:', error);
       });
+      console.log(`[FeaturedProductVideo] Playing video ${currentVideoIndex + 1}/${videoUrls.length}: ${videoUrls[currentVideoIndex]}`);
     }
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, videoUrls]);
 
   // Validate that we have at least one video URL
   if (!videoUrls || videoUrls.length === 0) {

@@ -50,10 +50,9 @@ export default async function Home() {
 
   // Array of featured product video URLs for sequential playback
   // Videos will play one after another in a continuous loop
+  // NOTE: Update these paths to match your actual video files
   const featuredProductVideos = [
-    '/products/featured-product-1.mp4',
-    '/products/featured-product-2.mp4',
-    '/products/featured-product-3.mp4',
+    '/products/featured-product.mp4',
   ];
 
   const spotlightImage = (spotlightProduct?.images && spotlightProduct.images[0]) || '/products/featured-product.png';
