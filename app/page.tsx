@@ -89,13 +89,13 @@ export default async function Home() {
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="container mx-auto px-4 py-20 md:py-40 relative">
+        <div className="container mx-auto px-4 py-12 md:py-24 relative">
           {/* Rotating Quote Section - Mobile Only */}
-          <div className="md:hidden mb-8">
+          <div className="md:hidden mb-4">
             <HeroQuote />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div className="md:pt-0 pt-0">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur text-sm mb-5">
                 <Sparkles className="w-4 h-4 text-yellow-300" /> Spotlight
