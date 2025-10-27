@@ -47,7 +47,7 @@ export default async function Home() {
   ]);
 
   const spotlightVideo = process.env.NEXT_PUBLIC_SPOTLIGHT_VIDEO_URL;
-  const spotlightImage = (spotlightProduct?.images && spotlightProduct.images[0]) || '/placeholder-product.jpg';
+  const spotlightImage = (spotlightProduct?.images && spotlightProduct.images[0]) || '/products/featured-product.png';
 
 
   return (
@@ -119,7 +119,7 @@ export default async function Home() {
               ) : (
                 <div className="relative mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl overflow-hidden ring-8 ring-white/5 shadow-2xl">
                   <Image
-                    src={spotlightImage || '/products/featured-product.png'}
+                    src={spotlightImage}
                     alt={spotlightProduct?.name || 'Featured product'}
                     fill
                     className="object-cover"
