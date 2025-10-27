@@ -69,7 +69,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.description}
         </p>
         <div className="mb-3">
-          <span className="text-lg md:text-xl font-semibold bg-gradient-to-r from-[var(--grad-primary-from)] to-[var(--grad-primary-to)] bg-clip-text text-transparent">
+          <span className="text-xl md:text-2xl font-bold text-green-400 tracking-tight">
             {formatPrice(product.price)}
           </span>
         </div>

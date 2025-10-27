@@ -136,7 +136,7 @@ export default function ProductDetailPage() {
                   <p className="text-lg text-gray-400 line-through">
                     {formatPrice(product.original_price)}
                   </p>
-                  <p className="text-3xl font-bold text-green-500">
+                  <p className="text-4xl font-black text-green-400 tracking-tight">
                     {formatPrice(product.price)}
                   </p>
                   <span className="bg-red-500/20 text-red-300 px-2 py-1 rounded text-sm font-semibold">
@@ -144,7 +144,7 @@ export default function ProductDetailPage() {
                   </span>
                 </div>
               ) : (
-                <p className="text-3xl font-bold text-green-500">
+                <p className="text-4xl font-black text-green-400 tracking-tight">
                   {formatPrice(product.price)}
                 </p>
               )}
