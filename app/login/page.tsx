@@ -184,16 +184,6 @@ function LoginForm() {
           </Link>
         </div>
       </div>
-
-      {/* Admin Login Link */}
-      <div className="mt-6 text-center">
-        <Link
-          href="/admin/login"
-          className="text-sm text-gray-600 hover:text-gray-900"
-        >
-          Admin Login →
-        </Link>
-      </div>
     </>
   );
 }

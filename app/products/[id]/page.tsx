@@ -61,19 +61,20 @@ export default function ProductDetailPage() {
   const images = product.images.length > 0 ? product.images : ['/placeholder-product.jpg'];
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <button
-        onClick={() => router.back()}
-        className="flex items-center gap-2 text-gray-600 hover:text-blue-600 mb-6 transition-colors"
-      >
-        <ArrowLeft className="w-5 h-5" />
-        Back to Products
-      </button>
+    <div className="min-h-screen bg-gradient-to-b from-slate-800 to-slate-900">
+      <div className="container mx-auto px-4 py-12">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 text-white/70 hover:text-white mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Back to Products
+        </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        {/* Image Gallery */}
-        <div>
-          <div className="relative aspect-[4/3] lg:aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden mb-4 card">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Image Gallery */}
+          <div>
+            <div className="relative aspect-[4/3] lg:aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden mb-4 card">
             <Image
               src={images[selectedImage]}
               alt={product.name}
@@ -104,68 +105,86 @@ export default function ProductDetailPage() {
           )}
         </div>
 
-        {/* Product Info */}
-        <aside className="card p-6 md:sticky md:top-24">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
-          <p className="text-3xl font-bold text-blue-600 mb-6">
-            {formatPrice(product.price)}
-          </p>
-
-          <div className="mb-6">
-            <span className="inline-block bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
-              {product.category}
-            </span>
-          </div>
-
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Description</h2>
-            <p className="text-gray-700 leading-relaxed">{product.description}</p>
-          </div>
-
-          <div className="mb-6">
-            <p className="text-gray-600">
-              <span className="font-semibold">Stock:</span>{' '}
-              {product.stock > 0 ? (
-                <span className="text-green-600">{product.stock} available</span>
-              ) : (
-                <span className="text-red-600">Out of stock</span>
-              )}
+          {/* Product Info */}
+          <aside className="bg-slate-700/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:sticky md:top-24">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">{product.name}</h1>
+            <p className="text-3xl font-bold text-red-500 mb-6">
+              {formatPrice(product.price)}
             </p>
-          </div>
 
-          {product.stock > 0 && (
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Quantity
-              </label>
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  -
-                </button>
-                <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                  className="w-10 h-10 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  +
-                </button>
-              </div>
+              <span className="inline-block bg-red-500/20 text-red-200 px-3 py-1 rounded-full text-sm border border-red-500/30">
+                {product.category}
+              </span>
             </div>
-          )}
 
-          <Button
-            onClick={handleAddToCart}
-            disabled={product.stock === 0}
-            size="lg"
-            className="w-full justify-center gap-2"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
-          </Button>
-        </aside>
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold mb-2 text-white">Description</h2>
+              <p className="text-gray-300 leading-relaxed">{product.description}</p>
+            </div>
+
+            <div className="mb-6">
+              <p className="text-gray-300">
+                <span className="font-semibold">Stock:</span>{' '}
+                {product.stock > 0 ? (
+                  <span className="text-green-400">{product.stock} available</span>
+                ) : (
+                  <span className="text-red-400">Out of stock</span>
+                )}
+              </p>
+            </div>
+
+            {product.stock > 0 && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-white mb-2">
+                  Quantity
+                </label>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-10 h-10 border border-white/30 rounded-lg hover:bg-white/10 transition-colors text-white"
+                  >
+                    -
+                  </button>
+                  <span className="text-xl font-semibold w-12 text-center text-white">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                    className="w-10 h-10 border border-white/30 rounded-lg hover:bg-white/10 transition-colors text-white"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <Button
+                onClick={() => {
+                  if (product) {
+                    addItem(product, quantity);
+                    toast.success(`Added ${quantity} item(s) to cart!`);
+                    router.push('/cart');
+                  }
+                }}
+                disabled={product.stock === 0}
+                size="lg"
+                className="w-full justify-center gap-2 bg-red-600 hover:bg-red-700"
+              >
+                {product.stock > 0 ? 'Buy Now' : 'Out of Stock'}
+              </Button>
+              <Button
+                onClick={handleAddToCart}
+                disabled={product.stock === 0}
+                size="lg"
+                className="w-full justify-center gap-2 bg-slate-600 hover:bg-slate-700"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+              </Button>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
