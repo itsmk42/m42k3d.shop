@@ -121,7 +121,7 @@ export default async function Home() {
       <section className="w-full">
         <div className="relative h-[300px] md:h-[400px]">
           <Image
-            src="/banners/lamp-banner.webp"
+            src="/banners/lamp-banner.jpg"
             alt="Ambient 3D-printed lamps in a modern room"
             fill
             priority
