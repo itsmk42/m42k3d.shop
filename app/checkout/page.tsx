@@ -14,9 +14,9 @@ import Loading from '@/components/ui/Loading';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, getTotal, clearCart } = useCartStore();
+  const { items, getTotal, clearCart, _hasHydrated: cartHydrated } = useCartStore();
+  const checkoutStore = useCheckoutStore();
   const [loading, setLoading] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,28 +26,26 @@ export default function CheckoutPage() {
     postalCode: '',
     country: '',
   });
-  const checkoutStore = useCheckoutStore();
 
-  // ✅ FIX: Add hydration check to prevent store access before hydration
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
+  // ✅ FIX: Wait for BOTH stores to hydrate before checking cart
+  // This prevents hydration mismatch by ensuring server and client render the same content
+  // The cart store's _hasHydrated flag is set by onRehydrateStorage callback
+  const isHydrated = cartHydrated && checkoutStore._hasHydrated;
 
-  // ✅ FIX: Move early return after all hooks are called
-  // This prevents React Error #300: "Rendered fewer hooks than expected"
-  if (items.length === 0) {
-    return <EmptyCartRedirect />;
-  }
-
-  // ✅ FIX: Suppress hydration warning for loading state
-  // This is safe because we intentionally show different content during hydration
-  // The mismatch is temporary and resolves within milliseconds
+  // ✅ FIX: Show loading while stores are hydrating
+  // This is safe because suppressHydrationWarning tells React to ignore the mismatch
   if (!isHydrated) {
     return (
       <div suppressHydrationWarning>
         <Loading />
       </div>
     );
+  }
+
+  // ✅ FIX: Only check cart items AFTER hydration completes
+  // This prevents hydration mismatch because server and client will have same data
+  if (items.length === 0) {
+    return <EmptyCartRedirect />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

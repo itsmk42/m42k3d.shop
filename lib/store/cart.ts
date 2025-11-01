@@ -10,6 +10,8 @@ interface CartStore {
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
 }
 
 // Custom storage that only works on client side
@@ -45,6 +47,7 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+      _hasHydrated: false,
 
       addItem: (product: Product, quantity = 1) => {
         set((state) => {
@@ -101,10 +104,19 @@ export const useCartStore = create<CartStore>()(
       getItemCount: () => {
         return get().items.reduce((count, item) => count + item.quantity, 0);
       },
+
+      setHasHydrated: (state: boolean) => {
+        set({ _hasHydrated: state });
+      },
     }),
     {
       name: 'cart-storage',
       storage: clientOnlyStorage,
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state._hasHydrated = true;
+        }
+      },
     }
   )
 );

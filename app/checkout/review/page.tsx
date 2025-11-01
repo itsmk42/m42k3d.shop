@@ -15,32 +15,29 @@ import Loading from "@/components/ui/Loading";
 
 export default function CheckoutReviewPage() {
   const router = useRouter();
-  const { items, getTotal, clearCart } = useCartStore();
+  const { items, getTotal, clearCart, _hasHydrated: cartHydrated } = useCartStore();
   const checkout = useCheckoutStore();
   const [loading, setLoading] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
 
-  // ✅ FIX: Add hydration check to prevent store access before hydration
-  // This prevents "Application error" when store data is not yet loaded from localStorage
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
+  // ✅ FIX: Wait for BOTH stores to hydrate before checking cart
+  // This prevents hydration mismatch by ensuring server and client render the same content
+  // The cart store's _hasHydrated flag is set by onRehydrateStorage callback
+  const isHydrated = cartHydrated && checkout._hasHydrated;
 
-  // ✅ FIX: Move early return after all hooks are called
-  // This prevents React Error #310: "Rendered more hooks than expected"
-  if (items.length === 0) {
-    return <EmptyCartRedirect />;
-  }
-
-  // ✅ FIX: Suppress hydration warning for loading state
-  // This is safe because we intentionally show different content during hydration
-  // The mismatch is temporary and resolves within milliseconds
+  // ✅ FIX: Show loading while stores are hydrating
+  // This is safe because suppressHydrationWarning tells React to ignore the mismatch
   if (!isHydrated) {
     return (
       <div suppressHydrationWarning>
         <Loading />
       </div>
     );
+  }
+
+  // ✅ FIX: Only check cart items AFTER hydration completes
+  // This prevents hydration mismatch because server and client will have same data
+  if (items.length === 0) {
+    return <EmptyCartRedirect />;
   }
 
   // ✅ FIX: Add validation function to check all required fields

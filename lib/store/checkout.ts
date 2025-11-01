@@ -10,7 +10,8 @@ interface CheckoutState {
   postalCode: string;
   country: string;
   paymentMethod: 'upi' | 'cod' | 'stripe';
-  setField: (key: keyof Omit<CheckoutState, 'setField' | 'reset' | 'setPaymentMethod'>, value: string) => void;
+  _hasHydrated: boolean;
+  setField: (key: keyof Omit<CheckoutState, 'setField' | 'reset' | 'setPaymentMethod' | '_hasHydrated'>, value: string) => void;
   setPaymentMethod: (method: 'upi' | 'cod' | 'stripe') => void;
   reset: () => void;
 }
@@ -24,6 +25,7 @@ const initialState = {
   postalCode: '',
   country: '',
   paymentMethod: 'cod' as const,
+  _hasHydrated: false,
 };
 
 // Custom storage that only works on client side
@@ -66,6 +68,11 @@ export const useCheckoutStore = create<CheckoutState>()(
     {
       name: 'checkout-storage',
       storage: clientOnlyStorage,
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state._hasHydrated = true;
+        }
+      },
     }
   )
 );
