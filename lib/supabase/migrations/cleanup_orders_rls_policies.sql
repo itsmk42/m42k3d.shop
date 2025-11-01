@@ -28,6 +28,12 @@ DROP POLICY IF EXISTS "orders_select_own" ON orders;
 DROP POLICY IF EXISTS "orders_update_admin" ON orders;
 DROP POLICY IF EXISTS "orders_delete_admin" ON orders;
 
+-- Drop optimized policies (from recent migrations)
+DROP POLICY IF EXISTS "orders_optimized_insert" ON orders;
+DROP POLICY IF EXISTS "orders_optimized_select" ON orders;
+DROP POLICY IF EXISTS "orders_optimized_update" ON orders;
+DROP POLICY IF EXISTS "orders_optimized_delete" ON orders;
+
 -- Step 2: Verify all policies are removed
 SELECT 
   COUNT(*) as remaining_policies
