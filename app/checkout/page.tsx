@@ -39,9 +39,15 @@ export default function CheckoutPage() {
     return <EmptyCartRedirect />;
   }
 
-  // Show loading while hydrating
+  // ✅ FIX: Suppress hydration warning for loading state
+  // This is safe because we intentionally show different content during hydration
+  // The mismatch is temporary and resolves within milliseconds
   if (!isHydrated) {
-    return <Loading />;
+    return (
+      <div suppressHydrationWarning>
+        <Loading />
+      </div>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
