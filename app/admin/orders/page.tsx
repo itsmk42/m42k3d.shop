@@ -12,6 +12,7 @@ interface Order {
   id: string;
   user_email: string;
   user_name: string;
+  user_phone?: string;
   user_address: string;
   user_city: string;
   user_postal_code: string;
@@ -19,6 +20,7 @@ interface Order {
   items: any[];
   total: number;
   status: string;
+  payment_method?: string;
   created_at: string;
   updated_at: string;
 }
@@ -91,8 +93,12 @@ export default function AdminOrdersPage() {
   const statusColors: { [key: string]: string } = {
     pending: 'bg-yellow-100 text-yellow-800',
     processing: 'bg-blue-100 text-blue-800',
+    shipped: 'bg-purple-100 text-purple-800',
+    delivered: 'bg-green-100 text-green-800',
     completed: 'bg-green-100 text-green-800',
     cancelled: 'bg-red-100 text-red-800',
+    'cod-pending': 'bg-orange-100 text-orange-800',
+    'upi-pending': 'bg-indigo-100 text-indigo-800',
   };
 
   if (loading) {
@@ -115,17 +121,17 @@ export default function AdminOrdersPage() {
 
         {/* Status Filter */}
         <div className="mb-6 flex gap-2 flex-wrap">
-          {['all', 'pending', 'processing', 'completed', 'cancelled'].map((status) => (
+          {['all', 'pending', 'processing', 'shipped', 'delivered', 'cod-pending', 'upi-pending', 'cancelled'].map((status) => (
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm ${
                 statusFilter === status
                   ? 'bg-blue-600 text-white'
                   : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
               }`}
             >
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+              {status === 'cod-pending' ? 'COD Pending' : status === 'upi-pending' ? 'UPI Pending' : status.charAt(0).toUpperCase() + status.slice(1)}
               {status !== 'all' && ` (${orders.filter((o) => o.status === status).length})`}
             </button>
           ))}
@@ -183,6 +189,12 @@ export default function AdminOrdersPage() {
                           <p className="font-medium">Email:</p>
                           <p>{order.user_email}</p>
                         </div>
+                        {order.user_phone && (
+                          <div>
+                            <p className="font-medium">Phone:</p>
+                            <p>{order.user_phone}</p>
+                          </div>
+                        )}
                         <div>
                           <p className="font-medium">Address:</p>
                           <p>{order.user_address}</p>
@@ -217,17 +229,25 @@ export default function AdminOrdersPage() {
 
                     {/* Order Total */}
                     <div className="border-t border-gray-200 pt-4">
-                      <div className="flex justify-between font-semibold text-gray-900">
+                      <div className="flex justify-between font-semibold text-gray-900 mb-3">
                         <span>Total:</span>
                         <span>₹{order.total.toFixed(2)}</span>
                       </div>
+                      {order.payment_method && (
+                        <div className="flex justify-between text-sm text-gray-700">
+                          <span className="font-medium">Payment Method:</span>
+                          <span className="capitalize">
+                            {order.payment_method === 'cod' ? 'Cash on Delivery' : order.payment_method === 'upi' ? 'UPI' : 'Stripe'}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Status Update */}
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-2">Update Status</h3>
                       <div className="flex gap-2 flex-wrap">
-                        {['pending', 'processing', 'completed', 'cancelled'].map((status) => (
+                        {['pending', 'processing', 'shipped', 'delivered', 'cancelled'].map((status) => (
                           <Button
                             key={status}
                             onClick={() => updateOrderStatus(order.id, status)}
@@ -240,6 +260,26 @@ export default function AdminOrdersPage() {
                         ))}
                       </div>
                     </div>
+
+                    {/* Payment Status Actions */}
+                    {(order.status === 'cod-pending' || order.status === 'upi-pending') && (
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <p className="text-sm text-blue-800 mb-2">
+                          {order.status === 'cod-pending'
+                            ? '💰 Awaiting cash payment on delivery'
+                            : '📱 Awaiting UPI payment confirmation'}
+                        </p>
+                        <Button
+                          onClick={() => updateOrderStatus(order.id, 'processing')}
+                          disabled={updatingOrderId === order.id}
+                          size="sm"
+                          className="w-full"
+                        >
+                          {order.status === 'cod-pending' ? 'Mark as Processing' : 'Confirm Payment'}
+                        </Button>
+                      </div>
+                    )}
+
                   </div>
                 )}
               </div>

@@ -55,19 +55,19 @@ CREATE INDEX IF NOT EXISTS idx_seo_settings_page ON seo_settings(page_type, page
 ALTER TABLE seo_settings ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies
-CREATE POLICY IF NOT EXISTS "SEO settings are viewable by everyone"
+CREATE POLICY "SEO settings are viewable by everyone"
   ON seo_settings FOR SELECT
   USING (true);
 
-CREATE POLICY IF NOT EXISTS "SEO settings are insertable by authenticated users"
+CREATE POLICY "SEO settings are insertable by authenticated users"
   ON seo_settings FOR INSERT
   WITH CHECK (auth.role() = 'authenticated');
 
-CREATE POLICY IF NOT EXISTS "SEO settings are updatable by authenticated users"
+CREATE POLICY "SEO settings are updatable by authenticated users"
   ON seo_settings FOR UPDATE
   USING (auth.role() = 'authenticated');
 
-CREATE POLICY IF NOT EXISTS "SEO settings are deletable by authenticated users"
+CREATE POLICY "SEO settings are deletable by authenticated users"
   ON seo_settings FOR DELETE
   USING (auth.role() = 'authenticated');
 ```

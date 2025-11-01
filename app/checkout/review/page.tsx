@@ -8,11 +8,14 @@ import { useCartStore } from "@/lib/store/cart";
 import { useCheckoutStore } from "@/lib/store/checkout";
 import { formatPrice } from "@/utils/format";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase/client";
 
 export default function CheckoutReviewPage() {
   const router = useRouter();
   const { items, getTotal, clearCart } = useCartStore();
   const checkout = useCheckoutStore();
+  const [loading, setLoading] = useState(false);
 
   if (items.length === 0) {
     router.push("/cart");
@@ -20,13 +23,65 @@ export default function CheckoutReviewPage() {
   }
 
   const placeOrder = async () => {
+    setLoading(true);
     try {
+      // Prepare order items
+      const orderItems = items.map((item) => ({
+        product_id: item.product.id,
+        product_name: item.product.name,
+        product_price: item.product.price,
+        product_image: item.product.images[0] || "/placeholder-product.jpg",
+        quantity: item.quantity,
+      }));
+
+      // Determine order status based on payment method
+      let orderStatus = 'pending';
+      if (checkout.paymentMethod === 'cod') {
+        orderStatus = 'cod-pending';
+      } else if (checkout.paymentMethod === 'upi') {
+        orderStatus = 'upi-pending';
+      }
+
+      // Create order in database
+      const { data: order, error } = await supabase
+        .from('orders')
+        .insert([
+          {
+            user_email: checkout.email,
+            user_name: checkout.name,
+            user_phone: checkout.phone,
+            user_address: checkout.address,
+            user_city: checkout.city,
+            user_postal_code: checkout.postalCode,
+            user_country: checkout.country,
+            items: orderItems,
+            total: getTotal(),
+            status: orderStatus,
+            payment_method: checkout.paymentMethod,
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+
       toast.success("Order placed successfully!");
       clearCart();
-      router.push("/");
       checkout.reset();
-    } catch (e) {
-      toast.error("Failed to process order. Please try again.");
+
+      // Redirect based on payment method
+      if (checkout.paymentMethod === 'upi') {
+        router.push(`/order-confirmation?orderId=${order.id}&method=upi`);
+      } else if (checkout.paymentMethod === 'cod') {
+        router.push(`/order-confirmation?orderId=${order.id}&method=cod`);
+      } else {
+        router.push(`/order-confirmation?orderId=${order.id}`);
+      }
+    } catch (e: any) {
+      console.error('Order error:', e);
+      toast.error(e.message || "Failed to process order. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,11 +148,61 @@ export default function CheckoutReviewPage() {
           </div>
 
           <div className="card p-6">
-            <h2 className="text-2xl font-bold mb-4">Payment</h2>
-            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
-              <p className="text-sm">
-                <strong>Note:</strong> Payment integration is not yet configured. This is a demo checkout process.
-              </p>
+            <h2 className="text-2xl font-bold mb-4">Payment Method</h2>
+            <div className="space-y-3">
+              {/* UPI Payment Option */}
+              <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-colors"
+                style={{
+                  borderColor: checkout.paymentMethod === 'upi' ? '#3b82f6' : '#e5e7eb',
+                  backgroundColor: checkout.paymentMethod === 'upi' ? '#eff6ff' : '#f9fafb',
+                }}>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="upi"
+                  checked={checkout.paymentMethod === 'upi'}
+                  onChange={(e) => checkout.setPaymentMethod(e.target.value as 'upi' | 'cod' | 'stripe')}
+                  className="w-4 h-4"
+                />
+                <div className="ml-3 flex-1">
+                  <p className="font-semibold text-gray-900">UPI Payment</p>
+                  <p className="text-sm text-gray-600">Pay using UPI (Google Pay, PhonePe, Paytm)</p>
+                </div>
+              </label>
+
+              {/* Cash on Delivery Option */}
+              <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-colors"
+                style={{
+                  borderColor: checkout.paymentMethod === 'cod' ? '#3b82f6' : '#e5e7eb',
+                  backgroundColor: checkout.paymentMethod === 'cod' ? '#eff6ff' : '#f9fafb',
+                }}>
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cod"
+                  checked={checkout.paymentMethod === 'cod'}
+                  onChange={(e) => checkout.setPaymentMethod(e.target.value as 'upi' | 'cod' | 'stripe')}
+                  className="w-4 h-4"
+                />
+                <div className="ml-3 flex-1">
+                  <p className="font-semibold text-gray-900">Cash on Delivery</p>
+                  <p className="text-sm text-gray-600">Pay when your order arrives</p>
+                </div>
+              </label>
+            </div>
+
+            {/* Payment Method Info */}
+            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-800">
+              {checkout.paymentMethod === 'upi' && (
+                <p className="text-sm">
+                  <strong>UPI Payment:</strong> You'll receive a payment link after placing the order. Complete payment to confirm your order.
+                </p>
+              )}
+              {checkout.paymentMethod === 'cod' && (
+                <p className="text-sm">
+                  <strong>Cash on Delivery:</strong> Pay ₹{formatPrice(getTotal())} when your order arrives at your doorstep.
+                </p>
+              )}
             </div>
           </div>
 
@@ -105,8 +210,13 @@ export default function CheckoutReviewPage() {
             <Link href="/checkout" className="btn-secondary justify-center">
               Back to Shipping
             </Link>
-            <Button className="flex-1 justify-center" size="lg" onClick={placeOrder}>
-              Place Order
+            <Button
+              className="flex-1 justify-center"
+              size="lg"
+              onClick={placeOrder}
+              disabled={loading}
+            >
+              {loading ? 'Processing...' : 'Place Order'}
             </Button>
           </div>
         </div>

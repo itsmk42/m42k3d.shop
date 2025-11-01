@@ -17,6 +17,7 @@ export default function CheckoutPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     address: '',
     city: '',
     postalCode: '',
@@ -62,6 +63,7 @@ export default function CheckoutPage() {
         ...prev,
         name: checkoutStore.name || prev.name,
         email: checkoutStore.email || prev.email,
+        phone: checkoutStore.phone || prev.phone,
         address: checkoutStore.address || prev.address,
         city: checkoutStore.city || prev.city,
         postalCode: checkoutStore.postalCode || prev.postalCode,
@@ -120,6 +122,16 @@ export default function CheckoutPage() {
                 onChange={handleChange}
                 required
                 placeholder="john@example.com"
+              />
+
+              <Input
+                label="Phone Number"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                placeholder="+91 98765 43210"
               />
 
               <Input

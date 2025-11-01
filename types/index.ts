@@ -51,13 +51,15 @@ export interface Order {
   user_id?: string;
   user_email: string;
   user_name: string;
+  user_phone?: string;
   user_address: string;
   user_city: string;
   user_postal_code: string;
   user_country: string;
   items: OrderItem[];
   total: number;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'cod-pending' | 'upi-pending';
+  payment_method?: 'upi' | 'cod' | 'stripe';
   stripe_payment_intent_id?: string;
   created_at: string;
   updated_at: string;

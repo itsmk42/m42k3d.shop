@@ -4,21 +4,26 @@ import { persist, StorageValue } from 'zustand/middleware';
 interface CheckoutState {
   name: string;
   email: string;
+  phone: string;
   address: string;
   city: string;
   postalCode: string;
   country: string;
-  setField: (key: keyof Omit<CheckoutState, 'setField' | 'reset'>, value: string) => void;
+  paymentMethod: 'upi' | 'cod' | 'stripe';
+  setField: (key: keyof Omit<CheckoutState, 'setField' | 'reset' | 'setPaymentMethod'>, value: string) => void;
+  setPaymentMethod: (method: 'upi' | 'cod' | 'stripe') => void;
   reset: () => void;
 }
 
 const initialState = {
   name: '',
   email: '',
+  phone: '',
   address: '',
   city: '',
   postalCode: '',
   country: '',
+  paymentMethod: 'cod' as const,
 };
 
 // Custom storage that only works on client side
@@ -55,6 +60,7 @@ export const useCheckoutStore = create<CheckoutState>()(
     (set) => ({
       ...initialState,
       setField: (key, value) => set(() => ({ [key]: value }) as any),
+      setPaymentMethod: (method) => set({ paymentMethod: method }),
       reset: () => set({ ...initialState }),
     }),
     {
