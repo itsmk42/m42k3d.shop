@@ -9,6 +9,7 @@ import Input from '@/components/ui/Input';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useCheckoutStore } from '@/lib/store/checkout';
+import { EmptyCartRedirect } from '@/components/checkout/EmptyCartRedirect';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -25,9 +26,10 @@ export default function CheckoutPage() {
   });
   const checkoutStore = useCheckoutStore();
 
+  // ✅ FIX: Move early return after all hooks are called
+  // This prevents React Error #300: "Rendered fewer hooks than expected"
   if (items.length === 0) {
-    router.push('/cart');
-    return null;
+    return <EmptyCartRedirect />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

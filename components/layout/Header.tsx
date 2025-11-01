@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ShoppingCart, User, Menu, X, LogOut, UserCircle, Package, Settings } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cart';
 import { useState, useRef, useEffect } from 'react';
@@ -8,11 +9,15 @@ import { useAuth } from '@/lib/auth/context';
 import Logo from '@/components/ui/Logo';
 
 export default function Header() {
+  const pathname = usePathname();
   const itemCount = useCartStore((state) => state.getItemCount());
   const { user, userProfile, signOut, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // ✅ FIX: Don't preload logo on checkout pages to avoid preload warnings
+  const shouldPreloadLogo = !pathname?.includes('/checkout');
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -32,7 +37,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="text-white hover:text-red-400 transition-colors">
-            <Logo size="md" showText={true} />
+            <Logo size="md" showText={true} priority={shouldPreloadLogo} />
           </Link>
 
           {/* Desktop Navigation */}

@@ -10,6 +10,7 @@ import { formatPrice } from "@/utils/format";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import { EmptyCartRedirect } from "@/components/checkout/EmptyCartRedirect";
 
 export default function CheckoutReviewPage() {
   const router = useRouter();
@@ -17,9 +18,10 @@ export default function CheckoutReviewPage() {
   const checkout = useCheckoutStore();
   const [loading, setLoading] = useState(false);
 
+  // ✅ FIX: Move early return after all hooks are called
+  // This prevents React Error #310: "Rendered more hooks than expected"
   if (items.length === 0) {
-    router.push("/cart");
-    return null;
+    return <EmptyCartRedirect />;
   }
 
   const placeOrder = async () => {

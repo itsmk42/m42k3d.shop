@@ -5,9 +5,10 @@ interface LogoProps {
   showText?: boolean;
   className?: string;
   variant?: 'light' | 'dark';
+  priority?: boolean;
 }
 
-export default function Logo({ size = 'md', showText = true, className = '', variant = 'dark' }: LogoProps) {
+export default function Logo({ size = 'md', showText = true, className = '', variant = 'dark', priority = true }: LogoProps) {
   const sizes = {
     sm: { width: 32, height: 32, text: 'text-lg' },
     md: { width: 40, height: 40, text: 'text-xl' },
@@ -25,7 +26,7 @@ export default function Logo({ size = 'md', showText = true, className = '', var
         width={width}
         height={height}
         className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10"
-        priority
+        priority={priority}
       />
       {showText && (
         <span className={`font-bold text-sm md:${text} uppercase tracking-wider bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent`}>
