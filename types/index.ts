@@ -61,6 +61,7 @@ export interface Order {
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'cod-pending' | 'upi-pending';
   payment_method?: 'upi' | 'cod' | 'stripe';
   stripe_payment_intent_id?: string;
+  tracking_number?: string;
   created_at: string;
   updated_at: string;
 }

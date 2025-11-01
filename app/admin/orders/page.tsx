@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import Loading from '@/components/ui/Loading';
 import { ArrowLeft, ChevronDown, ChevronUp, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { sendOrderNotificationEmail } from '@/lib/email/service';
 
 interface Order {
   id: string;
@@ -21,6 +22,7 @@ interface Order {
   total: number;
   status: string;
   payment_method?: string;
+  tracking_number?: string;
   created_at: string;
   updated_at: string;
 }
@@ -32,6 +34,7 @@ export default function AdminOrdersPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
+  const [trackingNumbers, setTrackingNumbers] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     checkAuth();
@@ -65,22 +68,86 @@ export default function AdminOrdersPage() {
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     setUpdatingOrderId(orderId);
     try {
+      const updateData: any = {
+        status: newStatus,
+        updated_at: new Date().toISOString()
+      };
+
+      // Add tracking number if updating to 'shipped' status
+      if (newStatus === 'shipped' && trackingNumbers[orderId]) {
+        updateData.tracking_number = trackingNumbers[orderId];
+      }
+
       const { error } = await supabase
         .from('orders')
-        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .update(updateData)
         .eq('id', orderId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Update error details:', error);
+        throw error;
+      }
 
       setOrders((prev) =>
         prev.map((order) =>
-          order.id === orderId ? { ...order, status: newStatus } : order
+          order.id === orderId
+            ? {
+                ...order,
+                status: newStatus,
+                tracking_number: updateData.tracking_number || order.tracking_number
+              }
+            : order
         )
       );
-      toast.success('Order status updated');
+
+      // Clear tracking number input after successful update
+      if (newStatus === 'shipped') {
+        setTrackingNumbers((prev) => {
+          const updated = { ...prev };
+          delete updated[orderId];
+          return updated;
+        });
+      }
+
+      // Send email notification
+      const order = orders.find(o => o.id === orderId);
+      if (order) {
+        try {
+          await sendOrderNotificationEmail({
+            orderId: order.id,
+            customerName: order.user_name,
+            customerEmail: order.user_email,
+            orderTotal: order.total,
+            orderItems: order.items.map((item: any) => ({
+              name: item.product_name || item.name,
+              quantity: item.quantity,
+              price: item.product_price || item.price,
+            })),
+            orderStatus: newStatus,
+            paymentMethod: order.payment_method,
+            trackingNumber: updateData.tracking_number,
+            orderDate: order.created_at,
+          });
+          toast.success(`Order status updated to ${newStatus} and email sent`);
+        } catch (emailError) {
+          console.error('Email sending error:', emailError);
+          toast.success(`Order status updated to ${newStatus} (email failed)`);
+        }
+      } else {
+        toast.success(`Order status updated to ${newStatus}`);
+      }
     } catch (error: any) {
-      toast.error('Failed to update order status');
-      console.error(error);
+      console.error('Full error:', error);
+      const errorMessage = error?.message || 'Failed to update order status';
+
+      // Provide more specific error messages
+      if (errorMessage.includes('row-level security')) {
+        toast.error('Permission denied: Check if you have admin role');
+      } else if (errorMessage.includes('permission denied')) {
+        toast.error('Permission denied: Contact administrator');
+      } else {
+        toast.error(errorMessage);
+      }
     } finally {
       setUpdatingOrderId(null);
     }
@@ -260,6 +327,40 @@ export default function AdminOrdersPage() {
                         ))}
                       </div>
                     </div>
+
+                    {/* Tracking Number Input (for shipped status) */}
+                    {order.status === 'shipped' || (
+                      <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                        <label className="block text-sm font-medium text-gray-900 mb-2">
+                          📦 Tracking Number (for shipped orders)
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Enter tracking number (e.g., TRK123456789)"
+                            value={trackingNumbers[order.id] || ''}
+                            onChange={(e) => setTrackingNumbers((prev) => ({
+                              ...prev,
+                              [order.id]: e.target.value
+                            }))}
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          />
+                          <Button
+                            onClick={() => updateOrderStatus(order.id, 'shipped')}
+                            disabled={updatingOrderId === order.id || !trackingNumbers[order.id]}
+                            size="sm"
+                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                          >
+                            Mark Shipped
+                          </Button>
+                        </div>
+                        {order.tracking_number && (
+                          <p className="text-xs text-gray-600 mt-2">
+                            Current tracking: <span className="font-mono font-semibold">{order.tracking_number}</span>
+                          </p>
+                        )}
+                      </div>
+                    )}
 
                     {/* Payment Status Actions */}
                     {(order.status === 'cod-pending' || order.status === 'upi-pending') && (
