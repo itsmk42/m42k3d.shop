@@ -52,7 +52,7 @@ export default function ProductFilters({
 
   useEffect(() => {
     onFilterChange(filters);
-  }, [filters]);
+  }, [filters, onFilterChange]);
 
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections((prev) => ({
