@@ -8,15 +8,23 @@ import { useCartStore } from "@/lib/store/cart";
 import { useCheckoutStore } from "@/lib/store/checkout";
 import { formatPrice } from "@/utils/format";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { EmptyCartRedirect } from "@/components/checkout/EmptyCartRedirect";
+import Loading from "@/components/ui/Loading";
 
 export default function CheckoutReviewPage() {
   const router = useRouter();
   const { items, getTotal, clearCart } = useCartStore();
   const checkout = useCheckoutStore();
   const [loading, setLoading] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // ✅ FIX: Add hydration check to prevent store access before hydration
+  // This prevents "Application error" when store data is not yet loaded from localStorage
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   // ✅ FIX: Move early return after all hooks are called
   // This prevents React Error #310: "Rendered more hooks than expected"
@@ -24,9 +32,58 @@ export default function CheckoutReviewPage() {
     return <EmptyCartRedirect />;
   }
 
+  // Show loading while hydrating
+  if (!isHydrated) {
+    return <Loading />;
+  }
+
+  // ✅ FIX: Add validation function to check all required fields
+  const validateCheckoutData = () => {
+    const errors: string[] = [];
+
+    if (!checkout.email || checkout.email.trim() === '') {
+      errors.push('Email is required');
+    }
+    if (!checkout.name || checkout.name.trim() === '') {
+      errors.push('Full name is required');
+    }
+    if (!checkout.phone || checkout.phone.trim() === '') {
+      errors.push('Phone number is required');
+    }
+    if (!checkout.address || checkout.address.trim() === '') {
+      errors.push('Address is required');
+    }
+    if (!checkout.city || checkout.city.trim() === '') {
+      errors.push('City is required');
+    }
+    if (!checkout.postalCode || checkout.postalCode.trim() === '') {
+      errors.push('Postal code is required');
+    }
+    if (!checkout.country || checkout.country.trim() === '') {
+      errors.push('Country is required');
+    }
+    if (!checkout.paymentMethod) {
+      errors.push('Payment method is required');
+    }
+    if (items.length === 0) {
+      errors.push('Cart is empty');
+    }
+
+    return errors;
+  };
+
   const placeOrder = async () => {
     setLoading(true);
     try {
+      // ✅ FIX: Validate checkout data before processing
+      const validationErrors = validateCheckoutData();
+      if (validationErrors.length > 0) {
+        const errorMessage = validationErrors.join(', ');
+        toast.error(errorMessage);
+        setLoading(false);
+        return;
+      }
+
       // Prepare order items
       const orderItems = items.map((item) => ({
         product_id: item.product.id,
@@ -43,6 +100,16 @@ export default function CheckoutReviewPage() {
       } else if (checkout.paymentMethod === 'upi') {
         orderStatus = 'upi-pending';
       }
+
+      // ✅ FIX: Add detailed logging for debugging
+      console.log('Creating order with data:', {
+        user_email: checkout.email,
+        user_name: checkout.name,
+        user_phone: checkout.phone,
+        payment_method: checkout.paymentMethod,
+        total: getTotal(),
+        items_count: items.length,
+      });
 
       // Create order in database
       const { data: order, error } = await supabase
@@ -65,8 +132,12 @@ export default function CheckoutReviewPage() {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error details:', error);
+        throw error;
+      }
 
+      console.log('Order created successfully:', order.id);
       toast.success("Order placed successfully!");
       clearCart();
       checkout.reset();
@@ -81,7 +152,13 @@ export default function CheckoutReviewPage() {
       }
     } catch (e: any) {
       console.error('Order error:', e);
-      toast.error(e.message || "Failed to process order. Please try again.");
+      const errorMessage = e.message || "Failed to process order. Please try again.";
+      console.error('Error details:', {
+        message: errorMessage,
+        code: e.code,
+        status: e.status,
+      });
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

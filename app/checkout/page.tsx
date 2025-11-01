@@ -10,11 +10,13 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useCheckoutStore } from '@/lib/store/checkout';
 import { EmptyCartRedirect } from '@/components/checkout/EmptyCartRedirect';
+import Loading from '@/components/ui/Loading';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, getTotal, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,10 +28,20 @@ export default function CheckoutPage() {
   });
   const checkoutStore = useCheckoutStore();
 
+  // ✅ FIX: Add hydration check to prevent store access before hydration
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   // ✅ FIX: Move early return after all hooks are called
   // This prevents React Error #300: "Rendered fewer hooks than expected"
   if (items.length === 0) {
     return <EmptyCartRedirect />;
+  }
+
+  // Show loading while hydrating
+  if (!isHydrated) {
+    return <Loading />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
