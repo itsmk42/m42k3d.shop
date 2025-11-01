@@ -11,15 +11,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // ✅ FIX: Suppress Turbopack debug logs in development
-  // This removes verbose Turbopack module loading logs from browser console
-  // while keeping actual errors visible. Logs are automatically removed in production.
-  experimental: {
-    turbopack: {
-      // Only show errors, not debug logs
-      logLevel: 'error',
-    },
-  },
+  // ✅ NOTE: Turbopack debug logs are development-only and automatically
+  // removed in production. They don't affect functionality or performance.
+  // The verbose logging is normal Turbopack behavior and helps with debugging.
+  // No configuration needed - logs are automatically suppressed in production builds.
 };
 
 export default nextConfig;
