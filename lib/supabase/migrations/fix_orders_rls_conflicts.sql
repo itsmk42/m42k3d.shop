@@ -20,6 +20,18 @@ DROP POLICY IF EXISTS "Allow admin users to select all orders" ON orders;
 DROP POLICY IF EXISTS "Allow admin users to update all orders" ON orders;
 DROP POLICY IF EXISTS "Allow admin users to delete all orders" ON orders;
 
+-- Drop optimized policies from previous migrations
+DROP POLICY IF EXISTS "orders_optimized_insert" ON orders;
+DROP POLICY IF EXISTS "orders_optimized_select" ON orders;
+DROP POLICY IF EXISTS "orders_optimized_update" ON orders;
+DROP POLICY IF EXISTS "orders_optimized_delete" ON orders;
+
+-- Drop any existing clean policies (in case this is re-run)
+DROP POLICY IF EXISTS "orders_insert_all" ON orders;
+DROP POLICY IF EXISTS "orders_select_own" ON orders;
+DROP POLICY IF EXISTS "orders_update_admin" ON orders;
+DROP POLICY IF EXISTS "orders_delete_admin" ON orders;
+
 -- STEP 2: ENABLE RLS ON ORDERS TABLE
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 
