@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { ChevronDown, X } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
@@ -54,39 +54,39 @@ export default function ProductFilters({
     onFilterChange(filters);
   }, [filters, onFilterChange]);
 
-  const toggleSection = (section: keyof typeof expandedSections) => {
+  const toggleSection = useCallback((section: keyof typeof expandedSections) => {
     setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
-  };
+  }, []);
 
-  const handleSortChange = (value: string) => {
+  const handleSortChange = useCallback((value: string) => {
     setFilters((prev) => ({ ...prev, sortBy: value }));
-  };
+  }, []);
 
-  const handleCategoryToggle = (category: string) => {
+  const handleCategoryToggle = useCallback((category: string) => {
     setFilters((prev) => ({
       ...prev,
       categories: prev.categories.includes(category)
         ? prev.categories.filter((c) => c !== category)
         : [...prev.categories, category],
     }));
-  };
+  }, []);
 
-  const handlePriceRangeSelect = (min: number, max: number) => {
+  const handlePriceRangeSelect = useCallback((min: number, max: number) => {
     setFilters((prev) => ({ ...prev, priceRange: [min, max] }));
-  };
+  }, []);
 
-  const handleInStockToggle = () => {
+  const handleInStockToggle = useCallback(() => {
     setFilters((prev) => ({ ...prev, inStock: !prev.inStock }));
-  };
+  }, []);
 
-  const handleFeaturedToggle = () => {
+  const handleFeaturedToggle = useCallback(() => {
     setFilters((prev) => ({ ...prev, featured: !prev.featured }));
-  };
+  }, []);
 
-  const handleClearFilters = () => {
+  const handleClearFilters = useCallback(() => {
     setFilters({
       sortBy: 'newest',
       categories: [],
@@ -94,13 +94,16 @@ export default function ProductFilters({
       inStock: false,
       featured: false,
     });
-  };
+  }, []);
 
-  const hasActiveFilters =
-    filters.categories.length > 0 ||
-    filters.priceRange[1] !== Infinity ||
-    filters.inStock ||
-    filters.featured;
+  const hasActiveFilters = useMemo(
+    () =>
+      filters.categories.length > 0 ||
+      filters.priceRange[1] !== Infinity ||
+      filters.inStock ||
+      filters.featured,
+    [filters.categories.length, filters.priceRange[1], filters.inStock, filters.featured]
+  );
 
   return (
     <>
