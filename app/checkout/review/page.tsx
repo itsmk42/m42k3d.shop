@@ -12,12 +12,16 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { EmptyCartRedirect } from "@/components/checkout/EmptyCartRedirect";
 import Loading from "@/components/ui/Loading";
+import { useAuth } from "@/lib/auth/context";
+import AccountCreationModal from "@/components/checkout/AccountCreationModal";
 
 export default function CheckoutReviewPage() {
   const router = useRouter();
   const { items, getTotal, clearCart, _hasHydrated: cartHydrated } = useCartStore();
   const checkout = useCheckoutStore();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [showAccountModal, setShowAccountModal] = useState(false);
 
   // ✅ FIX: Wait for BOTH stores to hydrate before checking cart
   // This prevents hydration mismatch by ensuring server and client render the same content
@@ -52,15 +56,22 @@ export default function CheckoutReviewPage() {
     }
     if (!checkout.phone || checkout.phone.trim() === '') {
       errors.push('Phone number is required');
+    } else if (checkout.phone.length !== 10) {
+      errors.push('Phone number must be 10 digits');
     }
     if (!checkout.address || checkout.address.trim() === '') {
       errors.push('Address is required');
     }
+    if (!checkout.pinCode || checkout.pinCode.trim() === '') {
+      errors.push('PIN code is required');
+    } else if (checkout.pinCode.length !== 6) {
+      errors.push('PIN code must be 6 digits');
+    }
     if (!checkout.city || checkout.city.trim() === '') {
       errors.push('City is required');
     }
-    if (!checkout.postalCode || checkout.postalCode.trim() === '') {
-      errors.push('Postal code is required');
+    if (!checkout.state || checkout.state.trim() === '') {
+      errors.push('State is required');
     }
     if (!checkout.country || checkout.country.trim() === '') {
       errors.push('Country is required');
@@ -124,7 +135,8 @@ export default function CheckoutReviewPage() {
             user_phone: checkout.phone,
             user_address: checkout.address,
             user_city: checkout.city,
-            user_postal_code: checkout.postalCode,
+            user_state: checkout.state,
+            user_postal_code: checkout.pinCode,
             user_country: checkout.country,
             items: orderItems,
             total: getTotal(),
@@ -145,13 +157,28 @@ export default function CheckoutReviewPage() {
       clearCart();
       checkout.reset();
 
-      // Redirect based on payment method
-      if (checkout.paymentMethod === 'upi') {
-        router.push(`/order-confirmation?orderId=${order.id}&method=upi`);
-      } else if (checkout.paymentMethod === 'cod') {
-        router.push(`/order-confirmation?orderId=${order.id}&method=cod`);
+      // Show account creation modal for guest users
+      if (!user) {
+        setShowAccountModal(true);
+        // Redirect after a delay to allow user to see the modal
+        setTimeout(() => {
+          if (checkout.paymentMethod === 'upi') {
+            router.push(`/order-confirmation?orderId=${order.id}&method=upi`);
+          } else if (checkout.paymentMethod === 'cod') {
+            router.push(`/order-confirmation?orderId=${order.id}&method=cod`);
+          } else {
+            router.push(`/order-confirmation?orderId=${order.id}`);
+          }
+        }, 500);
       } else {
-        router.push(`/order-confirmation?orderId=${order.id}`);
+        // Redirect immediately for logged-in users
+        if (checkout.paymentMethod === 'upi') {
+          router.push(`/order-confirmation?orderId=${order.id}&method=upi`);
+        } else if (checkout.paymentMethod === 'cod') {
+          router.push(`/order-confirmation?orderId=${order.id}&method=cod`);
+        } else {
+          router.push(`/order-confirmation?orderId=${order.id}`);
+        }
       }
     } catch (e: any) {
       console.error('Order error:', e);
@@ -215,12 +242,16 @@ export default function CheckoutReviewPage() {
                 <p className="font-medium">{checkout.address || "—"}</p>
               </div>
               <div>
+                <p className="text-sm text-gray-500">PIN Code</p>
+                <p className="font-medium">{checkout.pinCode || "—"}</p>
+              </div>
+              <div>
                 <p className="text-sm text-gray-500">City</p>
                 <p className="font-medium">{checkout.city || "—"}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Postal Code</p>
-                <p className="font-medium">{checkout.postalCode || "—"}</p>
+                <p className="text-sm text-gray-500">State</p>
+                <p className="font-medium">{checkout.state || "—"}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Country</p>
@@ -345,6 +376,15 @@ export default function CheckoutReviewPage() {
           </div>
         </div>
       </div>
+
+      {/* Account Creation Modal for Guest Users */}
+      <AccountCreationModal
+        isOpen={showAccountModal}
+        onClose={() => setShowAccountModal(false)}
+        email={checkout.email}
+        phone={checkout.phone}
+        name={checkout.name}
+      />
     </div>
   );
 }

@@ -11,20 +11,24 @@ import toast from 'react-hot-toast';
 import { useCheckoutStore } from '@/lib/store/checkout';
 import { EmptyCartRedirect } from '@/components/checkout/EmptyCartRedirect';
 import Loading from '@/components/ui/Loading';
+import { getLocationFromPinCode, isValidPinCode, isValidIndianPhone } from '@/lib/utils/pincode';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, getTotal, clearCart, _hasHydrated: cartHydrated } = useCartStore();
   const checkoutStore = useCheckoutStore();
   const [loading, setLoading] = useState(false);
+  const [pinCodeError, setPinCodeError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     address: '',
     city: '',
-    postalCode: '',
-    country: '',
+    state: '',
+    pinCode: '',
+    country: 'India',
   });
 
   // ✅ FIX: Wait for BOTH stores to hydrate before checking cart
@@ -69,6 +73,46 @@ export default function CheckoutPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    // Handle PIN code with auto-fill
+    if (name === 'pinCode') {
+      const cleanValue = value.replace(/\D/g, '').slice(0, 6);
+      setFormData((prev) => ({ ...prev, [name]: cleanValue }));
+      checkoutStore.setField(name as any, cleanValue);
+
+      // Auto-fill city and state when PIN code is complete
+      if (cleanValue.length === 6) {
+        const location = getLocationFromPinCode(cleanValue);
+        if (location) {
+          setFormData((prev) => ({
+            ...prev,
+            city: location.city,
+            state: location.state,
+          }));
+          checkoutStore.setField('city', location.city);
+          checkoutStore.setField('state', location.state);
+          setPinCodeError('');
+        } else {
+          setPinCodeError('PIN code not found in our database. Please enter manually.');
+        }
+      }
+      return;
+    }
+
+    // Handle phone number validation
+    if (name === 'phone') {
+      const cleanValue = value.replace(/\D/g, '').slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: cleanValue }));
+      checkoutStore.setField(name as any, cleanValue);
+
+      if (cleanValue.length === 10 && !isValidIndianPhone(cleanValue)) {
+        setPhoneError('Please enter a valid Indian mobile number (starting with 6-9)');
+      } else if (cleanValue.length === 10) {
+        setPhoneError('');
+      }
+      return;
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
     checkoutStore.setField(name as any, value);
   };
@@ -84,7 +128,8 @@ export default function CheckoutPage() {
         phone: checkoutStore.phone || prev.phone,
         address: checkoutStore.address || prev.address,
         city: checkoutStore.city || prev.city,
-        postalCode: checkoutStore.postalCode || prev.postalCode,
+        state: checkoutStore.state || prev.state,
+        pinCode: checkoutStore.pinCode || prev.pinCode,
         country: checkoutStore.country || prev.country,
       }));
     }
@@ -124,7 +169,7 @@ export default function CheckoutPage() {
 
             <div className="space-y-4">
               <Input
-                label="Full Name"
+                label="Full Name *"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
@@ -133,7 +178,7 @@ export default function CheckoutPage() {
               />
 
               <Input
-                label="Email"
+                label="Email Address *"
                 name="email"
                 type="email"
                 value={formData.email}
@@ -142,60 +187,74 @@ export default function CheckoutPage() {
                 placeholder="john@example.com"
               />
 
-              <Input
-                label="Phone Number"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                placeholder="+91 98765 43210"
-              />
+              <div>
+                <Input
+                  label="Phone Number (10 digits) *"
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  placeholder="9876543210"
+                  maxLength={10}
+                />
+                {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
+              </div>
 
               <Input
-                label="Address"
+                label="House/Flat No. & Building Name *"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
                 required
-                placeholder="123 Main St"
+                placeholder="Flat 101, ABC Building"
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Input
+                    label="PIN Code (6 digits) *"
+                    name="pinCode"
+                    value={formData.pinCode}
+                    onChange={handleChange}
+                    required
+                    placeholder="110001"
+                    maxLength={6}
+                  />
+                  {pinCodeError && <p className="text-yellow-600 text-sm mt-1">{pinCodeError}</p>}
+                </div>
+
                 <Input
-                  label="City"
+                  label="City *"
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
                   required
-                  placeholder="New York"
-                />
-
-                <Input
-                  label="Postal Code"
-                  name="postalCode"
-                  value={formData.postalCode}
-                  onChange={handleChange}
-                  required
-                  placeholder="10001"
+                  placeholder="New Delhi"
+                  readOnly={formData.pinCode.length === 6}
                 />
               </div>
 
-              <Input
-                label="Country"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                required
-                placeholder="United States"
-              />
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input
+                  label="State *"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  required
+                  placeholder="Delhi"
+                  readOnly={formData.pinCode.length === 6}
+                />
 
-            <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-sm text-yellow-800">
-                <strong>Note:</strong> Payment integration is not yet configured.
-                This is a demo checkout process.
-              </p>
+                <Input
+                  label="Country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  disabled
+                  placeholder="India"
+                />
+              </div>
             </div>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">

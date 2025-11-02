@@ -7,7 +7,8 @@ interface CheckoutState {
   phone: string;
   address: string;
   city: string;
-  postalCode: string;
+  state: string;
+  pinCode: string;
   country: string;
   paymentMethod: 'upi' | 'cod' | 'stripe';
   _hasHydrated: boolean;
@@ -22,8 +23,9 @@ const initialState = {
   phone: '',
   address: '',
   city: '',
-  postalCode: '',
-  country: '',
+  state: '',
+  pinCode: '',
+  country: 'India',
   paymentMethod: 'cod' as const,
   _hasHydrated: false,
 };
