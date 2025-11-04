@@ -17,7 +17,6 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { items, getTotal, clearCart, _hasHydrated: cartHydrated } = useCartStore();
   const checkoutStore = useCheckoutStore();
-  const [loading, setLoading] = useState(false);
   const [pinCodeError, setPinCodeError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [formData, setFormData] = useState({
@@ -52,24 +51,7 @@ export default function CheckoutPage() {
     return <EmptyCartRedirect />;
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
 
-    try {
-      // TODO: Implement Stripe payment integration
-      // For now, we'll just simulate a successful order
-
-      toast.success('Order placed successfully!');
-      clearCart();
-      router.push('/');
-    } catch (error) {
-      console.error('Checkout error:', error);
-      toast.error('Failed to process order. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -184,7 +166,7 @@ export default function CheckoutPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Checkout Form */}
         <div className="lg:col-span-2">
-          <form onSubmit={handleSubmit} className="card p-6">
+          <form className="card p-6">
             <h2 className="text-2xl font-bold mb-6">Shipping Information</h2>
 
             <div className="space-y-4">
@@ -285,22 +267,42 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="mt-6">
               <Button
                 type="button"
                 size="lg"
                 className="w-full"
-                onClick={() => router.push('/checkout/review')}
+                onClick={() => {
+                  // Validate required fields before proceeding to review
+                  const requiredFields = ['name', 'email', 'phone', 'address', 'pinCode', 'city', 'state'];
+                  const isValid = requiredFields.every(field => {
+                    const value = formData[field as keyof typeof formData];
+                    return value && value.toString().trim() !== '';
+                  });
+                  
+                  // Additional validation for phone and pin code lengths
+                  const phoneValid = formData.phone.length === 10 && isValidIndianPhone(formData.phone);
+                  const pinCodeValid = formData.pinCode.length === 6;
+                  
+                  if (!isValid) {
+                    toast.error('Please fill in all required fields');
+                    return;
+                  }
+                  
+                  if (!phoneValid) {
+                    toast.error('Please enter a valid 10-digit Indian phone number');
+                    return;
+                  }
+                  
+                  if (!pinCodeValid) {
+                    toast.error('Please enter a valid 6-digit PIN code');
+                    return;
+                  }
+                  
+                  router.push('/checkout/review');
+                }}
               >
                 Continue to Review
-              </Button>
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full"
-                disabled={loading}
-              >
-                {loading ? 'Processing...' : 'Place Order'}
               </Button>
             </div>
           </form>
