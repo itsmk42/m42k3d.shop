@@ -151,6 +151,49 @@
   transform: translateY(0);
 }
 
+/* BEM: Header login button */
+.header__login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem; /* responsive base */
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
+  color: var(--color-primary-700);
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.header__login-btn:hover {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--color-primary-700);
+}
+
+.header__login-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+@media (min-width: 768px) {
+  .header__login-btn {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* BEM: Header search button */
+.header__search-btn {
+  min-width: 40px;
+  height: 40px;
+}
+
+.header__search-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
 /* Cart Badge - Modern Animation */
 .cart-badge {
   position: absolute;
@@ -235,28 +278,7 @@
   color: var(--color-primary-600);
 }
 
-/* Search Input - Contemporary Style */
-.search-input {
-  background: rgba(243, 244, 246, 0.8);
-  border: 1px solid rgba(229, 231, 235, 0.8);
-  border-radius: var(--radius-full);
-  padding: var(--space-sm) var(--space-md);
-  font-size: 0.875rem;
-  transition: all var(--transition-fast);
-  width: 100%;
-  font-family: var(--font-sans);
-}
-
-.search-input:focus {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: var(--color-primary-500);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.search-input::placeholder {
-  color: var(--color-gray-400);
-}
+/* Search input styles removed: desktop search container div deleted */
 
 /* Admin Badge - Modern Design */
 .admin-badge {

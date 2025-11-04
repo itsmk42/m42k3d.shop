@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Manrope } from 'next/font/google';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -7,6 +8,8 @@ interface LogoProps {
   variant?: 'light' | 'dark';
   priority?: boolean;
 }
+
+const manrope = Manrope({ subsets: ['latin'], weight: ['600','700'], display: 'swap' });
 
 export default function Logo({ size = 'md', showText = true, className = '', variant = 'dark', priority = true }: LogoProps) {
   const sizes = {
@@ -21,19 +24,18 @@ export default function Logo({ size = 'md', showText = true, className = '', var
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <Image
-        src="/logo.svg"
-        alt="SparkleSphere.store Logo"
+        src="/logo-modern.svg"
+        alt="sparklespheres.store logo"
         width={width}
         height={height}
         className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10"
         priority={priority}
       />
       {showText && (
-        <span className={`font-bold text-sm md:${text} uppercase tracking-wider bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent`}>
-          SparkleSphere.store
+        <span className={`${manrope.className} font-bold text-sm md:${text} tracking-tight ${textColor}`}>
+          sparklespheres.store
         </span>
       )}
     </div>
   );
 }
-

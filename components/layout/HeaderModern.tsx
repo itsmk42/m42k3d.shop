@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ShoppingCart, User, Menu, X, LogOut, UserCircle, Package, Settings, ChevronDown, Search } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cart';
 import { useState, useRef, useEffect } from 'react';
@@ -10,13 +10,12 @@ import Logo from '@/components/ui/Logo';
 
 export default function HeaderModern() {
   const pathname = usePathname();
+  const router = useRouter();
   const itemCount = useCartStore((state) => state.getItemCount());
   const { user, userProfile, signOut, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
-  const searchRef = useRef<HTMLDivElement>(null);
 
   // Don't preload logo on checkout pages
   const shouldPreloadLogo = !pathname?.includes('/checkout');
@@ -26,9 +25,6 @@ export default function HeaderModern() {
     function handleClickOutside(event: MouseEvent) {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setUserMenuOpen(false);
-      }
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setSearchOpen(false);
       }
     }
 
@@ -167,21 +163,7 @@ export default function HeaderModern() {
           }
         }
 
-        .search-input {
-          background: rgba(243, 244, 246, 0.8);
-          border: 1px solid rgba(229, 231, 235, 0.8);
-          border-radius: 24px;
-          padding: 8px 16px;
-          font-size: 14px;
-          transition: all 0.2s ease;
-        }
-
-        .search-input:focus {
-          background: rgba(255, 255, 255, 0.9);
-          border-color: #3b82f6;
-          outline: none;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
+        
 
         .admin-badge {
           background: linear-gradient(135deg, #10b981, #059669);
@@ -200,13 +182,13 @@ export default function HeaderModern() {
           <div className="flex items-center justify-between h-16">
             {/* Logo Section */}
             <div className="flex items-center">
-              <Link href="/" className="flex items-center space-x-2 hover:opacity-90 transition-opacity">
-                <Logo size="md" showText={true} priority={shouldPreloadLogo} variant="dark" />
+              <Link href="/" aria-label="sparklespheres.store home" className="flex items-center space-x-2 hover:opacity-90 transition-opacity">
+                <Logo size="md" showText={true} priority={shouldPreloadLogo} variant="light" />
               </Link>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
+            <nav className="hidden lg:flex items-center space-x-8" aria-label="Main">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -218,26 +200,15 @@ export default function HeaderModern() {
               ))}
             </nav>
 
-            {/* Search Bar - Desktop */}
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-8" ref={searchRef}>
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  className="search-input w-full pl-10 pr-4"
-                  onFocus={() => setSearchOpen(true)}
-                />
-              </div>
-            </div>
+            {/* Desktop extra actions removed: search container div deleted */}
 
             {/* Actions */}
             <div className="flex items-center space-x-2">
               {/* Search Button - Mobile */}
               <button
-                className="md:hidden action-button"
-                onClick={() => setSearchOpen(!searchOpen)}
-                aria-label="Search"
+                className="md:hidden action-button header__search-btn"
+                onClick={() => router.push('/products')}
+                aria-label="Search products"
               >
                 <Search className="w-5 h-5 text-gray-600" />
               </button>
@@ -338,15 +309,10 @@ export default function HeaderModern() {
                 <div className="hidden md:flex items-center space-x-2">
                   <Link
                     href="/login"
-                    className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                    className="header__login-btn"
+                    aria-label="Log in to your account"
                   >
                     Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-lg shadow-sm transition-all bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-md"
-                  >
-                    Sign Up
                   </Link>
                 </div>
               )}
@@ -381,20 +347,7 @@ export default function HeaderModern() {
           </div>
         </div>
 
-        {/* Mobile Search */}
-        {searchOpen && (
-          <div className="md:hidden border-t border-gray-100 py-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="search-input w-full pl-10 pr-4"
-                autoFocus
-              />
-            </div>
-          </div>
-        )}
+        {/* Mobile Search input removed intentionally: search handled via icon navigation */}
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
@@ -472,17 +425,10 @@ export default function HeaderModern() {
                   <div className="space-y-4">
                     <Link
                       href="/login"
-                      className="block w-full text-center px-4 py-3 text-gray-700 hover:text-blue-600 transition-colors border border-gray-200 rounded-lg hover:border-blue-300"
+                      className="block w-full text-center header__login-btn"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Login
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="block w-full text-center px-4 py-3 text-white rounded-lg shadow-sm transition-all bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-md"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Sign Up
                     </Link>
                   </div>
                 )}

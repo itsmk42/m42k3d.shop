@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- sparklespheres.store - Modern SVG Logo -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">sparklespheres.store logo</title>
+  <desc id="logoDesc">A stylized sphere with sparkling accents representing sparklespheres.store</desc>
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#F97316"/>
+    </linearGradient>
+  </defs>
+  <!-- Sphere base -->
+  <circle cx="32" cy="32" r="20" fill="url(#g1)" />
+  <!-- Orbit ring -->
+  <circle cx="32" cy="32" r="24" fill="none" stroke="#EEF2FF" stroke-width="2" opacity="0.9" />
+  <!-- Sparkle accents -->
+  <path d="M12 20 l3 0 l0 -3 l3 0 l0 3 l3 0 l0 3 l-3 0 l0 3 l-3 0 l0 -3 l-3 0 z" fill="url(#g2)" opacity="0.9"/>
+  <path d="M46 12 l2 0 l0 -2 l2 0 l0 2 l2 0 l0 2 l-2 0 l0 2 l-2 0 l0 -2 l-2 0 z" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Subtle highlight -->
+  <ellipse cx="28" cy="26" rx="10" ry="6" fill="#FFFFFF" opacity="0.25" />
+</svg>

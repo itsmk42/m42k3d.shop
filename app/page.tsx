@@ -109,14 +109,14 @@ export default async function Home() {
               {spotlightProduct && (
                 <p className="text-white/90 font-semibold mb-6">Starting at {formatPrice(spotlightProduct.price)}</p>
               )}
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mt-4 md:mt-6">
                 <Link href={spotlightProduct ? `/products/${spotlightProduct.id}` : '/products'}>
-                  <Button size="lg" className="gap-2">
+                  <Button size="lg" className="gap-2 transition-colors">
                     View Details
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>
-                <Link href="/products" className="px-4 py-2 rounded-lg border border-white/30 text-white/90 hover:bg-white/10 inline-flex items-center justify-center">
+                <Link href="/products" className="px-4 py-2 rounded-lg border border-white/30 text-white/90 hover:bg-white/20 transition-colors inline-flex items-center justify-center">
                   Shop All
                 </Link>
               </div>
