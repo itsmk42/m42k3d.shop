@@ -125,27 +125,46 @@ export default function CheckoutReviewPage() {
         items_count: items.length,
       });
 
-      // Create order in database
-      const { data: order, error } = await supabase
+      // Build order payload (include user_state when available)
+      const orderPayloadBase = {
+        user_email: checkout.email,
+        user_name: checkout.name,
+        user_phone: checkout.phone,
+        user_address: checkout.address,
+        user_city: checkout.city,
+        user_postal_code: checkout.pinCode,
+        user_country: checkout.country,
+        items: orderItems,
+        total: getTotal(),
+        status: orderStatus,
+        payment_method: checkout.paymentMethod,
+      };
+
+      const payloadWithState = {
+        ...orderPayloadBase,
+        user_state: checkout.state,
+      };
+
+      // Try insert with user_state first; if the column is missing, retry without it
+      let orderInsert = await supabase
         .from('orders')
-        .insert([
-          {
-            user_email: checkout.email,
-            user_name: checkout.name,
-            user_phone: checkout.phone,
-            user_address: checkout.address,
-            user_city: checkout.city,
-            user_state: checkout.state,
-            user_postal_code: checkout.pinCode,
-            user_country: checkout.country,
-            items: orderItems,
-            total: getTotal(),
-            status: orderStatus,
-            payment_method: checkout.paymentMethod,
-          },
-        ])
+        .insert([payloadWithState])
         .select()
         .single();
+
+      let order = orderInsert.data;
+      let error = orderInsert.error as any;
+
+      if (error && typeof error.message === 'string' && error.message.toLowerCase().includes('user_state')) {
+        console.warn('orders.user_state column appears missing; retrying insert without user_state');
+        const retry = await supabase
+          .from('orders')
+          .insert([orderPayloadBase])
+          .select()
+          .single();
+        order = retry.data;
+        error = retry.error as any;
+      }
 
       if (error) {
         console.error('Supabase error details:', error);
@@ -388,4 +407,3 @@ export default function CheckoutReviewPage() {
     </div>
   );
 }
-
