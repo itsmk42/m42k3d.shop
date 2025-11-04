@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/server';
 import Button from '@/components/ui/Button';
 import HeroQuote from '@/components/home/HeroQuote';
 import FeaturedProductVideo from '@/components/home/FeaturedProductVideo';
@@ -11,7 +11,7 @@ import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, L
 import { formatPrice } from '@/utils/format';
 
 async function getFeaturedProducts(): Promise<Product[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('products')
     .select('*')
     .eq('featured', true)
@@ -26,7 +26,7 @@ async function getFeaturedProducts(): Promise<Product[]> {
   }
 
 async function getSpotlightProduct(): Promise<Product | null> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('products')
     .select('*')
     .eq('featured', true)
@@ -40,6 +40,9 @@ async function getSpotlightProduct(): Promise<Product | null> {
 
   return (data && data[0]) || null;
 }
+
+// Disable caching to always fetch fresh data
+export const revalidate = 0;
 
 
 
