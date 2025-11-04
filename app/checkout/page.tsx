@@ -92,10 +92,30 @@ export default function CheckoutPage() {
           checkoutStore.setField('city', location.city);
           checkoutStore.setField('state', location.state);
           setPinCodeError('');
+          console.log(`✅ PIN code ${cleanValue} found:`, location);
         } else {
-          setPinCodeError('PIN code not found in our database. Please enter manually.');
+          // PIN code not found - allow manual entry
+          setPinCodeError('PIN code not found in our database. Please enter city and state manually.');
+          console.warn(`❌ PIN code ${cleanValue} not found in database`);
         }
+      } else if (cleanValue.length < 6) {
+        // Clear error when user is still typing
+        setPinCodeError('');
       }
+      return;
+    }
+
+    // Handle city field - allow manual entry even if PIN code is set
+    if (name === 'city') {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      checkoutStore.setField(name as any, value);
+      return;
+    }
+
+    // Handle state field - allow manual entry even if PIN code is set
+    if (name === 'state') {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      checkoutStore.setField(name as any, value);
       return;
     }
 
@@ -224,27 +244,35 @@ export default function CheckoutPage() {
                   {pinCodeError && <p className="text-yellow-600 text-sm mt-1">{pinCodeError}</p>}
                 </div>
 
-                <Input
-                  label="City *"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  required
-                  placeholder="New Delhi"
-                  readOnly={formData.pinCode.length === 6}
-                />
+                <div>
+                  <Input
+                    label="City *"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    placeholder="New Delhi"
+                  />
+                  {formData.pinCode.length === 6 && formData.city && (
+                    <p className="text-green-600 text-xs mt-1">✓ Auto-filled from PIN code</p>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  label="State *"
-                  name="state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  required
-                  placeholder="Delhi"
-                  readOnly={formData.pinCode.length === 6}
-                />
+                <div>
+                  <Input
+                    label="State *"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    required
+                    placeholder="Delhi"
+                  />
+                  {formData.pinCode.length === 6 && formData.state && (
+                    <p className="text-green-600 text-xs mt-1">✓ Auto-filled from PIN code</p>
+                  )}
+                </div>
 
                 <Input
                   label="Country"
