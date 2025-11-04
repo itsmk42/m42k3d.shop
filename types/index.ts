@@ -54,6 +54,7 @@ export interface Order {
   user_phone?: string;
   user_address: string;
   user_city: string;
+  user_state?: string;
   user_postal_code: string;
   user_country: string;
   items: OrderItem[];
