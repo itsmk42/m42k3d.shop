@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
+import HeaderModern from "@/components/layout/HeaderModern";
 import Footer from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/lib/auth/context";
@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen`}>
         <AuthProvider>
           <Toaster position="top-right" />
-          <Header />
+          <HeaderModern />
           <main className="flex-grow">
             {children}
           </main>
