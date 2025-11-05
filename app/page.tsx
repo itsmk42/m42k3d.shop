@@ -149,6 +149,18 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Featured Items - Compact Visual Layout (moved directly below Hero) */}
+      {featuredProducts.length > 0 ? (
+        <CompactFeaturedItems products={featuredProducts} />
+      ) : (
+        <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
+          <div className="container mx-auto px-4 text-center">
+            <p className="text-gray-400 text-lg mb-4">No products yet.</p>
+            <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
+          </div>
+        </section>
+      )}
+
       {/* Highlights Strip */}
       <section className="py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
         <div className="container mx-auto px-4">
@@ -215,17 +227,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Items - Compact Visual Layout */}
-      {featuredProducts.length > 0 ? (
-        <CompactFeaturedItems products={featuredProducts} />
-      ) : (
-        <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
-          <div className="container mx-auto px-4 text-center">
-            <p className="text-gray-400 text-lg mb-4">No products yet.</p>
-            <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
-          </div>
-        </section>
-      )}
+      
 
       {/* Final CTA */}
       <section className="relative overflow-hidden bg-slate-950 text-white">
