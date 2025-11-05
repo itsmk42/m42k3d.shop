@@ -5,8 +5,7 @@ import Button from '@/components/ui/Button';
 import HeroQuote from '@/components/home/HeroQuote';
 import FeaturedProductVideo from '@/components/home/FeaturedProductVideo';
 import CompactFeaturedItems from '@/components/home/CompactFeaturedItems';
-import HomeTabs from '@/components/home/HomeTabs';
-import { MiniatureDecorIcon, ArtIcon, FunctionalIcon, PersonalisedKeychainIcon, PhotoBoxIcon } from '@/components/home/CategoryIcons';
+import CategoriesSection from '@/components/home/CategoriesSection';
 import { Product } from '@/types';
 import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, Layers, Palette, Sparkles, CheckCircle } from 'lucide-react';
 import { formatPrice } from '@/utils/format';
@@ -56,9 +55,10 @@ export default async function Home() {
   // Array of featured product video URLs for sequential playback
   // Videos will play one after another in a continuous loop
   // NOTE: Update these paths to match your actual video files
-  // Prefer production-configured spotlight video, fallback to local file
-  const featuredSpotlightUrl = process.env.NEXT_PUBLIC_SPOTLIGHT_VIDEO_URL || '/products/featured-product-1.mp4';
-  const featuredProductVideos = [featuredSpotlightUrl];
+  const featuredProductVideos = [
+    '/products/featured-product-1.mp4',
+    '/products/featured-product-2.mp4',
+  ];
 
   const spotlightImage = (spotlightProduct?.images && spotlightProduct.images[0]) || '/products/featured-product.png';
 
@@ -149,99 +149,44 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Homepage Tabs: Featured Items + Services */}
-      <HomeTabs products={featuredProducts} />
-
-      {/* Shop by Category */}
-      <section className="py-16 bg-gradient-to-b from-slate-800 to-slate-900">
+      {/* Highlights Strip */}
+      <section className="py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-white">Shop by Category</h2>
-            <p className="text-gray-400">Browse favourites and best-sellers</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {/* Miniature Decor Card - Blue Gradient */}
-            <Link href="/products" className="group block">
-              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
-                    <MiniatureDecorIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-white font-bold text-base sm:text-lg">Miniatures</h3>
-                    <p className="text-white/90 text-xs">Figures & collectibles</p>
-                  </div>
-                </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Truck className="w-5 h-5 text-red-500" />
+              <div>
+                <p className="text-sm font-semibold text-white">Fast Shipping</p>
+                <p className="text-xs text-gray-400">2–5 business days</p>
               </div>
-            </Link>
-
-            {/* Art Card - Violet Gradient */}
-            <Link href="/products" className="group block">
-              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-violet-500 to-violet-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
-                    <ArtIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-white font-bold text-base sm:text-lg">Decor & Art</h3>
-                    <p className="text-white/90 text-xs">Home & office style</p>
-                  </div>
-                </div>
+            </div>
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Shield className="w-5 h-5 text-red-500" />
+              <div>
+                <p className="text-sm font-semibold text-white">Secure Payments</p>
+                <p className="text-xs text-gray-400">Trusted checkout</p>
               </div>
-            </Link>
-
-            {/* Personalised Keychain Card - Emerald Gradient */}
-            <Link href="/products" className="group block">
-              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
-                    <PersonalisedKeychainIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-white font-bold text-base sm:text-lg">Keychains</h3>
-                    <p className="text-white/90 text-xs">Personalised gifts</p>
-                  </div>
-                </div>
+            </div>
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Package className="w-5 h-5 text-red-500" />
+              <div>
+                <p className="text-sm font-semibold text-white">Quality Materials</p>
+                <p className="text-xs text-gray-400">Premium filaments</p>
               </div>
-            </Link>
-
-            {/* Photo Box Card - Amber Gradient */}
-            <Link href="/products" className="group block">
-              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-amber-500 to-amber-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
-                    <PhotoBoxIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-white font-bold text-base sm:text-lg">Photo Box</h3>
-                    <p className="text-white/90 text-xs">Memory storage</p>
-                  </div>
-                </div>
+            </div>
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
+              <Sparkles className="w-5 h-5 text-red-500" />
+              <div>
+                <p className="text-sm font-semibold text-white">Custom Orders</p>
+                <p className="text-xs text-gray-400">Made just for you</p>
               </div>
-            </Link>
-
-            {/* Functional Card - Cyan Gradient */}
-            <Link href="/products" className="group block">
-              <div className="relative h-32 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-cyan-500 to-cyan-700 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2">
-                  <div className="mb-1 transform group-hover:scale-110 transition-transform duration-300">
-                    <FunctionalIcon className="w-12 h-12 sm:w-20 sm:h-20 text-white/95" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-white font-bold text-base sm:text-lg">Functional</h3>
-                    <p className="text-white/90 text-xs">Tools & parts</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Shop by Category */}
+      <CategoriesSection />
 
       {/* Story / Showcase Section */}
       <section className="relative overflow-hidden bg-slate-900 text-white">
@@ -270,7 +215,17 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Items moved into HomeTabs component */}
+      {/* Featured Items - Compact Visual Layout */}
+      {featuredProducts.length > 0 ? (
+        <CompactFeaturedItems products={featuredProducts} />
+      ) : (
+        <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
+          <div className="container mx-auto px-4 text-center">
+            <p className="text-gray-400 text-lg mb-4">No products yet.</p>
+            <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
+          </div>
+        </section>
+      )}
 
       {/* Final CTA */}
       <section className="relative overflow-hidden bg-slate-950 text-white">
