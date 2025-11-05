@@ -5,6 +5,7 @@ import Button from '@/components/ui/Button';
 import HeroQuote from '@/components/home/HeroQuote';
 import FeaturedProductVideo from '@/components/home/FeaturedProductVideo';
 import CompactFeaturedItems from '@/components/home/CompactFeaturedItems';
+import HomeTabs from '@/components/home/HomeTabs';
 import { MiniatureDecorIcon, ArtIcon, FunctionalIcon, PersonalisedKeychainIcon, PhotoBoxIcon } from '@/components/home/CategoryIcons';
 import { Product } from '@/types';
 import { ArrowRight, Package, Truck, Shield, ShoppingBag, ImageIcon, KeyRound, Layers, Palette, Sparkles, CheckCircle } from 'lucide-react';
@@ -55,10 +56,9 @@ export default async function Home() {
   // Array of featured product video URLs for sequential playback
   // Videos will play one after another in a continuous loop
   // NOTE: Update these paths to match your actual video files
-  const featuredProductVideos = [
-    '/products/featured-product-1.mp4',
-    '/products/featured-product-2.mp4',
-  ];
+  // Prefer production-configured spotlight video, fallback to local file
+  const featuredSpotlightUrl = process.env.NEXT_PUBLIC_SPOTLIGHT_VIDEO_URL || '/products/featured-product-1.mp4';
+  const featuredProductVideos = [featuredSpotlightUrl];
 
   const spotlightImage = (spotlightProduct?.images && spotlightProduct.images[0]) || '/products/featured-product.png';
 
@@ -149,41 +149,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Highlights Strip */}
-      <section className="py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Truck className="w-5 h-5 text-red-500" />
-              <div>
-                <p className="text-sm font-semibold text-white">Fast Shipping</p>
-                <p className="text-xs text-gray-400">2–5 business days</p>
-              </div>
-            </div>
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Shield className="w-5 h-5 text-red-500" />
-              <div>
-                <p className="text-sm font-semibold text-white">Secure Payments</p>
-                <p className="text-xs text-gray-400">Trusted checkout</p>
-              </div>
-            </div>
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Package className="w-5 h-5 text-red-500" />
-              <div>
-                <p className="text-sm font-semibold text-white">Quality Materials</p>
-                <p className="text-xs text-gray-400">Premium filaments</p>
-              </div>
-            </div>
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Sparkles className="w-5 h-5 text-red-500" />
-              <div>
-                <p className="text-sm font-semibold text-white">Custom Orders</p>
-                <p className="text-xs text-gray-400">Made just for you</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Homepage Tabs: Featured Items + Services */}
+      <HomeTabs products={featuredProducts} />
 
       {/* Shop by Category */}
       <section className="py-16 bg-gradient-to-b from-slate-800 to-slate-900">
@@ -303,17 +270,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Items - Compact Visual Layout */}
-      {featuredProducts.length > 0 ? (
-        <CompactFeaturedItems products={featuredProducts} />
-      ) : (
-        <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
-          <div className="container mx-auto px-4 text-center">
-            <p className="text-gray-400 text-lg mb-4">No products yet.</p>
-            <p className="text-gray-500">Check back soon for amazing 3D printed items!</p>
-          </div>
-        </section>
-      )}
+      {/* Featured Items moved into HomeTabs component */}
 
       {/* Final CTA */}
       <section className="relative overflow-hidden bg-slate-950 text-white">
