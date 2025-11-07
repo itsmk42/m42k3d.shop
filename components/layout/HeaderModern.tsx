@@ -65,7 +65,7 @@ export default function HeaderModern() {
         }
 
         .nav-link:hover {
-          color: #3b82f6;
+          color: #1d4ed8; /* blue-700 for stronger contrast on white */
         }
 
         .nav-link::after {
@@ -85,11 +85,17 @@ export default function HeaderModern() {
         }
 
         .nav-link.active {
-          color: #3b82f6;
+          color: #1d4ed8;
         }
 
         .nav-link.active::after {
           width: 100%;
+        }
+
+        .nav-link:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.35);
+          border-radius: 8px;
         }
 
         .action-button {
@@ -439,4 +445,5 @@ export default function HeaderModern() {
       </header>
     </>
   );
-}
+} 
+        

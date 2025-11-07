@@ -148,7 +148,7 @@ export default function ProductFilters({
 
           {/* Results count */}
           <div className="mb-6 pb-6 border-b border-gray-200">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-800">
               Showing <span className="font-medium">{filteredCount}</span> of{' '}
               <span className="font-medium">{totalProducts}</span> products
             </p>
@@ -177,7 +177,7 @@ export default function ProductFilters({
                   { value: 'name-desc', label: 'Name: Z-A' },
                   { value: 'featured', label: 'Featured' },
                 ].map((option) => (
-                  <label key={option.value} className="flex items-center gap-3 cursor-pointer">
+                  <label key={option.value} className="flex items-center gap-3 cursor-pointer hover:text-gray-900">
                     <input
                       type="radio"
                       name="sort"
@@ -186,7 +186,7 @@ export default function ProductFilters({
                       onChange={(e) => handleSortChange(e.target.value)}
                       className="w-4 h-4"
                     />
-                    <span className="text-sm text-gray-700">{option.label}</span>
+                    <span className="text-sm text-gray-800">{option.label}</span>
                   </label>
                 ))}
               </div>
@@ -209,14 +209,14 @@ export default function ProductFilters({
             {expandedSections.category && (
               <div className="space-y-2">
                 {categories.map((category) => (
-                  <label key={category} className="flex items-center gap-3 cursor-pointer">
+                  <label key={category} className="flex items-center gap-3 cursor-pointer hover:text-gray-900">
                     <input
                       type="checkbox"
                       checked={filters.categories.includes(category)}
                       onChange={() => handleCategoryToggle(category)}
                       className="w-4 h-4 rounded"
                     />
-                    <span className="text-sm text-gray-700">{category}</span>
+                    <span className="text-sm text-gray-800">{category}</span>
                   </label>
                 ))}
               </div>
@@ -239,7 +239,7 @@ export default function ProductFilters({
             {expandedSections.price && (
               <div className="space-y-2">
                 {PRICE_RANGES.map((range) => (
-                  <label key={range.label} className="flex items-center gap-3 cursor-pointer">
+                  <label key={range.label} className="flex items-center gap-3 cursor-pointer hover:text-gray-900">
                     <input
                       type="radio"
                       name="price"
@@ -250,7 +250,7 @@ export default function ProductFilters({
                       onChange={() => handlePriceRangeSelect(range.min, range.max)}
                       className="w-4 h-4"
                     />
-                    <span className="text-sm text-gray-700">{range.label}</span>
+                    <span className="text-sm text-gray-800">{range.label}</span>
                   </label>
                 ))}
               </div>
@@ -272,23 +272,23 @@ export default function ProductFilters({
             </button>
             {expandedSections.availability && (
               <div className="space-y-2">
-                <label className="flex items-center gap-3 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer hover:text-gray-900">
                   <input
                     type="checkbox"
                     checked={filters.inStock}
                     onChange={handleInStockToggle}
                     className="w-4 h-4 rounded"
                   />
-                  <span className="text-sm text-gray-700">In Stock Only</span>
+                  <span className="text-sm text-gray-800">In Stock Only</span>
                 </label>
-                <label className="flex items-center gap-3 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer hover:text-gray-900">
                   <input
                     type="checkbox"
                     checked={filters.featured}
                     onChange={handleFeaturedToggle}
                     className="w-4 h-4 rounded"
                   />
-                  <span className="text-sm text-gray-700">Featured Products</span>
+                  <span className="text-sm text-gray-800">Featured Products</span>
                 </label>
               </div>
             )}
@@ -309,4 +309,3 @@ export default function ProductFilters({
     </>
   );
 }
-
