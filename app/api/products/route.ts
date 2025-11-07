@@ -1,8 +1,16 @@
-import { supabaseAdmin } from '@/lib/supabase/server';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
+    // Preview safeguard: if Supabase env is missing, provide a graceful fallback
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!supabaseUrl || !serviceKey) {
+      console.warn('[api/products] Supabase env missing; returning empty list in preview.');
+      return NextResponse.json({ products: [], total: 0 }, { status: 200 });
+    }
+
     const searchParams = request.nextUrl.searchParams;
     const sortBy = searchParams.get('sortBy') || 'newest';
     const categories = searchParams.getAll('categories');
@@ -11,7 +19,10 @@ export async function GET(request: NextRequest) {
     const inStock = searchParams.get('inStock') === 'true';
     const featured = searchParams.get('featured') === 'true';
 
-    let query = supabaseAdmin.from('products').select('*');
+    const admin = createSupabaseClient(supabaseUrl, serviceKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+    let query = admin.from('products').select('*');
 
     // Apply filters
     if (categories.length > 0) {
@@ -59,7 +70,12 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
+      const isFetchFailed = typeof error?.message === 'string' && error.message.includes('fetch failed');
       console.error('Error fetching products:', error);
+      if (isFetchFailed && process.env.NODE_ENV !== 'production') {
+        console.warn('[api/products] Supabase fetch failed in preview; returning empty list.');
+        return NextResponse.json({ products: [], total: 0 }, { status: 200 });
+      }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
@@ -72,4 +88,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-

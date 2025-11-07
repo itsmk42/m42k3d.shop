@@ -29,12 +29,41 @@ export async function middleware(request: NextRequest) {
     }
   );
 
+  // --- Staged rollout: redirect a percentage of homepage traffic to Soft theme ---
+  const rolloutPercent = Number(process.env.NEXT_PUBLIC_SOFT_ROLLOUT_PERCENT ?? '0');
+  const path = request.nextUrl.pathname;
+
+  if (path === '/' && rolloutPercent > 0) {
+    const cookieName = 'soft_rollout_v1';
+    const existing = request.cookies.get(cookieName)?.value;
+
+    // Decide stickiness and set cookie if absent
+    let assigned = existing as 'on' | 'off' | undefined;
+    if (!assigned) {
+      const bucket = Math.floor(Math.random() * 100);
+      assigned = bucket < rolloutPercent ? 'on' : 'off';
+    }
+
+    // If assigned "on", redirect to modern-home Soft theme
+    if (assigned === 'on') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/modern-home';
+      url.searchParams.set('theme', 'soft');
+      const redirect = NextResponse.redirect(url);
+      redirect.cookies.set(cookieName, 'on', { path: '/', maxAge: 7 * 24 * 60 * 60 });
+      return redirect;
+    }
+
+    // Persist "off" assignment and continue
+    supabaseResponse.cookies.set(cookieName, 'off', { path: '/', maxAge: 7 * 24 * 60 * 60 });
+  }
+
   // Refresh session if expired
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const path = request.nextUrl.pathname;
+  // Note: path is already defined above
 
   // Protected admin routes (excluding the public admin login page)
   if (path.startsWith('/admin') && path !== '/admin/login') {
@@ -104,6 +133,6 @@ export const config = {
     '/login',
     '/register',
     '/admin/login',
+    '/',
   ],
 };
-
