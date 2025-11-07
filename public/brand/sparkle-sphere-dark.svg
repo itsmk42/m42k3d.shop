@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" aria-labelledby="title desc" role="img">
+  <title>Sparkle Sphere Logo (Dark)</title>
+  <desc>Grid sphere with radiant spark, optimized for dark backgrounds.</desc>
+  <defs>
+    <radialGradient id="g1" cx="36%" cy="64%" r="65%">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="35%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </radialGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+  <!-- Background grid (lighter on dark) -->
+  <g stroke="#6b7280" stroke-width="1" fill="none" opacity="0.55">
+    <rect x="64" y="64" width="384" height="384"/>
+    <g>
+      <path d="M96 64V448"/><path d="M128 64V448"/><path d="M160 64V448"/>
+      <path d="M192 64V448"/><path d="M224 64V448"/><path d="M256 64V448"/>
+      <path d="M288 64V448"/><path d="M320 64V448"/><path d="M352 64V448"/>
+      <path d="M384 64V448"/><path d="M416 64V448"/>
+    </g>
+    <g>
+      <path d="M64 96H448"/><path d="M64 128H448"/><path d="M64 160H448"/>
+      <path d="M64 192H448"/><path d="M64 224H448"/><path d="M64 256H448"/>
+      <path d="M64 288H448"/><path d="M64 320H448"/><path d="M64 352H448"/>
+      <path d="M64 384H448"/><path d="M64 416H448"/>
+    </g>
+  </g>
+
+  <!-- Sphere -->
+  <g transform="translate(0,4)">
+    <circle cx="256" cy="260" r="150" fill="url(#g1)" stroke="#e5e7eb" stroke-width="2"/>
+    <g stroke="#e5e7eb" stroke-width="1.5" fill="none" opacity="0.9">
+      <ellipse cx="256" cy="260" rx="140" ry="40"/>
+      <ellipse cx="256" cy="260" rx="120" ry="80"/>
+      <ellipse cx="256" cy="260" rx="90" ry="110"/>
+      <ellipse cx="256" cy="260" rx="60" ry="130"/>
+      <ellipse cx="256" cy="260" rx="30" ry="140"/>
+    </g>
+    <g stroke="#e5e7eb" stroke-width="1.5" fill="none" opacity="0.9">
+      <circle cx="256" cy="260" r="130"/>
+      <circle cx="256" cy="260" r="110"/>
+      <circle cx="256" cy="260" r="90"/>
+      <circle cx="256" cy="260" r="70"/>
+      <circle cx="256" cy="260" r="50"/>
+      <circle cx="256" cy="260" r="30"/>
+    </g>
+    <g filter="url(#softGlow)" opacity="0.95">
+      <circle cx="190" cy="315" r="10" fill="#ffffff"/>
+      <path d="M190 300 L190 330 M175 315 L205 315 M182 307 L198 323 M182 323 L198 307" stroke="#fbbf24" stroke-width="2"/>
+    </g>
+  </g>
+  <text x="256" y="490" text-anchor="middle" font-family="'Manrope', system-ui, sans-serif" font-weight="700" font-size="28" fill="#e5e7eb" letter-spacing="4">SPARKLE SPHERE</text>
+</svg>
+
