@@ -22,7 +22,7 @@ interface FeaturedProductVideoProps {
 export default function FeaturedProductVideo({
   videoUrls,
   posterImage,
-  className = 'mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl ring-8 ring-white/5 shadow-2xl object-cover',
+  className = 'mx-auto h-72 w-72 sm:h-96 sm:w-96 video-modern rounded-2xl object-cover',
 }: FeaturedProductVideoProps) {
   // Track which video is currently playing (0-indexed)
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
@@ -82,4 +82,3 @@ export default function FeaturedProductVideo({
     </video>
   );
 }
-

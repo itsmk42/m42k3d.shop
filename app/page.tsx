@@ -126,12 +126,12 @@ export default async function Home() {
               <FeaturedProductVideo
                 videoUrls={featuredProductVideos}
                 posterImage={spotlightImage}
-                className="mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl ring-8 ring-red-500/40 shadow-2xl shadow-red-500/20 object-cover"
+                className="mx-auto h-72 w-72 sm:h-96 sm:w-96 video-modern rounded-2xl object-cover"
               />
 
               {/* Fallback to static image if no videos available */}
               {featuredProductVideos.length === 0 && (
-                <div className="relative mx-auto h-72 w-72 sm:h-96 sm:w-96 rounded-3xl overflow-hidden ring-8 ring-red-500/40 shadow-2xl shadow-red-500/20">
+                <div className="relative mx-auto h-72 w-72 sm:h-96 sm:w-96 video-modern rounded-2xl overflow-hidden">
                   <Image
                     src={spotlightImage}
                     alt={spotlightProduct?.name || 'Featured product'}
