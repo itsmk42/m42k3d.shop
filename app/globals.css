@@ -25,6 +25,24 @@
   --grad-secondary-to: #ef4444;   /* red-500 */
 }
 
+/* Homepage forest theme override - neutral greens and earth tones */
+.theme-forest {
+  /* Primaries evoke deep forest greens */
+  --grad-primary-from: #14532d; /* deep green */
+  --grad-primary-to: #065f46;   /* emerald-700 */
+
+  /* Secondaries bring warm earth accents */
+  --grad-secondary-from: #7c5a2b; /* bark brown */
+  --grad-secondary-to: #064e3b;   /* emerald-800 */
+
+  /* Surface + accents tuned for forest aesthetic */
+  --background: #f7f7f2;  /* soft neutral paper */
+  --surface: #ffffff;     /* clean surface */
+  --foreground: #0b0f14;  /* deep ink */
+  --ink: #0b0f14;
+  --accent: #34d399;      /* emerald-400 leaf accent */
+}
+
 /* Hero Cards Color Scheme - Optimized for dark background */
 .hero-card-miniatures {
   --card-from: #3b82f6; /* blue-500 */

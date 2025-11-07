@@ -64,7 +64,7 @@ export default async function Home() {
 
 
   return (
-    <div className="theme-red">
+    <div className="theme-forest">
       {/* Hero Section */}
       <section className="relative overflow-hidden text-white">
         {/* Banner background video or image */}
@@ -142,8 +142,8 @@ export default async function Home() {
                 </div>
               )}
 
-              {/* Decorative gradient background effect */}
-              <div className="absolute inset-0 -z-10 m-auto h-[28rem] w-[28rem] sm:h-[32rem] sm:w-[32rem] rounded-full bg-gradient-to-tr from-rose-400/20 to-red-500/20 blur-3xl" />
+              {/* Decorative gradient background effect - forest palette */}
+              <div className="absolute inset-0 -z-10 m-auto h-[28rem] w-[28rem] sm:h-[32rem] sm:w-[32rem] rounded-full bg-gradient-to-tr from-[var(--grad-secondary-from)]/20 to-[var(--grad-secondary-to)]/20 blur-3xl" />
             </div>
           </div>
         </div>
@@ -165,29 +165,29 @@ export default async function Home() {
       <section className="py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Truck className="w-5 h-5 text-red-500" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-[var(--accent)]/50 transition-colors">
+              <Truck className="w-5 h-5 text-[var(--accent)]" />
               <div>
                 <p className="text-sm font-semibold text-white">Fast Shipping</p>
                 <p className="text-xs text-gray-400">2–5 business days</p>
               </div>
             </div>
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Shield className="w-5 h-5 text-red-500" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-[var(--accent)]/50 transition-colors">
+              <Shield className="w-5 h-5 text-[var(--accent)]" />
               <div>
                 <p className="text-sm font-semibold text-white">Secure Payments</p>
                 <p className="text-xs text-gray-400">Trusted checkout</p>
               </div>
             </div>
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Package className="w-5 h-5 text-red-500" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-[var(--accent)]/50 transition-colors">
+              <Package className="w-5 h-5 text-[var(--accent)]" />
               <div>
                 <p className="text-sm font-semibold text-white">Quality Materials</p>
                 <p className="text-xs text-gray-400">Premium filaments</p>
               </div>
             </div>
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-red-500/50 transition-colors">
-              <Sparkles className="w-5 h-5 text-red-500" />
+            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 backdrop-blur p-4 flex items-center gap-3 hover:border-[var(--accent)]/50 transition-colors">
+              <Sparkles className="w-5 h-5 text-[var(--accent)]" />
               <div>
                 <p className="text-sm font-semibold text-white">Custom Orders</p>
                 <p className="text-xs text-gray-400">Made just for you</p>
@@ -204,7 +204,7 @@ export default async function Home() {
       <section className="relative overflow-hidden bg-slate-900 text-white">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-tr from-[var(--grad-primary-from)]/30 to-[var(--grad-primary-to)]/30 blur-3xl" />
-          <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-gradient-to-tr from-rose-400/20 to-red-500/20 blur-3xl" />
+          <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-gradient-to-tr from-[var(--grad-secondary-from)]/20 to-[var(--grad-secondary-to)]/20 blur-3xl" />
         </div>
         <div className="container mx-auto px-4 py-20 relative">
           <div>
@@ -233,7 +233,7 @@ export default async function Home() {
       <section className="relative overflow-hidden bg-slate-950 text-white">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute -top-16 -left-16 h-64 w-64 rounded-full bg-gradient-to-tr from-[var(--grad-primary-from)]/30 to-[var(--grad-primary-to)]/30 blur-3xl" />
-          <div className="absolute -bottom-16 -right-16 h-64 w-64 rounded-full bg-gradient-to-tr from-rose-400/20 to-red-500/20 blur-3xl" />
+          <div className="absolute -bottom-16 -right-16 h-64 w-64 rounded-full bg-gradient-to-tr from-[var(--grad-secondary-from)]/20 to-[var(--grad-secondary-to)]/20 blur-3xl" />
         </div>
         <div className="container mx-auto px-4 py-16 text-center relative">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Print Your Vision?</h2>
